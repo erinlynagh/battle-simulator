@@ -1,3 +1,10 @@
+import React from "react";
+import dynamic from "next/dynamic";
+
+const ReactTooltip = dynamic(() => import("react-tooltip"), {
+  ssr: false,
+});
+
 export function RenderHealth(health, maxHealth) {
   let style = { color: "#13A10E", marginTop: "-1em" };
   if (health / maxHealth <= 0.5) {
@@ -10,5 +17,52 @@ export function RenderHealth(health, maxHealth) {
     <h4 style={style}>
       Health: {health}/{maxHealth}
     </h4>
+  );
+}
+
+export function RenderEffects(enemy) {
+  function RenderEffect(effect, effectIndex) {
+    return (
+      <React.Fragment key={effectIndex}>
+        <p
+          style={{
+            textAlign: "center",
+          }}
+          data-tip={
+            effect.duration === 1
+              ? effect.description
+                  .replace("BLANK", effect.duration)
+                  .replace("turns", "turn")
+              : effect.description.replace("BLANK", effect.duration)
+          }
+        >
+          {`${effect.name}: ${effect.duration} turns`}
+        </p>
+        <ReactTooltip html={true} />
+      </React.Fragment>
+    );
+  }
+  return (
+    <div
+      style={{
+        flexDirection: "column",
+        display: "flex",
+        color: "#A2A9B4",
+        backgroundColor: "#8E3A56",
+      }}
+    >
+      <div
+        style={{
+          display: "grid",
+          gridAutoColumns: "auto",
+          gridAutoRows: "auto",
+          textAlign: "left",
+        }}
+      >
+        {enemy.effects.map((effect, effectIndex) =>
+          RenderEffect(effect, effectIndex)
+        )}
+      </div>
+    </div>
   );
 }

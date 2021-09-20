@@ -1,5 +1,5 @@
 import React from "react";
-import { RenderHealth } from "./RenderElements";
+import { RenderHealth, RenderEffects } from "./RenderElements";
 
 function RenderEnemy({ character }) {
   return (
@@ -15,19 +15,11 @@ export default function RenderCharacter({ character }) {
   return (
     <div
       style={{
-        alignSelf: "flex-start",
         textAlign: "center",
       }}
     >
-      <div
-        style={{
-          flexDirection: "row",
-          display: "flex",
-          justifyContent: "space-around",
-        }}
-      >
-        <RenderEnemy character={character} />
-      </div>
+      <RenderEnemy character={character} />
+      {character.effects.length > 0 && RenderEffects(character)}
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { Enemy } from "./classes";
 import * as Attacks from "./attackMaker";
 
 export function makeBat() {
-  return new Enemy("Bat", 20, [Attacks.Scratch], "bat", 20);
+  return new Enemy("Bat", 7, [Attacks.Scratch], "bat");
 }
 
 export function makeOrge() {
@@ -10,7 +10,6 @@ export function makeOrge() {
     "Orge",
     30,
     [Attacks.Scratch, Attacks.OrgeSlam],
-    "japanese_ogre",
-    30
+    "japanese_ogre"
   );
 }

@@ -1,10 +1,6 @@
 import * as AttackData from "../generation/attackMaker";
 import { Effect } from "../generation/classes";
 
-function isTarget(enemy, targetID) {
-  return enemy.id === targetID;
-}
-
 export function AttackEnemy(
   attack,
   target,
@@ -50,15 +46,21 @@ export function AttackEnemy(
     newEnemies[enemyIndex] = enemy;
   }
   if (newEnemies.length === 0) {
-    alert("battle won");
-    reset();
     floor = floor + 1;
-    updateFloor(floor);
     if (floor >= allEnemies.length) {
       alert("you win!");
       window.location.reload();
+    } else {
+      alert("battle won, to the next one!");
+      reset();
+      updateFloor(floor);
     }
     newEnemies = allEnemies[floor];
   }
   updateEnemies(newEnemies);
+}
+
+export function attackPlayer(character, attack) {
+  console.log(character);
+  console.log(attack);
 }

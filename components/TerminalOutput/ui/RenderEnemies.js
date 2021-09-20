@@ -1,8 +1,10 @@
 import React from "react";
-import { RenderHealth } from "./RenderElements";
-import ReactTooltip from "react-tooltip";
+import { RenderHealth, RenderEffects } from "./RenderElements";
+import dynamic from "next/dynamic";
 
-const header = "Current Battle";
+const ReactTooltip = dynamic(() => import("react-tooltip"), {
+  ssr: false,
+});
 
 function RenderAttacksHeader() {
   return (
@@ -64,24 +66,20 @@ function RenderAttack(attack, attackIndex) {
           margin: "1px",
           marginLeft: "5vw",
         }}
+        data-tip={
+          attack.effect.duration === 2
+            ? attack.effect.description
+                .replace("BLANK", attack.effect.duration - 1)
+                .replace("turns", "turn")
+            : attack.effect.description.replace(
+                "BLANK",
+                attack.effect.duration - 1
+              )
+        }
       >
         {attack.effect.name}
       </p>
-    </React.Fragment>
-  );
-}
-
-function RenderEffect(effect, effectIndex) {
-  return (
-    <React.Fragment key={effectIndex}>
-      <p
-        style={{
-          textAlign: "center",
-        }}
-        data-tip={effect.description}
-      >
-        {`${effect.name}: ${effect.duration} turns`}
-      </p>
+      <ReactTooltip html={true} />
     </React.Fragment>
   );
 }
@@ -107,34 +105,6 @@ function RenderAttacks(enemy) {
         <RenderAttacksHeader />
         {enemy.attacks.map((attack, attackIndex) =>
           RenderAttack(attack, attackIndex)
-        )}
-      </div>
-    </div>
-  );
-}
-
-function RenderEffects(enemy) {
-  return (
-    <div
-      style={{
-        flexDirection: "column",
-        display: "flex",
-        color: "#A2A9B4",
-        backgroundColor: "#8E3A56",
-      }}
-    >
-      <div
-        style={{
-          display: "grid",
-          gridAutoColumns: "auto",
-          gridAutoRows: "auto",
-          textAlign: "left",
-        }}
-      >
-        <ReactTooltip />
-
-        {enemy.effects.map((effect, effectIndex) =>
-          RenderEffect(effect, effectIndex)
         )}
       </div>
     </div>
@@ -171,7 +141,6 @@ export default function RenderEnemies({ enemies }) {
         textAlign: "center",
       }}
     >
-      <h1 key="enemyName">{header}</h1>
       <div
         style={{
           flexDirection: "row",

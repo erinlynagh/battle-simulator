@@ -25,9 +25,9 @@ export class EnemyAttack extends Attack {
 }
 
 export class Character {
-  constructor(name, health, attacks, emojiName) {
+  constructor(name, health, attacks, emojiName, effects = []) {
     this.id = uuidv4();
-    this.effects = [];
+    this.effects = effects;
     this.name = name;
     this.health = health;
     this.maxHealth = health;
@@ -38,9 +38,8 @@ export class Character {
 }
 
 export class Enemy extends Character {
-  constructor(name, health, attacks, emojiName, expGiven) {
+  constructor(name, health, attacks, emojiName) {
     super(name, health, attacks, emojiName);
-    this.expGiven = expGiven;
   }
 }
 
