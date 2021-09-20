@@ -4,7 +4,7 @@ function isTarget(enemy, targetID) {
   return enemy.id === targetID;
 }
 
-export function Attack(
+export function AttackEnemy(
   attack,
   target,
   enemies,
@@ -12,9 +12,7 @@ export function Attack(
   allEnemies,
   floor,
   updateFloor,
-  setSelectedTarget,
-  setSelectedTargetId,
-  setShowSubmit
+  reset
 ) {
   let newEnemies = enemies.slice();
   const enemy = enemies.find(({ id }) => id === target);
@@ -24,16 +22,19 @@ export function Attack(
   enemy.effect += attack.effect;
   if (enemy.health <= 0) {
     newEnemies.splice(enemyIndex, 1);
-    setSelectedTarget("");
-    setSelectedTargetId("");
-    setShowSubmit(false);
+    reset();
   } else {
     newEnemies[enemyIndex] = enemy;
   }
   if (newEnemies.length === 0) {
     alert("battle won");
+    reset();
     floor = floor + 1;
     updateFloor(floor);
+    if (floor >= allEnemies.length) {
+      alert("you win!");
+      window.location.reload();
+    }
     newEnemies = allEnemies[floor];
   }
   updateEnemies(newEnemies);

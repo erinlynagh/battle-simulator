@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as Attack from "../../library/battle/attack";
+import { AttackEnemy } from "../../library/battle/attack";
 
 function TerminalInput(props) {
   const {
@@ -23,7 +23,7 @@ function TerminalInput(props) {
   const [selectedTarget, setSelectedTarget] = useState("");
 
   function handleSubmit(event) {
-    Attack.Attack(
+    AttackEnemy(
       selectedAttack,
       selectedTarget,
       enemies,
@@ -31,14 +31,14 @@ function TerminalInput(props) {
       allEnemies,
       floor,
       updateFloor,
-      setSelectedTarget,
-      setSelectedTargetId,
-      setShowSubmit
+      reset
     );
     event.preventDefault();
   }
 
   function reset() {
+    // setShowAttacks(false);
+    // setShowItems(false);
     setShowTargets(false);
     setSelectedAttackId("");
     setSelectedAttack(false);
