@@ -22,7 +22,6 @@ export function AttackEnemy(
   const effectIndex = enemy.effects.findIndex(
     ({ name }) => name === attack.effect.name
   );
-  console.log(effectIndex);
   if (effectIndex === -1) {
     enemy.effects.push(
       new Effect(
@@ -35,12 +34,11 @@ export function AttackEnemy(
     enemy.effects[effectIndex].duration += attack.effect.duration;
   }
   enemies.forEach(function (enemy, enemyIndex) {
-    console.log(enemy);
-    console.log(enemy.effects);
     enemy.effects.forEach(function (effect, effectIndex) {
-      console.log(effect);
       if (effect.duration > 1) {
         newEnemies[enemyIndex].effects[effectIndex].duration -= 1;
+      } else {
+        newEnemies[enemyIndex].effects.splice(effectIndex, 1);
       }
     });
   });
