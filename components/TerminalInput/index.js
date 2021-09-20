@@ -160,7 +160,7 @@ function TerminalInput(props) {
                       name={attack.name}
                       onClick={handleAttackButtonClick}
                     >
-                      {attack.name}
+                      {attack.name} ({attack.casts} casts remain)
                       <ReactTooltip />
                     </button>
                   </span>

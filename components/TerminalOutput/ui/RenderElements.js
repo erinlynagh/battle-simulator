@@ -20,6 +20,18 @@ export function RenderHealth(health, maxHealth) {
   );
 }
 
+export function RenderMana(mana, maxMana) {
+  let style = { color: "#13A10E", marginTop: "-1em" };
+  if (mana === 1) {
+    style = { color: "#C19C00", marginTop: "-1em" };
+  }
+  return (
+    <h4 style={style}>
+      Mana: {mana}/{maxMana}
+    </h4>
+  );
+}
+
 export function RenderEffects(enemy) {
   function RenderEffect(effect, effectIndex) {
     return (

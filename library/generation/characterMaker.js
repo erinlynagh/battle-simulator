@@ -10,12 +10,14 @@ const defaultEffect = [Effects.Stun(99)];
 export function makeCharacter(
   name = defaultName,
   health = startingHealth,
+  maxHealth = 20,
   emojiName = defaultEmoji,
   effects = defaultEffect
 ) {
   return new Character(
     name,
     health,
+    maxHealth,
     [Attacks.Fireball, Attacks.Stupefy, Attacks.Wither],
     emojiName,
     effects

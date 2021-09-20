@@ -1,5 +1,5 @@
 import React from "react";
-import { RenderHealth, RenderEffects } from "./RenderElements";
+import { RenderHealth, RenderEffects, RenderMana } from "./RenderElements";
 
 function RenderEnemy({ character }) {
   return (
@@ -7,6 +7,7 @@ function RenderEnemy({ character }) {
       <p style={{ fontSize: "5em", margin: "0px" }}>{character.emoji}</p>
       <h3 style={{ marginTop: "-10px" }}>{character.name}</h3>
       {RenderHealth(character.health, character.maxHealth)}
+      {RenderMana(character.mana, character.maxMana)}
     </div>
   );
 }

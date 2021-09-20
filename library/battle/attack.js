@@ -1,5 +1,5 @@
 import * as AttackData from "../generation/attackMaker";
-import { Effect } from "../generation/classes";
+import { Effect, Character } from "../generation/classes";
 import Heap from "heap";
 
 export function AttackEnemy(
@@ -12,7 +12,8 @@ export function AttackEnemy(
   allEnemies,
   floor,
   updateFloor,
-  reset
+  reset,
+  mana
 ) {
   let newEnemies = enemies.slice();
   const enemy = newEnemies.find(({ id }) => id === target);
@@ -28,7 +29,7 @@ export function AttackEnemy(
       )
     );
   } else {
-    enemy.effects[effectIndex].duration += attack.effect.duration;
+    enemy.effects[effectIndex].duration += attack.effect.duration - 1;
   }
   enemies.forEach(function (enemy, enemyIndex) {
     enemy.effects.forEach(function (effect, effectIndex) {
@@ -57,29 +58,62 @@ export function AttackEnemy(
       updateFloor(floor);
     }
     newEnemies = allEnemies[floor];
+  } else if (character.mana === 0) {
+    attackPlayer(character, updateCharacter, enemies);
   }
   updateEnemies(newEnemies);
-  attackPlayer(character, updateCharacter, enemies);
 }
 
 function attackPlayer(character, updateCharacter, enemies) {
   console.log(enemies);
+  var newCharacter = new Character(
+    character.name,
+    character.health,
+    character.maxHealth,
+    character.attacks,
+    character.emojiName,
+    character.effects
+  );
   var heap = new Heap(function (a, b) {
-    return a.priority - b.priority;
+    return b.priority - a.priority;
   });
   enemies.forEach(function (enemy, enemyIndex) {
     if (enemy.health <= 0 || enemy.hasEffect("Stun")) {
       return;
     } else {
-      console.log("attacked!");
       enemy.attacks.forEach(function (attack, attackIndex) {
         heap.push(attack);
       });
     }
   });
 
-  while (!heap.nodes.length === 0) {
+  var attacked = false;
+  while (heap.nodes.length > 0) {
     let attack = heap.pop();
     console.log(attack);
+    var chance = Math.random();
+    console.log(chance);
+    if (!attacked && chance <= attack.chance) {
+      console.log("attacked!");
+      attacked = true;
+      newCharacter.health -= attack.power;
+      const effectIndex = character.getEffectIndex(attack.effect.name);
+      if (effectIndex === -1) {
+        newCharacter.effects.push(
+          new Effect(
+            attack.effect.name,
+            attack.effect.duration,
+            attack.effect.description
+          )
+        );
+      } else {
+        newCharacter.effects[effectIndex].duration += attack.effect.duration;
+      }
+    }
+    if (newCharacter.health <= 0) {
+      alert("you lose");
+      window.location.reload();
+    }
+    updateCharacter(newCharacter);
   }
 }
