@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import RenderEnemies from "./ui/RenderEnemies";
+import RenderCharacter from "./ui/RenderCharacter";
 import TerminalInput from "../TerminalInput";
 function TerminalOutput(props) {
   const {
@@ -26,22 +27,17 @@ function TerminalOutput(props) {
   const welcomeMessage = `❯ ${character.name}, Welcome to the Dungeon`;
 
   return (
-    <div id="terminal-output">
+    <div id="terminal-output" style={{ height: "100%" }}>
       <RenderEnemies enemies={enemies} />
-      <ul
-        id="history"
+      <RenderCharacter character={character} />
+      <div
         style={{
-          alignSelf: "flex-end",
+          flex: "1",
           backgroundColor: "#012456",
           color: "#A2A9B4",
-          height: "30vh",
-          paddingTop: "1vh",
-          listStyle: "none",
-          paddingLeft: "2vw",
+          height: "100%",
         }}
       >
-        {showWelcome && <li key="welcome-message">{welcomeMessage}</li>}
-        {historyMapping.length > 0 && historyMapping}
         <TerminalInput
           history={history}
           updateHistory={updateHistory}
@@ -50,7 +46,7 @@ function TerminalOutput(props) {
           enemies={enemies}
           updateEnemies={updateEnemies}
         />
-      </ul>
+      </div>
     </div>
   );
 }
