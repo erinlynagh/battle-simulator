@@ -7,20 +7,23 @@
   font-weight: normal;
   font-style: normal;
 }
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: "HackNF", sans-serif;
-  background-color: #0c0c0c;
-  color: #a4a4a4;
+
+.selected {
+  color: red;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.btn {
+  border-radius: 4px;
+  background-color: #0164ee;
+  border-color: #0144a2;
+  border-width: 1px;
+  color: #f0f0f0;
+  line-height: 20px;
+  font-family: HackNF;
 }
 
-* {
-  box-sizing: border-box;
+.btn.selected {
+  background-color: #f0f0f0;
+  border-color: #a3a3a3;
+  color: #0164ee;
 }
