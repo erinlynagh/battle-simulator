@@ -24,6 +24,8 @@ function TerminalInput(props) {
 
   function handleSubmit(event) {
     AttackEnemy(
+      character,
+      updateCharacter,
       selectedAttack,
       selectedTarget,
       enemies,

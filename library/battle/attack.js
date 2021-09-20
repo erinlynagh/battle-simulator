@@ -2,6 +2,8 @@ import * as AttackData from "../generation/attackMaker";
 import { Effect } from "../generation/classes";
 
 export function AttackEnemy(
+  character,
+  updateCharacter,
   attack,
   target,
   enemies,
@@ -58,9 +60,9 @@ export function AttackEnemy(
     newEnemies = allEnemies[floor];
   }
   updateEnemies(newEnemies);
+  attackPlayer(character, updateCharacter, enemies);
 }
 
-export function attackPlayer(character, attack) {
-  console.log(character);
-  console.log(attack);
+function attackPlayer(character, updateCharacter, enemies) {
+  console.log(enemies);
 }

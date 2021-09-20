@@ -46,7 +46,6 @@ export function RenderEffects(enemy) {
     <div
       style={{
         flexDirection: "column",
-        display: "flex",
         color: "#A2A9B4",
         backgroundColor: "#8E3A56",
       }}

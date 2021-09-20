@@ -7,4 +7,4 @@ export const Stupefy = new Attack("Stupefy", 5, Effects.Stun(2));
 
 // enemy attacks
 export const Scratch = new EnemyAttack("Scratch", 5, Effects.None);
-export const OrgeSlam = new EnemyAttack("Orge Slam", 5, Effects.Stun(2));
+export const OrgeSlam = new EnemyAttack("Orge Slam", 5, Effects.Stun(3));

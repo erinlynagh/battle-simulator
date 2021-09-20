@@ -6,41 +6,23 @@ const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
 });
 
-function RenderAttacksHeader() {
-  return (
-    <>
-      <p
-        style={{
-          margin: "1px",
-          marginBottom: "3px",
-          gridColumn: "1 / span 1",
-        }}
-      >
-        Name
-        <br />
-      </p>
-      <p
-        style={{
-          margin: "1px",
-          marginLeft: "5vw",
-          gridColumn: "2 / span 1",
-        }}
-      >
-        Power
-        <br />
-      </p>
-      <p
-        style={{
-          margin: "1px",
-          marginLeft: "5vw",
-          gridColumn: "3 / span 1",
-        }}
-      >
-        Effect
-        <br />
-      </p>
-    </>
-  );
+function getEnemyAttackTooltip(attack) {
+  let tooltipString = "";
+  if (((attack.effect.description === "") == attack.effect.duration) < 2) {
+    tooltipString += `Deals ${attack.power} damage`;
+  }
+  if (attack.effect.duration === 2) {
+    tooltipString +=
+      `, and then ` +
+      attack.effect.description
+        .replace("BLANK", attack.effect.duration - 1)
+        .replace("turns", "turn");
+  } else if (attack.effect.duration > 2) {
+    tooltipString +=
+      `, and then ` +
+      attack.effect.description.replace("BLANK", attack.effect.duration - 1);
+  }
+  return tooltipString;
 }
 
 function RenderAttack(attack, attackIndex) {
@@ -48,37 +30,15 @@ function RenderAttack(attack, attackIndex) {
     <React.Fragment key={attackIndex}>
       <p
         style={{
-          margin: "1px",
+          color: "#C19C00",
+          textDecoration: "underline",
+          margin: "0px",
         }}
+        data-tip={getEnemyAttackTooltip(attack)}
       >
         {attack.name}
       </p>
-      <p
-        style={{
-          margin: "1px",
-          marginLeft: "5vw",
-        }}
-      >
-        {attack.power}
-      </p>
-      <p
-        style={{
-          margin: "1px",
-          marginLeft: "5vw",
-        }}
-        data-tip={
-          attack.effect.duration === 2
-            ? attack.effect.description
-                .replace("BLANK", attack.effect.duration - 1)
-                .replace("turns", "turn")
-            : attack.effect.description.replace(
-                "BLANK",
-                attack.effect.duration - 1
-              )
-        }
-      >
-        {attack.effect.name}
-      </p>
+      &nbsp;
       <ReactTooltip html={true} />
     </React.Fragment>
   );
@@ -88,25 +48,16 @@ function RenderAttacks(enemy) {
   return (
     <div
       style={{
-        flexDirection: "column",
+        flexDirection: "row",
         display: "flex",
-        color: "#A2A9B4",
-        backgroundColor: "#8E3A56",
+        textAlign: "center",
+        marginTop: "-1em",
       }}
     >
-      <div
-        style={{
-          display: "grid",
-          gridAutoColumns: "auto",
-          gridAutoRows: "auto",
-          textAlign: "left",
-        }}
-      >
-        <RenderAttacksHeader />
-        {enemy.attacks.map((attack, attackIndex) =>
-          RenderAttack(attack, attackIndex)
-        )}
-      </div>
+      <p style={{ marginTop: "0px" }}>Attacks:</p>&nbsp;
+      {enemy.attacks.map((attack, attackIndex) =>
+        RenderAttack(attack, attackIndex)
+      )}
     </div>
   );
 }
@@ -117,16 +68,6 @@ function RenderEnemy({ enemy }) {
       <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
       <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
       {RenderHealth(enemy.health, enemy.maxHealth)}
-      <h4
-        style={{
-          color: "#A2A9B4",
-          backgroundColor: "#8E3A56",
-          padding: ".75em",
-          marginBottom: "0px",
-        }}
-      >
-        Attacks
-      </h4>
       {RenderAttacks(enemy)}
       {enemy.effects.length > 0 && RenderEffects(enemy)}
     </div>
