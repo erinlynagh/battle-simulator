@@ -41,43 +41,6 @@ function RenderAttacksHeader() {
   );
 }
 
-function RenderEffectsHeader() {
-  return (
-    <>
-      <p
-        style={{
-          margin: "1px",
-          marginBottom: "3px",
-          gridColumn: "1 / span 1",
-        }}
-      >
-        Name
-        <br />
-      </p>
-      <p
-        style={{
-          margin: "1px",
-          marginLeft: "5vw",
-          gridColumn: "2 / span 1",
-        }}
-      >
-        Duration
-        <br />
-      </p>
-      <p
-        style={{
-          margin: "1px",
-          marginLeft: "5vw",
-          gridColumn: "3 / span 1",
-        }}
-      >
-        Description
-        <br />
-      </p>
-    </>
-  );
-}
-
 function RenderAttack(attack, attackIndex) {
   return (
     <React.Fragment key={attackIndex}>
@@ -113,27 +76,11 @@ function RenderEffect(effect, effectIndex) {
     <React.Fragment key={effectIndex}>
       <p
         style={{
-          margin: "1px",
-        }}
-      >
-        {effect.name}
-      </p>
-      <p
-        style={{
-          margin: "1px",
-          marginLeft: "5vw",
-        }}
-      >
-        {effect.duration}
-      </p>
-      <p
-        style={{
-          margin: "1px",
-          marginLeft: "5vw",
+          textAlign: "center",
         }}
         data-tip={effect.description}
       >
-        Hover
+        {`${effect.name}: ${effect.duration} turns`}
       </p>
     </React.Fragment>
   );
@@ -184,7 +131,6 @@ function RenderEffects(enemy) {
           textAlign: "left",
         }}
       >
-        <RenderEffectsHeader />
         <ReactTooltip />
 
         {enemy.effects.map((effect, effectIndex) =>
@@ -212,21 +158,7 @@ function RenderEnemy({ enemy }) {
         Attacks
       </h4>
       {RenderAttacks(enemy)}
-      {enemy.effects.length > 0 && (
-        <>
-          <h4
-            style={{
-              color: "#A2A9B4",
-              backgroundColor: "#8E3A56",
-              padding: ".75em",
-              marginBottom: "0px",
-            }}
-          >
-            Effects
-          </h4>
-          {RenderEffects(enemy)}
-        </>
-      )}
+      {enemy.effects.length > 0 && RenderEffects(enemy)}
     </div>
   );
 }
