@@ -19,7 +19,8 @@ export function AttackEnemy(
   const enemyIndex = newEnemies.findIndex(({ id }) => id === target);
   attack = AttackData[[attack]];
   enemy.health -= attack.power;
-  enemy.effect += attack.effect;
+  enemy.effects.push(attack.effect);
+  console.log(enemy);
   if (enemy.health <= 0) {
     newEnemies.splice(enemyIndex, 1);
     reset();

@@ -1,5 +1,6 @@
 import React from "react";
 import { RenderHealth } from "./RenderElements";
+import ReactTooltip from "react-tooltip";
 
 const header = "Current Battle";
 
@@ -40,6 +41,43 @@ function RenderAttacksHeader() {
   );
 }
 
+function RenderEffectsHeader() {
+  return (
+    <>
+      <p
+        style={{
+          margin: "1px",
+          marginBottom: "3px",
+          gridColumn: "1 / span 1",
+        }}
+      >
+        Name
+        <br />
+      </p>
+      <p
+        style={{
+          margin: "1px",
+          marginLeft: "5vw",
+          gridColumn: "2 / span 1",
+        }}
+      >
+        Duration
+        <br />
+      </p>
+      <p
+        style={{
+          margin: "1px",
+          marginLeft: "5vw",
+          gridColumn: "3 / span 1",
+        }}
+      >
+        Description
+        <br />
+      </p>
+    </>
+  );
+}
+
 function RenderAttack(attack, attackIndex) {
   return (
     <React.Fragment key={attackIndex}>
@@ -64,7 +102,38 @@ function RenderAttack(attack, attackIndex) {
           marginLeft: "5vw",
         }}
       >
-        {attack.effect}
+        {attack.effect.name}
+      </p>
+    </React.Fragment>
+  );
+}
+
+function RenderEffect(effect, effectIndex) {
+  return (
+    <React.Fragment key={effectIndex}>
+      <p
+        style={{
+          margin: "1px",
+        }}
+      >
+        {effect.name}
+      </p>
+      <p
+        style={{
+          margin: "1px",
+          marginLeft: "5vw",
+        }}
+      >
+        {effect.duration}
+      </p>
+      <p
+        style={{
+          margin: "1px",
+          marginLeft: "5vw",
+        }}
+        data-tip={effect.description}
+      >
+        Hover
       </p>
     </React.Fragment>
   );
@@ -97,6 +166,35 @@ function RenderAttacks(enemy) {
   );
 }
 
+function RenderEffects(enemy) {
+  return (
+    <div
+      style={{
+        flexDirection: "column",
+        display: "flex",
+        color: "#A2A9B4",
+        backgroundColor: "#8E3A56",
+      }}
+    >
+      <div
+        style={{
+          display: "grid",
+          gridAutoColumns: "auto",
+          gridAutoRows: "auto",
+          textAlign: "left",
+        }}
+      >
+        <RenderEffectsHeader />
+        <ReactTooltip />
+
+        {enemy.effects.map((effect, effectIndex) =>
+          RenderEffect(effect, effectIndex)
+        )}
+      </div>
+    </div>
+  );
+}
+
 function RenderEnemy({ enemy }) {
   return (
     <div>
@@ -114,6 +212,21 @@ function RenderEnemy({ enemy }) {
         Attacks
       </h4>
       {RenderAttacks(enemy)}
+      {enemy.effects.length > 0 && (
+        <>
+          <h4
+            style={{
+              color: "#A2A9B4",
+              backgroundColor: "#8E3A56",
+              padding: ".75em",
+              marginBottom: "0px",
+            }}
+          >
+            Effects
+          </h4>
+          {RenderEffects(enemy)}
+        </>
+      )}
     </div>
   );
 }

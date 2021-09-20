@@ -9,7 +9,7 @@ export function makeOrge() {
   return new Enemy(
     "Orge",
     30,
-    [Attacks.Scratch, Attacks.Stun],
+    [Attacks.Scratch, Attacks.Stupefy],
     "japanese_ogre",
     30
   );

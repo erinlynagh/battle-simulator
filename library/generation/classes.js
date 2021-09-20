@@ -1,4 +1,3 @@
-import { attackEffects } from "./attackEffects";
 const emoji = require("emoji-dictionary");
 
 function uuidv4() {
@@ -10,10 +9,10 @@ function uuidv4() {
 }
 
 export class Attack {
-  constructor(name, power) {
+  constructor(name, power, effect) {
     this.name = name;
     this.power = power;
-    this.effect = attackEffects[[name]];
+    this.effect = effect;
   }
 }
 
@@ -34,5 +33,13 @@ export class Enemy extends Character {
   constructor(name, health, attacks, emojiName, expGiven) {
     super(name, health, attacks, emojiName);
     this.expGiven = expGiven;
+  }
+}
+
+export class Effect {
+  constructor(name, duration, description) {
+    this.name = name;
+    this.duration = duration;
+    this.description = description;
   }
 }

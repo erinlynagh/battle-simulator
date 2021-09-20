@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import RenderEnemies from "./ui/RenderEnemies";
 import RenderCharacter from "./ui/RenderCharacter";
 import TerminalInput from "../TerminalInput";
+
 function TerminalOutput(props) {
   const {
     character,

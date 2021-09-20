@@ -1,8 +1,8 @@
 import { Attack } from "./classes";
-export const Fireball = new Attack("Fireball", 10);
+import * as Effects from "./effectMaker";
 
-export const Protect = new Attack("Protect", 0);
+export const Fireball = new Attack("Fireball", 10, Effects.None);
 
-export const Stun = new Attack("Stun", 0);
+export const Scratch = new Attack("Scratch", 5, Effects.None);
 
-export const Scratch = new Attack("Scratch", 5);
+export const Stupefy = new Attack("Stupefy", 5, Effects.Stun(2));

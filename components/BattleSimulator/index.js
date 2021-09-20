@@ -1,7 +1,6 @@
 import { useState } from "react";
 import TerminalOutput from "../TerminalOutput";
 import { makeCharacter } from "../../library/generation/characterMaker";
-import { makeBat } from "../../library/generation/enemyMaker";
 import makeAllEnemies from "../../library/generation/makeAllEnemies";
 
 export default function BattleSimulator(props) {
