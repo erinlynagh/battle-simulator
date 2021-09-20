@@ -2,6 +2,7 @@ import { useState } from "react";
 import TerminalOutput from "../TerminalOutput";
 import { makeCharacter } from "../../library/generation/characterMaker";
 import makeAllEnemies from "../../library/generation/makeAllEnemies";
+import ReactTooltip from "react-tooltip";
 
 export default function BattleSimulator(props) {
   const [character, updateCharacter] = useState(makeCharacter());

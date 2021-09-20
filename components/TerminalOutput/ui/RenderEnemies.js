@@ -1,29 +1,14 @@
 import React from "react";
-import { RenderHealth, RenderEffects } from "./RenderElements";
+import {
+  RenderHealth,
+  RenderEffects,
+  getAttackTooltip,
+} from "./RenderElements";
 import dynamic from "next/dynamic";
 
 const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
 });
-
-function getEnemyAttackTooltip(attack) {
-  let tooltipString = "";
-  if (((attack.effect.description === "") == attack.effect.duration) < 2) {
-    tooltipString += `Deals ${attack.power} damage`;
-  }
-  if (attack.effect.duration === 2) {
-    tooltipString +=
-      `, and then ` +
-      attack.effect.description
-        .replace("BLANK", attack.effect.duration - 1)
-        .replace("turns", "turn");
-  } else if (attack.effect.duration > 2) {
-    tooltipString +=
-      `, and then ` +
-      attack.effect.description.replace("BLANK", attack.effect.duration - 1);
-  }
-  return tooltipString;
-}
 
 function RenderAttack(attack, attackIndex) {
   return (
@@ -34,7 +19,7 @@ function RenderAttack(attack, attackIndex) {
           textDecoration: "underline",
           margin: "0px",
         }}
-        data-tip={getEnemyAttackTooltip(attack)}
+        data-tip={attack.getTooltip()}
       >
         {attack.name}
       </p>

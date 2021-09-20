@@ -14,6 +14,24 @@ export class Attack {
     this.power = power;
     this.effect = effect;
   }
+  getTooltip() {
+    let tooltipString = "";
+    if (((this.effect.description === "") == this.effect.duration) < 2) {
+      tooltipString += `Deals ${this.power} damage`;
+    }
+    if (this.effect.duration === 2) {
+      tooltipString +=
+        `, and then ` +
+        this.effect.description
+          .replace("BLANK", this.effect.duration - 1)
+          .replace("turns", "turn");
+    } else if (this.effect.duration > 2) {
+      tooltipString +=
+        `, and then ` +
+        this.effect.description.replace("BLANK", this.effect.duration - 1);
+    }
+    return tooltipString;
+  }
 }
 
 export class EnemyAttack extends Attack {
@@ -41,6 +59,12 @@ export class Enemy extends Character {
   constructor(name, health, attacks, emojiName) {
     super(name, health, attacks, emojiName);
   }
+  hasEffect(effect) {
+    return this.effects.findIndex(({ name }) => name === effect) > -1;
+  }
+  getEffectIndex(effect) {
+    return this.effects.findIndex(({ name }) => name === effect);
+  }
 }
 
 export class Effect {
@@ -48,5 +72,14 @@ export class Effect {
     this.name = name;
     this.duration = duration;
     this.description = description;
+  }
+
+  getTooltip() {
+    if (this.duration === 1) {
+      return this.description
+        .replace("BLANK", this.duration)
+        .replace("turns", "turn");
+    }
+    return this.description.replace("BLANK", this.duration);
   }
 }

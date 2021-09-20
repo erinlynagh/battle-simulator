@@ -16,7 +16,7 @@ export function makeCharacter(
   return new Character(
     name,
     health,
-    [Attacks.Fireball, Attacks.Stupefy],
+    [Attacks.Fireball, Attacks.Stupefy, Attacks.Wither],
     emojiName,
     effects
   );

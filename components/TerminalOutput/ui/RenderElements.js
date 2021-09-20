@@ -28,13 +28,7 @@ export function RenderEffects(enemy) {
           style={{
             textAlign: "center",
           }}
-          data-tip={
-            effect.duration === 1
-              ? effect.description
-                  .replace("BLANK", effect.duration)
-                  .replace("turns", "turn")
-              : effect.description.replace("BLANK", effect.duration)
-          }
+          data-tip={effect.getTooltip()}
         >
           {`${effect.name}: ${effect.duration} turns`}
         </p>

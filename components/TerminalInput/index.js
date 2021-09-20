@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { AttackEnemy } from "../../library/battle/attack";
+import dynamic from "next/dynamic";
+const ReactTooltip = dynamic(() => import("react-tooltip"), {
+  ssr: false,
+});
 
 function TerminalInput(props) {
   const {
@@ -143,21 +147,24 @@ function TerminalInput(props) {
             >
               {character.attacks.map((attack, index) => {
                 return (
-                  <button
-                    type="button"
-                    className={
-                      selectedAttackId === index
-                        ? "btn form-btn selected"
-                        : "btn form-btn"
-                    }
-                    style={{ marginBottom: "1.33em" }}
-                    value={index}
-                    name={attack.name}
-                    key={index}
-                    onClick={handleAttackButtonClick}
-                  >
-                    {attack.name}
-                  </button>
+                  <span data-tip={attack.getTooltip()}>
+                    <button
+                      type="button"
+                      className={
+                        selectedAttackId === index
+                          ? "btn form-btn selected"
+                          : "btn form-btn"
+                      }
+                      style={{ marginBottom: "1.33em" }}
+                      value={index}
+                      name={attack.name}
+                      key={index}
+                      onClick={handleAttackButtonClick}
+                    >
+                      {attack.name}
+                      <ReactTooltip />
+                    </button>
+                  </span>
                 );
               })}
             </div>

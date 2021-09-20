@@ -1,5 +1,6 @@
 import * as AttackData from "../generation/attackMaker";
 import { Effect } from "../generation/classes";
+import Heap from "heap";
 
 export function AttackEnemy(
   character,
@@ -17,9 +18,7 @@ export function AttackEnemy(
   const enemy = newEnemies.find(({ id }) => id === target);
   const enemyIndex = newEnemies.findIndex(({ id }) => id === target);
   attack = AttackData[[attack]];
-  const effectIndex = enemy.effects.findIndex(
-    ({ name }) => name === attack.effect.name
-  );
+  const effectIndex = enemy.getEffectIndex(attack.effect.name);
   if (effectIndex === -1) {
     enemy.effects.push(
       new Effect(
@@ -65,4 +64,20 @@ export function AttackEnemy(
 
 function attackPlayer(character, updateCharacter, enemies) {
   console.log(enemies);
+  var heap = new Heap(function (a, b) {
+    return a.priority - b.priority;
+  });
+  enemies.forEach(function (enemy, enemyIndex) {
+    if (enemy.health <= 0 || enemy.hasEffect("Stun")) {
+      return;
+    } else {
+      console.log("attacked!");
+      enemy.attacks.forEach(function (attack, attackIndex) {
+        heap.push(attack);
+      });
+    }
+  });
+  console.log(heap.pop());
+  console.log(heap.pop());
+  console.log(heap.nodes.length === 0);
 }
