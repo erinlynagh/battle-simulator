@@ -1,4 +1,5 @@
 import React from "react";
+import { RenderHealth } from "./RenderElements";
 
 const header = "Current Battle";
 
@@ -96,26 +97,11 @@ function RenderAttacks(enemy) {
   );
 }
 
-function RenderHealth(health, maxHealth) {
-  let style = { color: "#13A10E" };
-  if (health / maxHealth < 0.25) {
-    style = { color: "#C50F1F" };
-  }
-  if (health / maxHealth < 0.5) {
-    style = { color: "#C19C00" };
-  }
-  return (
-    <h4 style={style}>
-      Health: {health}/{maxHealth}
-    </h4>
-  );
-}
-
 function RenderEnemy({ enemy }) {
   return (
     <div>
-      <p style={{ fontSize: "10em", margin: "0px" }}>{enemy.emoji}</p>
-      <h3 style={{ marginTop: "-30px" }}>{enemy.name}</h3>
+      <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
+      <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
       {RenderHealth(enemy.health, enemy.maxHealth)}
       <h4
         style={{
