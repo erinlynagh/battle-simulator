@@ -16,6 +16,14 @@ export class Attack {
   }
 }
 
+export class EnemyAttack extends Attack {
+  constructor(name, power, effect, chance, priority) {
+    super(name, power, effect);
+    this.chance = chance;
+    this.priority = priority;
+  }
+}
+
 export class Character {
   constructor(name, health, attacks, emojiName) {
     this.id = uuidv4();
