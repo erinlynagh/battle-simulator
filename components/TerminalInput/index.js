@@ -147,7 +147,7 @@ function TerminalInput(props) {
             >
               {character.attacks.map((attack, index) => {
                 return (
-                  <span data-tip={attack.getTooltip()}>
+                  <span data-tip={attack.getTooltip()} key={index}>
                     <button
                       type="button"
                       className={
@@ -158,7 +158,6 @@ function TerminalInput(props) {
                       style={{ marginBottom: "1.33em" }}
                       value={index}
                       name={attack.name}
-                      key={index}
                       onClick={handleAttackButtonClick}
                     >
                       {attack.name}

@@ -77,7 +77,9 @@ function attackPlayer(character, updateCharacter, enemies) {
       });
     }
   });
-  console.log(heap.pop());
-  console.log(heap.pop());
-  console.log(heap.nodes.length === 0);
+
+  while (!heap.nodes.length === 0) {
+    let attack = heap.pop();
+    console.log(attack);
+  }
 }
