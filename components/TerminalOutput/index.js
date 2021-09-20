@@ -4,25 +4,14 @@ import RenderCharacter from "./ui/RenderCharacter";
 import TerminalInput from "../TerminalInput";
 function TerminalOutput(props) {
   const {
-    history,
-    updateHistory,
     character,
     updateCharacter,
     enemies,
     updateEnemies,
+    allEnemies,
+    floor,
+    updateFloor,
   } = props;
-
-  const historyMapping = history.map((historyItem, index) => (
-    <li key={index}>{historyItem}</li>
-  ));
-
-  const [showWelcome, setShowWelcome] = useState(true);
-
-  useEffect(() => {
-    if (showWelcome && history.length > 0) {
-      setShowWelcome(false);
-    }
-  }, [history]);
 
   const welcomeMessage = `❯ ${character.name}, Welcome to the Dungeon`;
 
@@ -39,12 +28,13 @@ function TerminalOutput(props) {
         }}
       >
         <TerminalInput
-          history={history}
-          updateHistory={updateHistory}
           character={character}
           updateCharacter={updateCharacter}
           enemies={enemies}
           updateEnemies={updateEnemies}
+          allEnemies={allEnemies}
+          floor={floor}
+          updateFloor={updateFloor}
         />
       </div>
     </div>

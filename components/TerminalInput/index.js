@@ -3,12 +3,13 @@ import * as Attack from "../../library/battle/attack";
 
 function TerminalInput(props) {
   const {
-    history,
-    updateHistory,
     character,
     updateCharacter,
     enemies,
     updateEnemies,
+    allEnemies,
+    floor,
+    updateFloor,
   } = props;
   // for rendering
   const [showAttacks, setShowAttacks] = useState(false);
@@ -22,22 +23,32 @@ function TerminalInput(props) {
   const [selectedTarget, setSelectedTarget] = useState("");
 
   function handleSubmit(event) {
-    console.log(event);
-    Attack.Attack(selectedAttack, selectedTarget, enemies, updateEnemies);
+    Attack.Attack(
+      selectedAttack,
+      selectedTarget,
+      enemies,
+      updateEnemies,
+      allEnemies,
+      floor,
+      updateFloor,
+      setSelectedTarget,
+      setSelectedTargetId,
+      setShowSubmit
+    );
     event.preventDefault();
   }
 
+  function reset() {
+    setShowTargets(false);
+    setSelectedAttackId("");
+    setSelectedAttack(false);
+    setSelectedTarget("");
+    setSelectedTargetId("");
+    setShowSubmit(false);
+  }
+
   function handleButtonClick(event) {
-    function reset() {
-      setShowTargets(false);
-      setSelectedAttackId("");
-      setSelectedAttack(false);
-      setSelectedTarget("");
-      setSelectedTargetId("");
-      setShowSubmit(false);
-    }
     const value = event.target.value;
-    console.log(value);
     reset();
     switch (value) {
       case "attack":
@@ -54,8 +65,6 @@ function TerminalInput(props) {
   }
 
   function handleAttackButtonClick(event) {
-    console.log(event.target.value);
-    console.log(event.target.name);
     setSelectedAttackId(parseInt(event.target.value));
     setSelectedAttack(event.target.name);
     if (Array.isArray(enemies)) {
@@ -67,8 +76,6 @@ function TerminalInput(props) {
   }
 
   function handleTargetButtonClick(event) {
-    console.log(event.target.value);
-    console.log(event.target.name);
     setSelectedTargetId(parseInt(event.target.value));
     setSelectedTarget(event.target.name);
     setShowSubmit(true);

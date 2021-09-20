@@ -1,7 +1,4 @@
 export function RenderHealth(health, maxHealth) {
-  console.log(health);
-  console.log(maxHealth);
-  console.log(health / maxHealth);
   let style = { color: "#13A10E", marginTop: "-1em" };
   if (health / maxHealth <= 0.5) {
     style = { color: "#C19C00", marginTop: "-1em" };
