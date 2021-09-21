@@ -1,11 +1,18 @@
 import { Effect } from "../generation/classes";
 import * as StateHelpers from "../generation/createNewStateObjects";
-export function getAttackDamage(attack, character, adversary) {
+
+// character attacks adversary with attack
+export function Attack(attacker, attack, defender) {
+  applyAttackEffect(defender, attack);
+  defender.health -= calculateAttackDamage(attack, defender, attacker);
+}
+
+function calculateAttackDamage(attack, defender, attacker) {
   let damage = attack.power;
-  if (adversary.hasEffect("Wither")) {
+  if (attacker.hasEffect("Wither")) {
     damage = 0.75 * damage;
   }
-  if (character.hasEffect("Vulnerable")) {
+  if (defender.hasEffect("Vulnerable")) {
     damage = (4 / 3) * damage;
   }
   damage = Math.floor(damage);
@@ -13,18 +20,7 @@ export function getAttackDamage(attack, character, adversary) {
   return damage;
 }
 
-export function castSpell(newCharacter, character, attack, reset) {
-  var newCharacter = StateHelpers.makeNewCharacter(character);
-  var currentAttackIndex = newCharacter.getAttackIndex(attack.name);
-  newCharacter.attacks[currentAttackIndex].casts -= 1;
-  if (newCharacter.attacks[currentAttackIndex].casts === 0) {
-    newCharacter.attacks.splice(currentAttackIndex, 1);
-    reset();
-  }
-  return newCharacter;
-}
-
-export function applyAttackEffect(character, attack) {
+function applyAttackEffect(character, attack) {
   const effectIndex = character.getEffectIndex(attack.effect.name);
   if (effectIndex === -1) {
     character.effects.push(
@@ -37,6 +33,17 @@ export function applyAttackEffect(character, attack) {
   } else {
     character.effects[effectIndex].duration += attack.effect.duration;
   }
+}
+
+export function castSpell(newCharacter, character, attack, reset) {
+  var newCharacter = StateHelpers.makeNewCharacter(character);
+  var currentAttackIndex = newCharacter.getAttackIndex(attack.name);
+  newCharacter.attacks[currentAttackIndex].casts -= 1;
+  if (newCharacter.attacks[currentAttackIndex].casts === 0) {
+    newCharacter.attacks.splice(currentAttackIndex, 1);
+    reset();
+  }
+  return newCharacter;
 }
 
 export function reduceEnemiesEffectDurations(newEnemies) {

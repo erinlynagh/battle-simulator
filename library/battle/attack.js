@@ -47,8 +47,8 @@ export function AttackEnemy(
     target
   );
 
-  AttackHelpers.applyAttackEffect(enemy, attack);
-  enemy.health -= AttackHelpers.getAttackDamage(attack, enemy, character);
+  AttackHelpers.Attack(character, attack, enemy);
+
   if (enemy.health <= 0) {
     newEnemies.splice(enemyIndex, 1);
     reset();
@@ -100,9 +100,11 @@ export function AttackPlayer(
   var newCharacter = StateHelpers.makeNewCharacter(character);
   AttackHelpers.reduceCharacterEffectDurations(newCharacter);
   newCharacter.refreshMana();
+
   var heap = new Heap(function (a, b) {
     return b.priority - a.priority;
   });
+
   enemies.forEach(function (enemy) {
     console.log(enemy);
     var attacked = false;
@@ -117,12 +119,7 @@ export function AttackPlayer(
         if (!attacked && Math.random() <= attack.chance) {
           attacked = true;
           enemyAttacks.push(attack);
-          AttackHelpers.applyAttackEffect(newCharacter, attack);
-          newCharacter.health -= AttackHelpers.getAttackDamage(
-            attack,
-            character,
-            enemy
-          );
+          AttackHelpers.Attack(enemy, attack, newCharacter);
           setEnemyAttacks(enemyAttacks);
         }
         if (newCharacter.health <= 0) {
