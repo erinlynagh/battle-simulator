@@ -9,6 +9,7 @@ export default function BattleSimulator(props) {
   const [floor, setFloor] = useState(0);
   const allEnemies = makeAllEnemies();
   const [enemies, setEnemies] = useState(allEnemies[floor]);
+  const [enemyAttacks, setEnemyAttacks] = useState([]);
 
   return (
     <div id="root" className="root">
@@ -21,6 +22,8 @@ export default function BattleSimulator(props) {
           updateEnemies={setEnemies}
           floor={floor}
           updateFloor={setFloor}
+          enemyAttacks={enemyAttacks}
+          setEnemyAttacks={setEnemyAttacks}
         />
       </div>
     </div>

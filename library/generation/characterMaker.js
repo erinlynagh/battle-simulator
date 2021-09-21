@@ -5,7 +5,7 @@ import * as Effects from "./effectMaker";
 const defaultName = "Erin";
 const startingHealth = 20;
 const defaultEmoji = "wizard";
-const defaultEffect = [Effects.Stun(99)];
+const defaultEffect = [];
 
 export function makeCharacter(
   name = defaultName,

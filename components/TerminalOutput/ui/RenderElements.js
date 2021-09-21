@@ -34,6 +34,9 @@ export function RenderMana(mana, maxMana) {
 
 export function RenderEffects(enemy) {
   function RenderEffect(effect, effectIndex) {
+    if (effect.name === "None") {
+      return;
+    }
     return (
       <React.Fragment key={effectIndex}>
         <p

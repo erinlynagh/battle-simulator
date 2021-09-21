@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import RenderEnemies from "./ui/RenderEnemies";
 import RenderCharacter from "./ui/RenderCharacter";
 import TerminalInput from "../TerminalInput";
+import RenderMoveLog from "./ui/RenderMoveLog";
 
 function TerminalOutput(props) {
   const {
@@ -12,6 +13,8 @@ function TerminalOutput(props) {
     allEnemies,
     floor,
     updateFloor,
+    enemyAttacks,
+    setEnemyAttacks,
   } = props;
 
   const welcomeMessage = `❯ ${character.name}, Welcome to the Dungeon`;
@@ -20,6 +23,7 @@ function TerminalOutput(props) {
     <div id="terminal-output" style={{ height: "100%" }}>
       <RenderEnemies enemies={enemies} />
       <RenderCharacter character={character} />
+      <RenderMoveLog enemyAttacks={enemyAttacks} enemies={enemies} />
       <div
         style={{
           flex: "1",
@@ -36,6 +40,8 @@ function TerminalOutput(props) {
           allEnemies={allEnemies}
           floor={floor}
           updateFloor={updateFloor}
+          enemyAttacks={enemyAttacks}
+          setEnemyAttacks={setEnemyAttacks}
         />
       </div>
     </div>

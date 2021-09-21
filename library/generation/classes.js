@@ -14,6 +14,7 @@ export class Attack {
     this.power = power;
     this.effect = effect;
     this.casts = castsRemaining;
+    this.attackMessage = this.setAttackMessage();
   }
   getTooltip() {
     let tooltipString = "";
@@ -29,9 +30,17 @@ export class Attack {
     } else if (this.effect.duration > 2) {
       tooltipString +=
         `, and then ` +
-        this.effect.description.replace("BLANK", this.effect.duration - 1);
+        this.effect.description.replace("BLANK", this.effect.duration);
     }
     return tooltipString;
+  }
+
+  setAttackMessage(damage = this.power) {
+    var string = `${this.name} hits for ${damage} damage`;
+    if (this.effect.name !== "None") {
+      string += `. It applies a ${this.effect.name}`;
+    }
+    this.attackMessage = string;
   }
 }
 
@@ -40,6 +49,13 @@ export class EnemyAttack extends Attack {
     super(name, power, effect);
     this.chance = chance;
     this.priority = priority;
+  }
+  setAttackMessage(damage = this.power) {
+    var string = `${this.name} hits for ${damage} damage`;
+    if (this.effect.name !== "None") {
+      string += `. It applies a ${this.effect.name}`;
+    }
+    this.attackMessage = string;
   }
 }
 
@@ -70,6 +86,14 @@ export class Character {
   }
   getEffectIndex(effect) {
     return this.effects.findIndex(({ name }) => name === effect);
+  }
+
+  getAttackIndex(attack) {
+    console.log(attack);
+    return this.attacks.findIndex(({ name }) => name === attack);
+  }
+  refreshMana() {
+    this.mana = this.maxMana;
   }
 }
 

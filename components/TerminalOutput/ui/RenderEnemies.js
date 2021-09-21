@@ -62,6 +62,7 @@ function RenderEnemy({ enemy }) {
 export default function RenderEnemies({ enemies }) {
   return (
     <div
+      id="enemies"
       style={{
         alignSelf: "flex-start",
         textAlign: "center",

@@ -8,7 +8,7 @@ export function makeBat() {
 export function makeOrge() {
   return new Enemy(
     "Orge",
-    30,
+    25,
     [Attacks.Scratch, Attacks.OrgeSlam],
     "japanese_ogre"
   );

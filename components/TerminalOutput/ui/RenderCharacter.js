@@ -1,9 +1,9 @@
 import React from "react";
 import { RenderHealth, RenderEffects, RenderMana } from "./RenderElements";
 
-function RenderEnemy({ character }) {
+function RenderPerson({ character }) {
   return (
-    <div>
+    <div id="character-brief">
       <p style={{ fontSize: "5em", margin: "0px" }}>{character.emoji}</p>
       <h3 style={{ marginTop: "-10px" }}>{character.name}</h3>
       {RenderHealth(character.health, character.maxHealth)}
@@ -15,11 +15,12 @@ function RenderEnemy({ character }) {
 export default function RenderCharacter({ character }) {
   return (
     <div
+      id="character-full"
       style={{
         textAlign: "center",
       }}
     >
-      <RenderEnemy character={character} />
+      <RenderPerson character={character} />
       {character.effects.length > 0 && RenderEffects(character)}
     </div>
   );
