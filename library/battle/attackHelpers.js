@@ -4,14 +4,15 @@ import * as StateHelpers from "../generation/createNewStateObjects";
 
 // character attacks adversary with attack
 export function Attack(attacker, attack, defender, reset = false) {
-  applyAttackEffect(attack.effect, defender, attacker);
   defender.health -= calculateAttackDamage(attack, defender, attacker);
+  applyAttackEffect(attack.effect, defender, attacker);
   if (reset) {
     castSpell(attacker, attack, reset);
   }
 }
 
 function calculateAttackDamage(attack, defender, attacker) {
+  console.log(attack);
   let damage = attack.power;
   if (attacker.hasEffect("Wither")) {
     damage = 0.75 * damage;
@@ -29,25 +30,28 @@ function calculateAttackDamage(attack, defender, attacker) {
 
 function applyAttackEffect(effect, defender, attacker) {
   let recipient = defender;
+  console.log(defender);
+  console.log(effect);
   if (AppliesToAttacker(effect)) {
     recipient = attacker;
   }
   applyAffect(recipient, effect);
 }
 
-function applyAffect(defender, effect) {
-  const effectIndex = defender.getEffectIndex(effect.name);
+function applyAffect(character, effect) {
+  console.log(character);
+  const effectIndex = getEffectIndex(character, effect.name);
   if (effectIndex === -1) {
-    defender.effects.push(
+    character.effects.push(
       new Effect(effect.name, effect.duration, effect.description)
     );
   } else {
-    defender.effects[effectIndex].duration += effect.duration;
+    character.effects[effectIndex].duration += effect.duration;
   }
 }
 
-function castSpell(character, attack, reset, updateCharacter) {
-  var currentAttackIndex = character.getAttackIndex(attack.name);
+function castSpell(character, attack, reset) {
+  var currentAttackIndex = getAttackIndex(character, attack.name);
   character.attacks[currentAttackIndex].casts -= 1;
   if (character.attacks[currentAttackIndex].casts === 0) {
     character.attacks.splice(currentAttackIndex, 1);
@@ -74,4 +78,12 @@ export function reduceCharacterEffectDurations(character) {
       character.effects.splice(effectIndex, 1);
     }
   });
+}
+
+function getEffectIndex(character, effect) {
+  return character.effects.findIndex(({ name }) => name === effect);
+}
+
+function getAttackIndex(character, attack) {
+  return character.attacks.findIndex(({ name }) => name === attack);
 }

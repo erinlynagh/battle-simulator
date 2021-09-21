@@ -8,10 +8,15 @@ export function makeNewCharacter(character) {
     character.emojiName,
     character.effects,
     character.mana,
-    character.maxMana
+    character.maxMana,
+    character.id
   );
 }
 
 export function makeNewEnemies(enemies, target) {
-  return enemies.slice();
+  let newEnemies = [];
+  enemies.forEach((enemy) => {
+    newEnemies.push(makeNewCharacter(enemy));
+  });
+  return newEnemies;
 }

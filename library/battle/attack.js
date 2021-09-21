@@ -16,16 +16,13 @@ export function AttackEnemy(
   reset,
   setEnemyAttacks
 ) {
-  attack = AttackData[[attack]];
+  attack = AttackData[[attack]]();
+  console.log(attack);
 
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
   const enemy = newEnemies.find(({ id }) => id === target);
   const enemyIndex = newEnemies.findIndex(({ id }) => id === target);
-  if (newCharacter.mana === newCharacter.maxMana) {
-    AttackHelpers.reduceEnemiesEffectDurations(enemies);
-    AttackHelpers.reduceCharacterEffectDurations(newCharacter);
-  }
 
   AttackHelpers.Attack(newCharacter, attack, enemy, reset);
   newEnemies[enemyIndex] = enemy;
@@ -37,6 +34,8 @@ export function AttackEnemy(
   if (newEnemies.length === 0) {
     newEnemies = nextFloor();
   } else if (character.mana === 1) {
+    setEnemyAttacks([]);
+    updateEnemies(newEnemies);
     AttackPlayer(newCharacter, newEnemies, setEnemyAttacks);
   }
   updateCharacter(newCharacter);
@@ -63,6 +62,8 @@ function AttackPlayer(character, enemies, setEnemyAttacks) {
   setEnemyAttacks([]);
   var enemyAttacks = [];
   character.refreshMana();
+  AttackHelpers.reduceEnemiesEffectDurations(enemies);
+  AttackHelpers.reduceCharacterEffectDurations(character);
 
   var heap = new Heap(function (a, b) {
     return b.priority - a.priority;
@@ -103,10 +104,8 @@ export function AttackPlayerFromStun(
 ) {
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
-  AttackHelpers.reduceEnemiesEffectDurations(enemies);
+  AttackHelpers.reduceEnemiesEffectDurations(newEnemies);
   AttackHelpers.reduceCharacterEffectDurations(newCharacter);
-
-  setEnemyAttacks([]);
   var enemyAttacks = [];
   character.refreshMana();
 

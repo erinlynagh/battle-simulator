@@ -10,6 +10,7 @@ function uuidv4() {
 
 export class Attack {
   constructor(name, power, effect, castsRemaining = 2) {
+    this.id = uuidv4();
     this.name = name;
     this.power = power;
     this.effect = effect;
@@ -58,9 +59,9 @@ export class Character {
     emojiName,
     effects = [],
     mana,
-    maxMana
+    maxMana,
+    id = uuidv4()
   ) {
-    this.id = uuidv4();
     this.effects = effects;
     this.name = name;
     this.health = health;
@@ -70,25 +71,13 @@ export class Character {
     this.emoji = emoji.getUnicode(emojiName);
     this.mana = mana;
     this.maxMana = maxMana;
+    this.id = id;
   }
   hasEffect(effect) {
     return this.effects.findIndex(({ name }) => name === effect) > -1;
   }
-  getEffectIndex(effect) {
-    return this.effects.findIndex(({ name }) => name === effect);
-  }
-
-  getAttackIndex(attack) {
-    return this.attacks.findIndex(({ name }) => name === attack);
-  }
   refreshMana() {
     this.mana = this.maxMana;
-  }
-}
-
-export class Enemy extends Character {
-  constructor(name, health, attacks, emojiName) {
-    super(name, health, health, attacks, emojiName);
   }
 }
 
