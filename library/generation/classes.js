@@ -17,17 +17,14 @@ export class Attack {
     this.attackMessage = this.setAttackMessage();
   }
   getTooltip() {
-    let tooltipString = "";
-    if (((this.effect.description === "") == this.effect.duration) < 2) {
-      tooltipString += `Deals ${this.power} damage`;
-    }
+    let tooltipString = `Deals ${this.power} damage`;
     if (this.effect.duration === 1) {
       tooltipString +=
         `, and then ` +
         this.effect.description
           .replace("BLANK", this.effect.duration)
           .replace("turns", "turn");
-    } else if (this.effect.duration > 2) {
+    } else if (this.effect.duration > 1) {
       tooltipString +=
         `, and then ` +
         this.effect.description.replace("BLANK", this.effect.duration);
@@ -50,16 +47,8 @@ export class EnemyAttack extends Attack {
     this.chance = chance;
     this.priority = priority;
   }
-  setAttackMessage(damage = this.power) {
-    var string = `${this.name} hits for ${damage} damage`;
-    if (this.effect.name !== "None") {
-      string += `. It applies a ${this.effect.name}`;
-    }
-    this.attackMessage = string;
-  }
 }
 
-const manaDefault = 3;
 export class Character {
   constructor(
     name,
@@ -68,8 +57,8 @@ export class Character {
     attacks,
     emojiName,
     effects = [],
-    mana = manaDefault,
-    maxMana = manaDefault
+    mana,
+    maxMana
   ) {
     this.id = uuidv4();
     this.effects = effects;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AttackEnemy, AttackPlayer } from "../../library/battle/attack";
+import { AttackEnemy, AttackPlayerFromStun } from "../../library/battle/attack";
 import dynamic from "next/dynamic";
 const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
@@ -98,6 +98,7 @@ function TerminalInput(props) {
           flexDirection: "row",
           justifyContent: "space-evenly",
           flexWrap: "wrap",
+          textAlign: "center",
         }}
       >
         <button
@@ -108,17 +109,23 @@ function TerminalInput(props) {
             borderColor: "#C50F1F",
           }}
           onClick={() =>
-            AttackPlayer(character, updateCharacter, enemies, setEnemyAttacks)
+            AttackPlayerFromStun(
+              character,
+              enemies,
+              setEnemyAttacks,
+              updateCharacter,
+              updateEnemies
+            )
           }
         >
-          You are stunned
+          You are Stunned
         </button>
       </div>
     );
   } else {
     return (
       <>
-        <form onSubmit={handleSubmit} style={{ marginTop: "2vh" }}>
+        <form onSubmit={handleSubmit}>
           <div
             style={{
               display: "flex",
@@ -129,7 +136,6 @@ function TerminalInput(props) {
           >
             <div
               style={{
-                marginTop: "1.33em",
                 display: "flex",
                 justifyContent: "space-evenly",
                 flexDirection: "row",

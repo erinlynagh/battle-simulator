@@ -1,5 +1,4 @@
 import { Character } from "../generation/classes";
-
 export function makeNewCharacter(character) {
   return new Character(
     character.name,
@@ -14,8 +13,5 @@ export function makeNewCharacter(character) {
 }
 
 export function makeNewEnemies(enemies, target) {
-  let newEnemies = enemies.slice();
-  const enemy = newEnemies.find(({ id }) => id === target);
-  const enemyIndex = newEnemies.findIndex(({ id }) => id === target);
-  return { enemy, newEnemies, enemyIndex };
+  return enemies.slice();
 }

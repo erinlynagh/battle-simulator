@@ -22,8 +22,8 @@ function TerminalOutput(props) {
   return (
     <div id="terminal-output" style={{ height: "100%" }}>
       <RenderEnemies enemies={enemies} />
-      <RenderCharacter character={character} />
       <RenderMoveLog enemyAttacks={enemyAttacks} enemies={enemies} />
+      <RenderCharacter character={character} />
       <div
         style={{
           flex: "1",

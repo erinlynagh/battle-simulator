@@ -15,10 +15,18 @@ export const Teleport = new Attack("Teleport", 0, Effects.Teleport, 1);
 
 // enemy attacks
 export const Scratch = new EnemyAttack("Scratch", 2, Effects.None, 1, -1);
+export const Gouge = new EnemyAttack("Gouge", 4, Effects.None, 1, -1);
 export const OrgeSlam = new EnemyAttack(
   "Orge Slam",
   4,
   Effects.Stun(1),
   0.25,
   1
+);
+export const HowlingBite = new EnemyAttack(
+  "Howling Bite",
+  6,
+  Effects.Furious(2),
+  0.5,
+  0
 );

@@ -1,16 +1,23 @@
 import { Effect } from "../generation/classes";
+import { AppliesToAttacker } from "../generation/effectMaker";
 import * as StateHelpers from "../generation/createNewStateObjects";
 
 // character attacks adversary with attack
-export function Attack(attacker, attack, defender) {
-  applyAttackEffect(defender, attack);
+export function Attack(attacker, attack, defender, reset = false) {
+  applyAttackEffect(attack.effect, defender, attacker);
   defender.health -= calculateAttackDamage(attack, defender, attacker);
+  if (reset) {
+    castSpell(attacker, attack, reset);
+  }
 }
 
 function calculateAttackDamage(attack, defender, attacker) {
   let damage = attack.power;
   if (attacker.hasEffect("Wither")) {
     damage = 0.75 * damage;
+  }
+  if (attacker.hasEffect("Furious")) {
+    damage = (4 / 3) * damage;
   }
   if (defender.hasEffect("Vulnerable")) {
     damage = (4 / 3) * damage;
@@ -20,30 +27,37 @@ function calculateAttackDamage(attack, defender, attacker) {
   return damage;
 }
 
-function applyAttackEffect(character, attack) {
-  const effectIndex = character.getEffectIndex(attack.effect.name);
+function applyAttackEffect(effect, defender, attacker) {
+  let recipient = defender;
+  if (AppliesToAttacker(effect)) {
+    recipient = attacker;
+  }
+  applyAffect(recipient, effect);
+}
+
+function applyAffect(defender, effect) {
+  const effectIndex = defender.getEffectIndex(effect.name);
   if (effectIndex === -1) {
-    character.effects.push(
-      new Effect(
-        attack.effect.name,
-        attack.effect.duration,
-        attack.effect.description
-      )
+    defender.effects.push(
+      new Effect(effect.name, effect.duration, effect.description)
     );
   } else {
-    character.effects[effectIndex].duration += attack.effect.duration;
+    defender.effects[effectIndex].duration += effect.duration;
   }
 }
 
-export function castSpell(newCharacter, character, attack, reset) {
-  var newCharacter = StateHelpers.makeNewCharacter(character);
-  var currentAttackIndex = newCharacter.getAttackIndex(attack.name);
-  newCharacter.attacks[currentAttackIndex].casts -= 1;
-  if (newCharacter.attacks[currentAttackIndex].casts === 0) {
-    newCharacter.attacks.splice(currentAttackIndex, 1);
+function castSpell(character, attack, reset, updateCharacter) {
+  var currentAttackIndex = character.getAttackIndex(attack.name);
+  character.attacks[currentAttackIndex].casts -= 1;
+  if (character.attacks[currentAttackIndex].casts === 0) {
+    character.attacks.splice(currentAttackIndex, 1);
     reset();
   }
-  return newCharacter;
+  if (character.mana <= 1) {
+    character.refreshMana();
+  } else {
+    character.mana -= 1;
+  }
 }
 
 export function reduceEnemiesEffectDurations(newEnemies) {

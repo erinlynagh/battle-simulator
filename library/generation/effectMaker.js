@@ -29,3 +29,14 @@ export function Vulnerable(duration) {
     `target ${description} for BLANK turns`
   );
 }
+
+export function Furious(duration) {
+  const description = "deals additional damage";
+  return new Effect("Furious", duration, ` ${description} for BLANK turns`);
+}
+
+export function AppliesToAttacker(effect) {
+  if (effect.name === "Furious") {
+    return true;
+  }
+}

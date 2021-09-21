@@ -2,14 +2,18 @@ import { Enemy } from "./classes";
 import * as Attacks from "./attackMaker";
 
 export function makeBat() {
-  return new Enemy("Bat", 7, [Attacks.Scratch, Attacks.OrgeSlam], "bat");
+  return new Enemy("Bat", 7, [Attacks.Scratch], "bat");
 }
 
-export function makeOrge() {
+export function makeOgre() {
   return new Enemy(
-    "Orge",
+    "Ogre",
     25,
-    [Attacks.Scratch, Attacks.OrgeSlam],
+    [Attacks.Gouge, Attacks.OrgeSlam],
     "japanese_ogre"
   );
+}
+
+export function makeWolf() {
+  return new Enemy("Wolf", 25, [Attacks.Gouge, Attacks.HowlingBite], "wolf");
 }
