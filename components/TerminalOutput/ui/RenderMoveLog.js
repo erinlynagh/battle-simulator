@@ -9,8 +9,10 @@ function RenderMoveLog({ enemyAttacks, enemies }) {
   return (
     <div id="enemy-moves">
       {enemyAttacks.map((attack, index) => {
+        console.log(index);
+        console.log(enemies[index]);
         return (
-          <React.Fragment key="index">
+          <React.Fragment key={index}>
             <span
               data-tip={attack.effect.getTooltip()}
               style={{ display: "block" }}

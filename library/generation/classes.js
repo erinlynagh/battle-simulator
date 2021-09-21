@@ -21,11 +21,11 @@ export class Attack {
     if (((this.effect.description === "") == this.effect.duration) < 2) {
       tooltipString += `Deals ${this.power} damage`;
     }
-    if (this.effect.duration === 2) {
+    if (this.effect.duration === 1) {
       tooltipString +=
         `, and then ` +
         this.effect.description
-          .replace("BLANK", this.effect.duration - 1)
+          .replace("BLANK", this.effect.duration)
           .replace("turns", "turn");
     } else if (this.effect.duration > 2) {
       tooltipString +=

@@ -112,12 +112,12 @@ export function AttackEnemy(
   reset,
   setEnemyAttacks
 ) {
+  setEnemyAttacks([]);
   attack = AttackData[[attack]];
 
   var { enemy, newEnemies, enemyIndex } = makeNewEnemies(enemies, target);
 
   applyAttackEffect(enemy, attack);
-  reduceEffectDurations(enemies, newEnemies);
   enemy.health -= getAttackDamage(attack, enemy, character);
 
   if (enemy.health <= 0) {
@@ -142,6 +142,7 @@ export function AttackEnemy(
     newCharacter.refreshMana();
     updateCharacter(newCharacter);
     attackPlayer(character, updateCharacter, enemies, setEnemyAttacks);
+    reduceEffectDurations(enemies, newEnemies);
   } else {
     var newCharacter = castSpell(newCharacter, character, attack, reset);
     newCharacter.mana -= 1;
@@ -151,38 +152,36 @@ export function AttackEnemy(
 }
 
 function attackPlayer(character, updateCharacter, enemies, setEnemyAttacks) {
+  var enemyAttacks = [];
   var newCharacter = makeNewCharacter(character);
   newCharacter.refreshMana();
   var heap = new Heap(function (a, b) {
     return b.priority - a.priority;
   });
   enemies.forEach(function (enemy) {
+    var attacked = false;
+    console.log(enemy);
     if (enemy.health <= 0 || enemy.hasEffect("Stun")) {
       return;
     } else {
       enemy.attacks.forEach(function (attack) {
-        attack.enemy = enemy;
         heap.push(attack);
       });
+      while (heap.nodes.length > 0) {
+        let attack = heap.pop();
+        if (!attacked && Math.random() <= attack.chance) {
+          attacked = true;
+          enemyAttacks.push(attack);
+          applyAttackEffect(character, attack);
+          newCharacter.health -= getAttackDamage(attack, character, enemy);
+          setEnemyAttacks(enemyAttacks);
+        }
+        if (newCharacter.health <= 0) {
+          alert("you lose");
+          window.location.reload();
+        }
+      }
     }
   });
-
-  var attacked = false;
-  var enemyAttacks = [];
-  while (heap.nodes.length > 0) {
-    let attack = heap.pop();
-    if (!attacked && Math.random() <= attack.chance) {
-      attacked = true;
-      enemyAttacks.push(attack);
-      applyAttackEffect(character, attack);
-      newCharacter.health -= getAttackDamage(attack, character, attack.enemy);
-    }
-    if (newCharacter.health <= 0) {
-      alert("you lose");
-      window.location.reload();
-    }
-    console.log(enemyAttacks);
-    setEnemyAttacks(enemyAttacks);
-    updateCharacter(newCharacter);
-  }
+  updateCharacter(newCharacter);
 }
