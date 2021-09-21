@@ -17,7 +17,6 @@ export function AttackEnemy(
   setEnemyAttacks
 ) {
   attack = AttackData[[attack]]();
-  console.log(attack);
 
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
@@ -70,7 +69,6 @@ function AttackPlayer(character, enemies, setEnemyAttacks) {
   });
 
   enemies.forEach(function (enemy) {
-    console.log(enemy);
     var attacked = false;
     if (enemy.health <= 0 || enemy.hasEffect("Stun")) {
       return;
@@ -114,7 +112,6 @@ export function AttackPlayerFromStun(
   });
 
   newEnemies.forEach(function (enemy) {
-    console.log(enemy);
     var attacked = false;
     if (enemy.health <= 0 || enemy.hasEffect("Stun")) {
       return;

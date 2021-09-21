@@ -12,7 +12,6 @@ export function Attack(attacker, attack, defender, reset = false) {
 }
 
 function calculateAttackDamage(attack, defender, attacker) {
-  console.log(attack);
   let damage = attack.power;
   if (attacker.hasEffect("Wither")) {
     damage = 0.75 * damage;
@@ -30,8 +29,6 @@ function calculateAttackDamage(attack, defender, attacker) {
 
 function applyAttackEffect(effect, defender, attacker) {
   let recipient = defender;
-  console.log(defender);
-  console.log(effect);
   if (AppliesToAttacker(effect)) {
     recipient = attacker;
   }
@@ -39,7 +36,6 @@ function applyAttackEffect(effect, defender, attacker) {
 }
 
 function applyAffect(character, effect) {
-  console.log(character);
   const effectIndex = getEffectIndex(character, effect.name);
   if (effectIndex === -1) {
     character.effects.push(

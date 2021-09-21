@@ -13,8 +13,6 @@ function RenderMoveLog({ enemyAttacks, enemies }) {
   return (
     <div id="enemy-moves" style={style}>
       {enemyAttacks.map((attack, index) => {
-        console.log(index);
-        console.log(enemies[index]);
         return (
           <React.Fragment key={index}>
             <span
