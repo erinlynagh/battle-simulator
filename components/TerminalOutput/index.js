@@ -27,8 +27,6 @@ function TerminalOutput(props) {
       <div
         style={{
           flex: "1",
-          backgroundColor: "#012456",
-          color: "#A2A9B4",
           height: "100%",
         }}
       >

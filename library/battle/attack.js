@@ -1,79 +1,7 @@
 import * as AttackData from "../generation/attackMaker";
-import * as battleSpells from "../battle/getTwoRandomSpells";
-import { Effect, Character } from "../generation/classes";
 import Heap from "heap";
-
-function makeNewCharacter(character) {
-  return new Character(
-    character.name,
-    character.health,
-    character.maxHealth,
-    character.attacks,
-    character.emojiName,
-    character.effects,
-    character.mana,
-    character.maxMana
-  );
-}
-
-function makeNewEnemies(enemies, target) {
-  let newEnemies = enemies.slice();
-  const enemy = newEnemies.find(({ id }) => id === target);
-  const enemyIndex = newEnemies.findIndex(({ id }) => id === target);
-  return { enemy, newEnemies, enemyIndex };
-}
-
-function castSpell(newCharacter, character, attack, reset) {
-  var newCharacter = makeNewCharacter(character);
-  var currentAttackIndex = newCharacter.getAttackIndex(attack.name);
-  newCharacter.attacks[currentAttackIndex].casts -= 1;
-  if (newCharacter.attacks[currentAttackIndex].casts === 0) {
-    newCharacter.attacks.splice(currentAttackIndex, 1);
-    reset();
-  }
-  return newCharacter;
-}
-
-function applyAttackEffect(character, attack) {
-  const effectIndex = character.getEffectIndex(attack.effect.name);
-  if (effectIndex === -1) {
-    character.effects.push(
-      new Effect(
-        attack.effect.name,
-        attack.effect.duration,
-        attack.effect.description
-      )
-    );
-  } else {
-    character.effects[effectIndex].duration += attack.effect.duration - 1;
-  }
-}
-
-function reduceEffectDurations(enemies, newEnemies) {
-  enemies.forEach(function (enemy, enemyIndex) {
-    enemy.effects.forEach(function (effect, effectIndex) {
-      if (effect.duration > 1) {
-        newEnemies[enemyIndex].effects[effectIndex].duration -= 1;
-      } else {
-        newEnemies[enemyIndex].effects.splice(effectIndex, 1);
-      }
-    });
-  });
-}
-
-function getAttackDamage(attack, character, adversary) {
-  let damage = attack.power;
-  if (adversary.hasEffect("Wither")) {
-    damage = 0.75 * damage;
-  }
-  if (character.hasEffect("Vulnerable")) {
-    damage = (4 / 3) * damage;
-  }
-  damage = Math.floor(damage);
-  attack.setAttackMessage(damage);
-  return damage;
-}
-
+import * as AttackHelpers from "./attackHelpers";
+import * as StateHelpers from "../generation/createNewStateObjects";
 function nextFloor(
   floor,
   allEnemies,
@@ -85,10 +13,9 @@ function nextFloor(
 ) {
   floor = floor + 1;
   if (floor >= allEnemies.length) {
-    alert("you win!");
-    window.location.reload();
+    reset();
   } else {
-    var newCharacter = makeNewCharacter(character);
+    var newCharacter = StateHelpers.makeNewCharacter(character);
     newCharacter.mana = newCharacter.maxMana;
     updateCharacter(newCharacter);
     alert("battle won, to the next one!");
@@ -115,11 +42,13 @@ export function AttackEnemy(
   setEnemyAttacks([]);
   attack = AttackData[[attack]];
 
-  var { enemy, newEnemies, enemyIndex } = makeNewEnemies(enemies, target);
+  var { enemy, newEnemies, enemyIndex } = StateHelpers.makeNewEnemies(
+    enemies,
+    target
+  );
 
-  applyAttackEffect(enemy, attack);
-  enemy.health -= getAttackDamage(attack, enemy, character);
-
+  AttackHelpers.applyAttackEffect(enemy, attack);
+  enemy.health -= AttackHelpers.getAttackDamage(attack, enemy, character);
   if (enemy.health <= 0) {
     newEnemies.splice(enemyIndex, 1);
     reset();
@@ -138,29 +67,45 @@ export function AttackEnemy(
       newEnemies
     );
   } else if (character.mana === 1) {
-    var newCharacter = castSpell(newCharacter, character, attack, reset);
+    var newCharacter = AttackHelpers.castSpell(
+      newCharacter,
+      character,
+      attack,
+      reset
+    );
     newCharacter.refreshMana();
     updateCharacter(newCharacter);
-    attackPlayer(character, updateCharacter, enemies, setEnemyAttacks);
-    reduceEffectDurations(enemies, newEnemies);
+    updateEnemies(newEnemies);
+    AttackPlayer(character, updateCharacter, newEnemies, setEnemyAttacks);
   } else {
-    var newCharacter = castSpell(newCharacter, character, attack, reset);
+    var newCharacter = AttackHelpers.castSpell(
+      newCharacter,
+      character,
+      attack,
+      reset
+    );
     newCharacter.mana -= 1;
     updateCharacter(newCharacter);
   }
   updateEnemies(newEnemies);
 }
 
-function attackPlayer(character, updateCharacter, enemies, setEnemyAttacks) {
+export function AttackPlayer(
+  character,
+  updateCharacter,
+  enemies,
+  setEnemyAttacks
+) {
   var enemyAttacks = [];
-  var newCharacter = makeNewCharacter(character);
+  var newCharacter = StateHelpers.makeNewCharacter(character);
+  AttackHelpers.reduceCharacterEffectDurations(newCharacter);
   newCharacter.refreshMana();
   var heap = new Heap(function (a, b) {
     return b.priority - a.priority;
   });
   enemies.forEach(function (enemy) {
-    var attacked = false;
     console.log(enemy);
+    var attacked = false;
     if (enemy.health <= 0 || enemy.hasEffect("Stun")) {
       return;
     } else {
@@ -172,8 +117,12 @@ function attackPlayer(character, updateCharacter, enemies, setEnemyAttacks) {
         if (!attacked && Math.random() <= attack.chance) {
           attacked = true;
           enemyAttacks.push(attack);
-          applyAttackEffect(character, attack);
-          newCharacter.health -= getAttackDamage(attack, character, enemy);
+          AttackHelpers.applyAttackEffect(newCharacter, attack);
+          newCharacter.health -= AttackHelpers.getAttackDamage(
+            attack,
+            character,
+            enemy
+          );
           setEnemyAttacks(enemyAttacks);
         }
         if (newCharacter.health <= 0) {
@@ -183,5 +132,6 @@ function attackPlayer(character, updateCharacter, enemies, setEnemyAttacks) {
       }
     }
   });
+  AttackHelpers.reduceEnemiesEffectDurations(enemies);
   updateCharacter(newCharacter);
 }

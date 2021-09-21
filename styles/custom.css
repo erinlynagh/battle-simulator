@@ -8,10 +8,6 @@
   font-style: normal;
 }
 
-.selected {
-  color: red;
-}
-
 .btn {
   border-radius: 4px;
   background-color: #0164ee;
@@ -24,6 +20,21 @@
 
 .btn.selected {
   background-color: #f0f0f0;
-  border-color: #a3a3a3;
   color: #0164ee;
+  border-color: #a4a4a4;
+  -webkit-box-shadow: inset 0px 0px 5px #f0f0f0;
+  -moz-box-shadow: inset 0px 0px 5px #f0f0f0;
+  box-shadow: inset 0px 0px 5px #f0f0f0;
+}
+
+.btn:hover {
+  background-color: #f0f0f0;
+  color: #0164ee;
+  border-color: #a4a4a4;
+}
+
+.btn.btn-submit:hover {
+  background-color: #f0f0f0 !important;
+  color: #c50f1f;
+  border-color: #a4a4a4;
 }

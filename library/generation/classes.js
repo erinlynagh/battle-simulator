@@ -59,6 +59,7 @@ export class EnemyAttack extends Attack {
   }
 }
 
+const manaDefault = 3;
 export class Character {
   constructor(
     name,
@@ -67,8 +68,8 @@ export class Character {
     attacks,
     emojiName,
     effects = [],
-    mana = 2,
-    maxMana = 2
+    mana = manaDefault,
+    maxMana = manaDefault
   ) {
     this.id = uuidv4();
     this.effects = effects;
@@ -89,7 +90,6 @@ export class Character {
   }
 
   getAttackIndex(attack) {
-    console.log(attack);
     return this.attacks.findIndex(({ name }) => name === attack);
   }
   refreshMana() {

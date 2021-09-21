@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AttackEnemy } from "../../library/battle/attack";
+import { AttackEnemy, AttackPlayer } from "../../library/battle/attack";
 import dynamic from "next/dynamic";
 const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
@@ -90,135 +90,158 @@ function TerminalInput(props) {
     setShowSubmit(true);
   }
 
-  return (
-    <>
-      <form onSubmit={handleSubmit} style={{ marginTop: "2vh" }}>
-        <div
+  if (character.hasEffect("Stun")) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          flexWrap: "wrap",
+        }}
+      >
+        <button
+          className="btn btn-submit"
           style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            flexWrap: "wrap",
+            marginTop: "1.33em",
+            backgroundColor: "#C50F1F",
+            borderColor: "#C50F1F",
           }}
+          onClick={() =>
+            AttackPlayer(character, updateCharacter, enemies, setEnemyAttacks)
+          }
         >
+          You are stunned
+        </button>
+      </div>
+    );
+  } else {
+    return (
+      <>
+        <form onSubmit={handleSubmit} style={{ marginTop: "2vh" }}>
           <div
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              width: "100%",
-            }}
-          >
-            <h4>Select an Option</h4>
-          </div>
-          <div
-            style={{
-              display: "flex",
               justifyContent: "space-evenly",
-              flexDirection: "row",
               flexWrap: "wrap",
-              width: "100%",
             }}
           >
-            <button
-              type="button"
-              className={showAttacks ? "btn form-btn selected" : "btn form-btn"}
-              style={{ marginBottom: "1.33em" }}
-              value="attack"
-              onClick={handleButtonClick}
+            <div
+              style={{
+                marginTop: "1.33em",
+                display: "flex",
+                justifyContent: "space-evenly",
+                flexDirection: "row",
+                flexWrap: "wrap",
+                width: "100%",
+              }}
             >
-              Show Attacks
-            </button>
-            <button
-              type="button"
-              className={showItems ? "btn form-btn selected" : "btn form-btn"}
-              style={{ marginBottom: "1.33em" }}
-              value="item"
-              onClick={handleButtonClick}
-            >
-              Show Items
-            </button>
-            {showAttacks && (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-evenly",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  width: "100%",
-                }}
+              <button
+                type="button"
+                className={
+                  showAttacks ? "btn form-btn selected" : "btn form-btn"
+                }
+                style={{ marginBottom: "1.33em" }}
+                value="attack"
+                onClick={handleButtonClick}
               >
-                {character.attacks.map((attack, index) => {
-                  return (
-                    <span data-tip={attack.getTooltip()} key={index}>
-                      <button
-                        type="button"
-                        className={
-                          selectedAttackId === index
-                            ? "btn form-btn selected"
-                            : "btn form-btn"
-                        }
-                        style={{ marginBottom: "1.33em" }}
-                        value={index}
-                        name={attack.name}
-                        onClick={handleAttackButtonClick}
-                      >
-                        {attack.name} ({attack.casts} casts remain)
-                        <ReactTooltip />
-                      </button>
-                    </span>
-                  );
-                })}
-              </div>
-            )}
-            {showTargets && (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-evenly",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  width: "100%",
-                }}
+                Show Attacks
+              </button>
+              <button
+                type="button"
+                className={showItems ? "btn form-btn selected" : "btn form-btn"}
+                style={{ marginBottom: "1.33em" }}
+                value="item"
+                onClick={handleButtonClick}
               >
-                {Array.isArray(enemies) &&
-                  enemies.map((enemy, index) => {
+                Show Items
+              </button>
+              {showAttacks && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    width: "100%",
+                  }}
+                >
+                  {character.attacks.map((attack, index) => {
                     return (
-                      <button
-                        type="button"
-                        className={
-                          selectedTargetId === index
-                            ? "btn form-btn selected"
-                            : "btn form-btn"
-                        }
-                        style={{ marginBottom: "1.33em" }}
-                        value={index}
-                        name={enemy.id}
-                        key={index}
-                        onClick={handleTargetButtonClick}
-                      >
-                        {enemy.name}
-                      </button>
+                      <span data-tip={attack.getTooltip()} key={index}>
+                        <button
+                          type="button"
+                          className={
+                            selectedAttackId === index
+                              ? "btn form-btn selected"
+                              : "btn form-btn"
+                          }
+                          style={{ marginBottom: "1.33em" }}
+                          value={index}
+                          name={attack.name}
+                          onClick={handleAttackButtonClick}
+                        >
+                          {attack.name} ({attack.casts} casts remain)
+                          <ReactTooltip />
+                        </button>
+                      </span>
                     );
                   })}
-              </div>
-            )}
-            {showSubmit && (
-              <button
-                type="submit"
-                className="btn form-btn"
-                style={{ marginBottom: "1.33em", backgroundColor: "#C50F1F" }}
-                onClick={handleSubmit}
-              >
-                {showAttacks ? "Attack" : "Use Item"}
-              </button>
-            )}
+                </div>
+              )}
+              {showTargets && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    width: "100%",
+                  }}
+                >
+                  {Array.isArray(enemies) &&
+                    enemies.map((enemy, index) => {
+                      return (
+                        <button
+                          type="button"
+                          className={
+                            selectedTargetId === index
+                              ? "btn form-btn selected"
+                              : "btn form-btn"
+                          }
+                          style={{ marginBottom: "1.33em" }}
+                          value={index}
+                          name={enemy.id}
+                          key={index}
+                          onClick={handleTargetButtonClick}
+                        >
+                          {enemy.name}
+                        </button>
+                      );
+                    })}
+                </div>
+              )}
+              {showSubmit && (
+                <button
+                  type="submit"
+                  className="btn form-btn btn-submit"
+                  style={{
+                    marginBottom: "1.33em",
+                    backgroundColor: "#C50F1F",
+                    borderColor: "#C50F1F",
+                  }}
+                  onClick={handleSubmit}
+                >
+                  {showAttacks ? "Attack" : "Use Item"}
+                </button>
+              )}
+            </div>
           </div>
-        </div>
-      </form>
-    </>
-  );
+        </form>
+      </>
+    );
+  }
 }
 
 export default TerminalInput;

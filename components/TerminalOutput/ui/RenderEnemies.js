@@ -75,13 +75,22 @@ export default function RenderEnemies({ enemies }) {
           justifyContent: "space-around",
         }}
       >
-        {enemies.map((enemy, index) => {
-          return (
-            <React.Fragment key={index}>
-              <RenderEnemy enemy={enemy} />
-            </React.Fragment>
-          );
-        })}
+        {Array.isArray(enemies) ? (
+          enemies.map((enemy, index) => {
+            return (
+              <React.Fragment key={index}>
+                <RenderEnemy enemy={enemy} />
+              </React.Fragment>
+            );
+          })
+        ) : (
+          <div>
+            <h1>You Win!</h1>
+            <button className="btn" onClick={() => window.location.reload()}>
+              Reload
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
