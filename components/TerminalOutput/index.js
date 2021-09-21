@@ -15,6 +15,7 @@ function TerminalOutput(props) {
     updateFloor,
     enemyAttacks,
     setEnemyAttacks,
+    handleAttackModal,
   } = props;
 
   const welcomeMessage = `❯ ${character.name}, Welcome to the Dungeon`;
@@ -40,6 +41,7 @@ function TerminalOutput(props) {
           updateFloor={updateFloor}
           enemyAttacks={enemyAttacks}
           setEnemyAttacks={setEnemyAttacks}
+          handleAttackModal={handleAttackModal}
         />
       </div>
     </div>

@@ -14,7 +14,8 @@ export function AttackEnemy(
   floor,
   updateFloor,
   reset,
-  setEnemyAttacks
+  setEnemyAttacks,
+  handleAttackModal
 ) {
   attack = AttackData[[attack]]();
 
@@ -28,6 +29,7 @@ export function AttackEnemy(
 
   if (enemy.health <= 0) {
     newEnemies.splice(enemyIndex, 1);
+    handleAttackModal();
     reset();
   }
   if (newEnemies.length === 0) {

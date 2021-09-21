@@ -16,6 +16,7 @@ function TerminalInput(props) {
     updateFloor,
     enemyAttacks,
     setEnemyAttacks,
+    handleAttackModal,
   } = props;
   // for rendering
   const [showAttacks, setShowAttacks] = useState(false);
@@ -40,7 +41,8 @@ function TerminalInput(props) {
       floor,
       updateFloor,
       reset,
-      setEnemyAttacks
+      setEnemyAttacks,
+      handleAttackModal
     );
     event.preventDefault();
   }
