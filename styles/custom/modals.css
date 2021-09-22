@@ -14,3 +14,18 @@
 .container {
   padding: 2px 16px;
 }
+
+@media (min-width: 992px) {
+  .cards-container {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    text-align: "center";
+  }
+}
+
+@media (max-width: 992px) {
+  .cards-container {
+    display: flex;
+    flex-direction: column;
+    text-align: "center";
+  }
+}
