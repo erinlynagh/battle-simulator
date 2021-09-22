@@ -1,11 +1,6 @@
 import { Effect } from "./classes";
 
 export const None = new Effect("None", 0, "");
-export const Teleport = new Effect(
-  "Teleport",
-  0,
-  "target is moved to the next floor"
-);
 
 export function Stun(duration) {
   const description = "cannot act";
@@ -32,11 +27,16 @@ export function Vulnerable(duration) {
 
 export function Furious(duration) {
   const description = "deals additional damage";
-  return new Effect("Furious", duration, ` ${description} for BLANK turns`);
+  return new Effect("Furious", duration, `${description} for BLANK turns`);
+}
+
+export function Reflect(duration) {
+  const description = "incoming damage is dealt back to attacker";
+  return new Effect("Reflect", duration, `${description} for BLANK turns`);
 }
 
 export function AppliesToAttacker(effect) {
-  if (effect.name === "Furious") {
+  if (effect.name === "Furious" || effect.name === "Reflect") {
     return true;
   }
 }

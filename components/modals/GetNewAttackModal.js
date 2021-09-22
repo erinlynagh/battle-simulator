@@ -31,7 +31,6 @@ export default function GetNewAttackModal({
       let newAttack = AttacksArray[random.int(0, endIndex)];
       if (getAttackIndex(randAttacks, newAttack) === -1) {
         newAttack = Attacks[[newAttack]]();
-        console.log(newAttack);
         randAttacks.push(makeNewAttack(newAttack));
       }
     }
@@ -134,6 +133,9 @@ export default function GetNewAttackModal({
             })}
         </div>
         <div style={{ display: "flex", alignItems: "end", marginTop: "2vh" }}>
+          <button className="btn" onClick={() => getThreeRandomAttacks()}>
+            ReRoll
+          </button>
           <button className="btn" onClick={() => handleClick()}>
             Skip
           </button>

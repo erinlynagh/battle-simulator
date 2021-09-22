@@ -18,24 +18,37 @@ export class Attack {
     this.id = uuidv4();
   }
   getTooltip() {
-    let tooltipString = `Deals ${this.power} damage`;
+    var tooltipString = "";
+    if (this.power > 0) {
+      tooltipString = `${this.name
+        .match(/[A-Z][a-z]+|[0-9]+/g)
+        .join(" ")} hits for ${this.power} damage`;
+    }
+    if (this.effect.name !== "None" && this.power > 0) {
+      tooltipString += ", ";
+    }
     if (this.effect.duration === 1) {
-      tooltipString +=
-        `, ` +
-        this.effect.description
-          .replace("BLANK", this.effect.duration)
-          .replace("turns", "turn");
+      tooltipString += this.effect.description
+        .replace("BLANK", this.effect.duration)
+        .replace("turns", "turn");
     } else if (this.effect.duration > 1) {
-      tooltipString +=
-        `, ` + this.effect.description.replace("BLANK", this.effect.duration);
+      tooltipString += this.effect.description.replace(
+        "BLANK",
+        this.effect.duration
+      );
     }
     return tooltipString;
   }
 
   setAttackMessage(damage = this.power) {
-    var string = `${this.name} hits for ${damage} damage`;
+    var string = "";
+    if (damage > 0) {
+      string = `${this.name
+        .match(/[A-Z][a-z]+|[0-9]+/g)
+        .join(" ")} hits for ${damage} damage. `;
+    }
     if (this.effect.name !== "None") {
-      string += `. It applies a ${this.effect.name}`;
+      string += `It applies a ${this.effect.name}`;
     }
     this.attackMessage = string;
   }

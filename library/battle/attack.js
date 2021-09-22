@@ -85,7 +85,11 @@ function AttackPlayer(character, enemies, setEnemyAttacks) {
         if (!attacked && Math.random() <= attack.chance) {
           attacked = true;
           enemyAttacks.push(attack);
-          AttackHelpers.Attack(enemy, attack, character);
+          if (character.hasEffect("Reflect")) {
+            AttackHelpers.Attack(enemy, attack, enemy);
+          } else {
+            AttackHelpers.Attack(enemy, attack, character);
+          }
           setEnemyAttacks(enemyAttacks);
         }
         if (character.health <= 0) {

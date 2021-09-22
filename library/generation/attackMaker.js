@@ -1,28 +1,54 @@
 import { Attack } from "./classes";
 import * as Effects from "./effectMaker";
+import { makeNewAttack } from "./createNewStateObjects";
 // player attacks
 
-export function Fireball() {
-  let attack = new Attack("Fireball", 10, Effects.None, 5);
+function newAttack(name, damage, effect, casts) {
+  let attack = new Attack(name, damage, effect, casts);
   return attack;
 }
+
+export function Fireball() {
+  const name = "Fireball";
+  const damage = 10;
+  const effect = Effects.None;
+  const casts = 5;
+  return newAttack(name, damage, effect, casts);
+}
+
 export function HyperBeam() {
-  let attack = new Attack("HyperBeam", 25, Effects.None, 1);
-  return attack;
+  const name = "HyperBeam";
+  const damage = 20;
+  const effect = Effects.None;
+  const casts = 1;
+  return newAttack(name, damage, effect, casts);
 }
 export function StaffSlam() {
-  let attack = new Attack("StaffSlam", 5, Effects.Vulnerable(3), 5);
-  return attack;
+  const name = "StaffSlam";
+  const damage = 5;
+  const effect = Effects.Vulnerable(3);
+  const casts = 5;
+  return newAttack(name, damage, effect, casts);
 }
 export function Stupefy() {
-  let attack = new Attack("Stupefy", 0, Effects.Stun(1), 2);
-  return attack;
+  const name = "Stupefy";
+  const damage = 0;
+  const effect = Effects.Stun(1);
+  const casts = 2;
+  return newAttack(name, damage, effect, casts);
 }
 export function Wither() {
-  let attack = new Attack("Wither", 1, Effects.Wither(3), 3);
-  return attack;
+  const name = "Wither";
+  const damage = 1;
+  const effect = Effects.Wither(3);
+  const casts = 3;
+  return newAttack(name, damage, effect, casts);
 }
-export function Teleport() {
-  let attack = new Attack("Teleport", 0, Effects.Teleport, 1);
-  return attack;
+
+export function ReflectiveCoating() {
+  const name = "ReflectiveCoating";
+  const damage = 0;
+  const effect = Effects.Reflect(1);
+  const casts = 1;
+  return newAttack(name, damage, effect, casts);
 }
