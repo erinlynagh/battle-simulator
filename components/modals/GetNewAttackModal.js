@@ -86,15 +86,7 @@ export default function GetNewAttackModal({
         <div style={{ display: "flex" }}>
           <p>Select a New Attack</p>
         </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-            gridAutoColumns: "auto",
-            gridAutoRows: "auto",
-            textAlign: "center",
-          }}
-        >
+        <div className="grid cards-container">
           {Array.isArray(randomAttacks) &&
             randomAttacks.map((attack, index) => {
               return (
