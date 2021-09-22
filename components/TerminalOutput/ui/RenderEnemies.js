@@ -61,10 +61,9 @@ function RenderAttacks(enemy) {
 }
 
 function RenderEnemy({ enemy }) {
-  console.log(enemy);
-  if (enemy.animate === "pulse") {
+  if (enemy.animate) {
     return (
-      <div className={css(styles.pulse)}>
+      <div className={css(styles[[enemy.animate]])}>
         <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
         <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
         {RenderHealth(enemy.health, enemy.maxHealth)}
@@ -73,27 +72,15 @@ function RenderEnemy({ enemy }) {
       </div>
     );
   }
-  if (enemy.animate === "shake") {
-    return (
-      <div className={css(styles.shake)}>
-        <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
-        <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
-        {RenderHealth(enemy.health, enemy.maxHealth)}
-        {RenderAttacks(enemy)}
-        {enemy.effects.length > 0 && RenderEffects(enemy)}
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
-        <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
-        {RenderHealth(enemy.health, enemy.maxHealth)}
-        {RenderAttacks(enemy)}
-        {enemy.effects.length > 0 && RenderEffects(enemy)}
-      </div>
-    );
-  }
+  return (
+    <div>
+      <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
+      <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
+      {RenderHealth(enemy.health, enemy.maxHealth)}
+      {RenderAttacks(enemy)}
+      {enemy.effects.length > 0 && RenderEffects(enemy)}
+    </div>
+  );
 }
 
 export default function RenderEnemies({ enemies }) {

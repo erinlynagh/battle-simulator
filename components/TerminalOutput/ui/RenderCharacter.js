@@ -30,6 +30,7 @@ export default function RenderCharacter({ character }) {
           paddingLeft: "1vw",
           paddingRight: "1vw",
           backgroundColor: "#8E3A56",
+          marginBottom: character.effects.length > 0 ? "1vh" : "0px",
         }}
       >
         {character.effects.length > 0 && RenderEffects(character)}
