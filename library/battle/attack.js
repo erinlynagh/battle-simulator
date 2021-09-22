@@ -17,7 +17,8 @@ export function AttackEnemy(
   setEnemyAttacks,
   handleAttackModal
 ) {
-  attack = AttackData[[attack]]();
+  console.log(attack);
+  attack = AttackData[[attack.replace(/\s/g, "")]]();
 
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
@@ -38,6 +39,9 @@ export function AttackEnemy(
     setEnemyAttacks([]);
     updateEnemies(newEnemies);
     AttackPlayer(newCharacter, newEnemies, setEnemyAttacks);
+    enemies.forEach(function (enemy) {
+      enemy.animateBackground = true;
+    });
   }
   updateCharacter(newCharacter);
   updateEnemies(newEnemies);
@@ -45,12 +49,13 @@ export function AttackEnemy(
   function nextFloor() {
     floor = floor + 1;
     if (floor >= allEnemies.length) {
+      alert("You win!");
+      window.location.reload();
       reset();
     } else {
       var newCharacter = StateHelpers.makeNewCharacter(character);
       newCharacter.mana = newCharacter.maxMana;
       updateCharacter(newCharacter);
-      alert("battle won, to the next one!");
       updateFloor(floor);
       reset();
     }
@@ -63,8 +68,6 @@ function AttackPlayer(character, enemies, setEnemyAttacks) {
   setEnemyAttacks([]);
   var enemyAttacks = [];
   character.refreshMana();
-  AttackHelpers.reduceEnemiesEffectDurations(enemies);
-  AttackHelpers.reduceCharacterEffectDurations(character);
 
   var heap = new Heap(function (a, b) {
     return b.priority - a.priority;
@@ -93,6 +96,8 @@ function AttackPlayer(character, enemies, setEnemyAttacks) {
       }
     }
   });
+  AttackHelpers.reduceCharacterEffectDurations(character);
+  AttackHelpers.reduceEnemiesEffectDurations(enemies);
 }
 
 export function AttackPlayerFromStun(

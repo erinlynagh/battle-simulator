@@ -1,0 +1,14 @@
+@keyframes attackBackground {
+  0% {
+    background-color: #0c0c0c;
+  }
+  25% {
+    background-color: #c50f1f;
+  }
+  50% {
+    background-color: #0c0c0c;
+  }
+  75% {
+    background-color: #c50f1f;
+  }
+}

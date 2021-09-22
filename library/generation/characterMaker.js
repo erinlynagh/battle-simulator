@@ -1,5 +1,6 @@
 import { Character } from "./classes";
 import * as Attacks from "./attackMaker";
+import * as EnemyAttacks from "./enemyAttackMaker";
 
 const defaultName = "Erin";
 const startingHealth = 20;
@@ -31,7 +32,7 @@ export function makeCharacter(
 export function makeBat() {
   const name = "Bat";
   const health = 7;
-  const attacks = [Attacks.Scratch()];
+  const attacks = [EnemyAttacks.Scratch()];
   const emojiName = "bat";
   return new Character(name, health, health, attacks, emojiName, [], 0, 0);
 }
@@ -39,7 +40,7 @@ export function makeBat() {
 export function makeOgre() {
   const name = "Ogre";
   const health = 25;
-  const attacks = [Attacks.Gouge(), Attacks.OgreSlam()];
+  const attacks = [EnemyAttacks.Gouge(), EnemyAttacks.OgreSlam()];
   const emojiName = "japanese_ogre";
   return new Character(name, health, health, attacks, emojiName, [], 0, 0);
 }
@@ -47,7 +48,7 @@ export function makeOgre() {
 export function makeWolf() {
   const name = "Wolf";
   const health = 15;
-  const attacks = [Attacks.Gouge(), Attacks.HowlingBite()];
+  const attacks = [EnemyAttacks.Gouge(), EnemyAttacks.HowlingBite()];
   const emojiName = "wolf";
   return new Character(name, health, health, attacks, emojiName, [], 0, 0);
 }

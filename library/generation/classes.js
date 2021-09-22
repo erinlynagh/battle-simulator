@@ -10,7 +10,6 @@ function uuidv4() {
 
 export class Attack {
   constructor(name, power, effect, castsRemaining = 2) {
-    this.id = uuidv4();
     this.name = name;
     this.power = power;
     this.effect = effect;
@@ -21,14 +20,13 @@ export class Attack {
     let tooltipString = `Deals ${this.power} damage`;
     if (this.effect.duration === 1) {
       tooltipString +=
-        `, and then ` +
+        `, ` +
         this.effect.description
           .replace("BLANK", this.effect.duration)
           .replace("turns", "turn");
     } else if (this.effect.duration > 1) {
       tooltipString +=
-        `, and then ` +
-        this.effect.description.replace("BLANK", this.effect.duration);
+        `, ` + this.effect.description.replace("BLANK", this.effect.duration);
     }
     return tooltipString;
   }
@@ -72,6 +70,7 @@ export class Character {
     this.mana = mana;
     this.maxMana = maxMana;
     this.id = id;
+    this.animateBackground = false;
   }
   hasEffect(effect) {
     return this.effects.findIndex(({ name }) => name === effect) > -1;

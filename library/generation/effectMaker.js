@@ -24,7 +24,7 @@ export function Wither(duration) {
 export function Vulnerable(duration) {
   const description = "takes additional damage";
   return new Effect(
-    "Wither",
+    "Vulnerable",
     duration,
     `target ${description} for BLANK turns`
   );

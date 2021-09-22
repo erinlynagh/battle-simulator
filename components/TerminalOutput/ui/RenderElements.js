@@ -64,7 +64,6 @@ export function RenderEffects(enemy) {
           display: "grid",
           gridAutoColumns: "auto",
           gridAutoRows: "auto",
-          textAlign: "left",
         }}
       >
         {enemy.effects.map((effect, effectIndex) =>

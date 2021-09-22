@@ -10,6 +10,10 @@ const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
 });
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function RenderAttack(attack, attackIndex) {
   return (
     <React.Fragment key={attackIndex}>
@@ -48,8 +52,18 @@ function RenderAttacks(enemy) {
 }
 
 function RenderEnemy({ enemy }) {
+  let style = {};
+  console.log(enemy);
+  console.log(enemy.animateBackground);
+  if (enemy.animateBackground) {
+    console.log("hello");
+    style = {
+      animationName: "attackBackground",
+      animationDuration: "1s",
+    };
+  }
   return (
-    <div>
+    <div style={{ style }}>
       <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
       <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
       {RenderHealth(enemy.health, enemy.maxHealth)}

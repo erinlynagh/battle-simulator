@@ -58,21 +58,8 @@ function TerminalInput(props) {
     setShowSubmit(false);
   }
 
-  function handleButtonClick(event) {
-    const value = event.target.value;
-    reset();
-    switch (value) {
-      case "attack":
-        setShowAttacks(value);
-        setShowItems(!value);
-        break;
-      case "item":
-        setShowItems(value);
-        setShowAttacks(!value);
-        break;
-      default:
-        throw "not an option";
-    }
+  function handleButtonClick() {
+    setShowAttacks(!showAttacks);
   }
 
   function handleAttackButtonClick(event) {
@@ -147,23 +134,14 @@ function TerminalInput(props) {
             >
               <button
                 type="button"
-                className={
-                  showAttacks ? "btn form-btn selected" : "btn form-btn"
-                }
-                style={{ marginBottom: "1.33em" }}
+                className={"btn form-btn top-btn"}
+                style={{
+                  marginBottom: "1.33em",
+                }}
                 value="attack"
                 onClick={handleButtonClick}
               >
-                Show Attacks
-              </button>
-              <button
-                type="button"
-                className={showItems ? "btn form-btn selected" : "btn form-btn"}
-                style={{ marginBottom: "1.33em" }}
-                value="item"
-                onClick={handleButtonClick}
-              >
-                Show Items
+                {showAttacks ? "Use an Item" : "Attack"}
               </button>
               {showAttacks && (
                 <div

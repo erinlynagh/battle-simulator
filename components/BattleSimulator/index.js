@@ -2,13 +2,15 @@ import { useState } from "react";
 import TerminalOutput from "../TerminalOutput";
 import { makeCharacter } from "../../library/generation/characterMaker";
 import makeAllEnemies from "../../library/generation/makeAllEnemies";
-import ReactTooltip from "react-tooltip";
-import Modal from "react-modal";
+import GetNewAttackModal from "../modals/GetNewAttackModal";
+import { MersenneTwister19937 } from "random-js";
 
 export default function BattleSimulator(props) {
+  const engine = MersenneTwister19937.autoSeed();
+  const allEnemies = makeAllEnemies();
+
   const [character, updateCharacter] = useState(makeCharacter());
   const [floor, setFloor] = useState(0);
-  const allEnemies = makeAllEnemies();
   const [enemies, setEnemies] = useState(allEnemies[floor]);
   const [enemyAttacks, setEnemyAttacks] = useState([]);
   const [showAttackModal, setShowAttackModal] = useState(false);
@@ -37,9 +39,13 @@ export default function BattleSimulator(props) {
           handleAttackModal={handleAttackModal}
         />
       </div>
-      <Modal isOpen={showAttackModal} contentLabel="Get a new attack">
-        <button onClick={() => handleAttackModal()}>Close Modal</button>
-      </Modal>
+      <GetNewAttackModal
+        showAttackModal={showAttackModal}
+        handleAttackModal={handleAttackModal}
+        character={character}
+        updateCharacter={updateCharacter}
+        engine={engine}
+      />
     </div>
   );
 }
