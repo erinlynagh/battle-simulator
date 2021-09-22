@@ -5,7 +5,7 @@ import {
   getAttackTooltip,
 } from "./RenderElements";
 import dynamic from "next/dynamic";
-import { shake, pulse } from "react-animations";
+import { shake, pulse, wobble } from "react-animations";
 import { StyleSheet, css } from "aphrodite";
 
 const styles = StyleSheet.create({
@@ -15,6 +15,10 @@ const styles = StyleSheet.create({
   },
   pulse: {
     animationName: pulse,
+    animationDuration: "1s",
+  },
+  wobble: {
+    animationName: wobble,
     animationDuration: "1s",
   },
 });

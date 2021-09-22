@@ -30,6 +30,7 @@ export function AttackEnemy(
 
   AttackHelpers.Attack(newCharacter, attack, enemy, reset);
   newEnemies[enemyIndex] = enemy;
+  updateEnemies(newEnemies);
 
   if (enemy.health <= 0) {
     newEnemies.splice(enemyIndex, 1);
@@ -43,11 +44,18 @@ export function AttackEnemy(
     return;
   } else if (character.mana === 1) {
     setEnemyAttacks([]);
+    sleep(500).then(() => {
+      AttackPlayer(newCharacter, newEnemies, setEnemyAttacks);
+      updateCharacter(newCharacter);
+      updateEnemies(newEnemies);
+      return;
+    });
+  } else {
+    updateCharacter(newCharacter);
     updateEnemies(newEnemies);
-    AttackPlayer(newCharacter, newEnemies, setEnemyAttacks);
   }
-  updateCharacter(newCharacter);
-  updateEnemies(newEnemies);
+
+  return;
 
   function nextFloor() {
     floor = floor + 1;
@@ -79,7 +87,7 @@ function AttackPlayer(character, enemies, setEnemyAttacks) {
   enemies.forEach(function (enemy) {
     var attacked = false;
     if (enemy.health <= 0 || enemy.hasEffect("Stun")) {
-      enemy.animate = "pulse";
+      enemy.animate = "shake";
       return;
     } else {
       enemy.attacks.forEach(function (attack) {
@@ -89,7 +97,7 @@ function AttackPlayer(character, enemies, setEnemyAttacks) {
         let attack = heap.pop();
         if (!attacked && Math.random() <= attack.chance) {
           attacked = true;
-          enemy.animate = "shake";
+          enemy.animate = "wobble";
           enemyAttacks.push(attack);
           if (character.hasEffect("Reflect")) {
             AttackHelpers.Attack(enemy, attack, enemy);
