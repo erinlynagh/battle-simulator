@@ -5,14 +5,16 @@ import {
   getAttackTooltip,
 } from "./RenderElements";
 import dynamic from "next/dynamic";
-import { shake } from "react-animations";
+import { shake, pulse } from "react-animations";
 import { StyleSheet, css } from "aphrodite";
-
-console.log(shake);
 
 const styles = StyleSheet.create({
   shake: {
     animationName: shake,
+    animationDuration: "1s",
+  },
+  pulse: {
+    animationName: pulse,
     animationDuration: "1s",
   },
 });
@@ -60,7 +62,18 @@ function RenderAttacks(enemy) {
 
 function RenderEnemy({ enemy }) {
   console.log(enemy);
-  if (enemy.animate) {
+  if (enemy.animate === "pulse") {
+    return (
+      <div className={css(styles.pulse)}>
+        <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
+        <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
+        {RenderHealth(enemy.health, enemy.maxHealth)}
+        {RenderAttacks(enemy)}
+        {enemy.effects.length > 0 && RenderEffects(enemy)}
+      </div>
+    );
+  }
+  if (enemy.animate === "shake") {
     return (
       <div className={css(styles.shake)}>
         <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>

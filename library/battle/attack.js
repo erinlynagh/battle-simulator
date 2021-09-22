@@ -81,6 +81,7 @@ function AttackPlayer(character, enemies, setEnemyAttacks) {
   enemies.forEach(function (enemy) {
     var attacked = false;
     if (enemy.health <= 0 || enemy.hasEffect("Stun")) {
+      enemy.animate = "pulse";
       return;
     } else {
       enemy.attacks.forEach(function (attack) {
@@ -90,7 +91,7 @@ function AttackPlayer(character, enemies, setEnemyAttacks) {
         let attack = heap.pop();
         if (!attacked && Math.random() <= attack.chance) {
           attacked = true;
-          enemy.animate = true;
+          enemy.animate = "shake";
           enemyAttacks.push(attack);
           if (character.hasEffect("Reflect")) {
             AttackHelpers.Attack(enemy, attack, enemy);
