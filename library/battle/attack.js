@@ -30,26 +30,24 @@ export function AttackEnemy(
 
   AttackHelpers.Attack(newCharacter, attack, enemy, reset);
   newEnemies[enemyIndex] = enemy;
-  updateEnemies(newEnemies);
+
   if (enemy.health <= 0) {
     newEnemies.splice(enemyIndex, 1);
     handleAttackModal();
     reset();
   }
 
-  sleep(700).then(() => {
-    if (newEnemies.length === 0) {
-      newEnemies = nextFloor();
-      updateEnemies(newEnemies);
-      return;
-    } else if (character.mana === 1) {
-      setEnemyAttacks([]);
-      updateEnemies(newEnemies);
-      AttackPlayer(newCharacter, newEnemies, setEnemyAttacks);
-    }
-    updateCharacter(newCharacter);
+  if (newEnemies.length === 0) {
+    newEnemies = nextFloor();
     updateEnemies(newEnemies);
-  });
+    return;
+  } else if (character.mana === 1) {
+    setEnemyAttacks([]);
+    updateEnemies(newEnemies);
+    AttackPlayer(newCharacter, newEnemies, setEnemyAttacks);
+  }
+  updateCharacter(newCharacter);
+  updateEnemies(newEnemies);
 
   function nextFloor() {
     floor = floor + 1;
