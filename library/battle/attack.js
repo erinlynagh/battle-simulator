@@ -17,8 +17,7 @@ export function AttackEnemy(
   setEnemyAttacks,
   handleAttackModal
 ) {
-  console.log(attack);
-  attack = AttackData[[attack.replace(/\s/g, "")]]();
+  attack = AttackData[[attack]]();
 
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);

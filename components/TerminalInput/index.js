@@ -168,7 +168,8 @@ function TerminalInput(props) {
                           name={attack.name}
                           onClick={handleAttackButtonClick}
                         >
-                          {attack.name} ({attack.casts} casts remain)
+                          {attack.name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ")} (
+                          {attack.casts} casts remain)
                           <ReactTooltip />
                         </button>
                       </span>

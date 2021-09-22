@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import * as Attacks from "../../library/generation/attackMaker";
-import { makeNewCharacter } from "../../library/generation/createNewStateObjects";
-import { integer } from "random-js";
+import {
+  makeNewCharacter,
+  makeNewAttack,
+} from "../../library/generation/createNewStateObjects";
 import dynamic from "next/dynamic";
+import random from "random";
 
 const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
@@ -16,22 +19,20 @@ export default function GetNewAttackModal({
   handleAttackModal,
   character,
   updateCharacter,
-  engine,
 }) {
   const AttacksArray = Object.keys(Attacks);
   const endIndex = AttacksArray.length - 1;
-  const distribution = integer(0, endIndex);
   const [randomAttacks, setRandomAttacks] = useState([]);
-  const [selectedAttack, setSelectedAttack] = useState(false);
 
   function getThreeRandomAttacks() {
+    setRandomAttacks([]);
     let randAttacks = [];
     while (randAttacks.length < 3) {
-      let newAttack = AttacksArray[distribution(engine)];
-      console.log(newAttack);
-      console.log(getAttackIndex(randAttacks, newAttack));
+      let newAttack = AttacksArray[random.int(0, endIndex)];
       if (getAttackIndex(randAttacks, newAttack) === -1) {
-        randAttacks.push(Attacks[[newAttack.replace(/\s/g, "")]]());
+        newAttack = Attacks[[newAttack]]();
+        console.log(newAttack);
+        randAttacks.push(makeNewAttack(newAttack));
       }
     }
     setRandomAttacks(randAttacks);
@@ -42,8 +43,6 @@ export default function GetNewAttackModal({
   }
 
   function selectAttack(attack) {
-    console.log(attack);
-    setSelectedAttack(attack);
     let newCharacter = makeNewCharacter(character);
     let attackIndex = getCharacterAttackIndex(character, attack);
     if (attackIndex > -1) {
@@ -52,6 +51,7 @@ export default function GetNewAttackModal({
       newCharacter.attacks.push(attack);
     }
     updateCharacter(newCharacter);
+    getThreeRandomAttacks();
     handleAttackModal();
   }
 
@@ -59,7 +59,7 @@ export default function GetNewAttackModal({
     return character.attacks.findIndex(({ name }) => name === attack.name);
   }
   function getAttackIndex(attacks, attack) {
-    return attacks.findIndex(({ name }) => name.replace(/\s/g, "") === attack);
+    return attacks.findIndex(({ name }) => name === attack);
   }
 
   useEffect(() => {
@@ -108,7 +108,9 @@ export default function GetNewAttackModal({
                     }}
                   >
                     <h4 style={{ marginBottom: "0px" }}>
-                      <b>{attack.name}</b>
+                      <b>
+                        {attack.name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ")}
+                      </b>
                     </h4>
                     <p data-tip={attack.effect.getTooltip()}>
                       {attack.getTooltip()}
@@ -131,9 +133,6 @@ export default function GetNewAttackModal({
               );
             })}
         </div>
-        <button className="btn" onClick={() => getThreeRandomAttacks()}>
-          ReRoll
-        </button>
         <div style={{ display: "flex", alignItems: "end", marginTop: "2vh" }}>
           <button className="btn" onClick={() => handleClick()}>
             Skip

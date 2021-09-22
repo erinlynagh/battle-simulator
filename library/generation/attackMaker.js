@@ -7,11 +7,11 @@ export function Fireball() {
   return attack;
 }
 export function HyperBeam() {
-  let attack = new Attack("Hyper Beam", 25, Effects.None, 1);
+  let attack = new Attack("HyperBeam", 25, Effects.None, 1);
   return attack;
 }
 export function StaffSlam() {
-  let attack = new Attack("Staff Slam", 5, Effects.Vulnerable(3), 5);
+  let attack = new Attack("StaffSlam", 5, Effects.Vulnerable(3), 5);
   return attack;
 }
 export function Stupefy() {

@@ -15,6 +15,7 @@ export class Attack {
     this.effect = effect;
     this.casts = castsRemaining;
     this.attackMessage = this.setAttackMessage();
+    this.id = uuidv4();
   }
   getTooltip() {
     let tooltipString = `Deals ${this.power} damage`;

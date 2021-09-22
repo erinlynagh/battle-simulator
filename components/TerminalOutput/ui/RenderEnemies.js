@@ -53,10 +53,7 @@ function RenderAttacks(enemy) {
 
 function RenderEnemy({ enemy }) {
   let style = {};
-  console.log(enemy);
-  console.log(enemy.animateBackground);
   if (enemy.animateBackground) {
-    console.log("hello");
     style = {
       animationName: "attackBackground",
       animationDuration: "1s",

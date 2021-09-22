@@ -1,4 +1,4 @@
-import { Character } from "../generation/classes";
+import { Character, Attack } from "../generation/classes";
 export function makeNewCharacter(character) {
   return new Character(
     character.name,
@@ -13,10 +13,14 @@ export function makeNewCharacter(character) {
   );
 }
 
-export function makeNewEnemies(enemies, target) {
+export function makeNewEnemies(enemies) {
   let newEnemies = [];
   enemies.forEach((enemy) => {
     newEnemies.push(makeNewCharacter(enemy));
   });
   return newEnemies;
+}
+
+export function makeNewAttack(attack) {
+  return new Attack(attack.name, attack.power, attack.effect, attack.casts);
 }

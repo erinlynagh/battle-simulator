@@ -3,10 +3,8 @@ import TerminalOutput from "../TerminalOutput";
 import { makeCharacter } from "../../library/generation/characterMaker";
 import makeAllEnemies from "../../library/generation/makeAllEnemies";
 import GetNewAttackModal from "../modals/GetNewAttackModal";
-import { MersenneTwister19937 } from "random-js";
 
 export default function BattleSimulator(props) {
-  const engine = MersenneTwister19937.autoSeed();
   const allEnemies = makeAllEnemies();
 
   const [character, updateCharacter] = useState(makeCharacter());
@@ -44,7 +42,6 @@ export default function BattleSimulator(props) {
         handleAttackModal={handleAttackModal}
         character={character}
         updateCharacter={updateCharacter}
-        engine={engine}
       />
     </div>
   );
