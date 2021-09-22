@@ -21,10 +21,6 @@ const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
 });
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 function RenderAttack(attack, attackIndex) {
   return (
     <React.Fragment key={attackIndex}>

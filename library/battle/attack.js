@@ -3,6 +3,10 @@ import Heap from "heap";
 import * as AttackHelpers from "./attackHelpers";
 import * as StateHelpers from "../generation/createNewStateObjects";
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export function AttackEnemy(
   character,
   updateCharacter,
@@ -26,21 +30,26 @@ export function AttackEnemy(
 
   AttackHelpers.Attack(newCharacter, attack, enemy, reset);
   newEnemies[enemyIndex] = enemy;
-
+  updateEnemies(newEnemies);
   if (enemy.health <= 0) {
     newEnemies.splice(enemyIndex, 1);
-    // handleAttackModal();
+    handleAttackModal();
     reset();
   }
-  if (newEnemies.length === 0) {
-    newEnemies = nextFloor();
-  } else if (character.mana === 1) {
-    setEnemyAttacks([]);
+
+  sleep(700).then(() => {
+    if (newEnemies.length === 0) {
+      newEnemies = nextFloor();
+      updateEnemies(newEnemies);
+      return;
+    } else if (character.mana === 1) {
+      setEnemyAttacks([]);
+      updateEnemies(newEnemies);
+      AttackPlayer(newCharacter, newEnemies, setEnemyAttacks);
+    }
+    updateCharacter(newCharacter);
     updateEnemies(newEnemies);
-    AttackPlayer(newCharacter, newEnemies, setEnemyAttacks);
-  }
-  updateCharacter(newCharacter);
-  updateEnemies(newEnemies);
+  });
 
   function nextFloor() {
     floor = floor + 1;
