@@ -52,3 +52,11 @@ export function makeWolf() {
   const emojiName = "wolf";
   return new Character(name, health, health, attacks, emojiName, [], 0, 0);
 }
+
+export function makeGoblin() {
+  const name = "Goblin";
+  const health = 24;
+  const attacks = [EnemyAttacks.GoblinsTrick(), EnemyAttacks.DrainingStab()];
+  const emojiName = "japanese_goblin";
+  return new Character(name, health, health, attacks, emojiName, [], 0, 0);
+}

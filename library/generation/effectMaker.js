@@ -35,8 +35,17 @@ export function Reflect(duration) {
   return new Effect("Reflect", duration, `${description} for BLANK turns`);
 }
 
+export function Heal(duration) {
+  const description = "heals 5 health";
+  return new Effect("Heal", duration, `${description} for BLANK turns`);
+}
+
 export function AppliesToAttacker(effect) {
-  if (effect.name === "Furious" || effect.name === "Reflect") {
+  if (
+    effect.name === "Furious" ||
+    effect.name === "Reflect" ||
+    effect.name === "Heal"
+  ) {
     return true;
   }
 }

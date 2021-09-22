@@ -5,14 +5,20 @@ import {
   getAttackTooltip,
 } from "./RenderElements";
 import dynamic from "next/dynamic";
-import { shake } from "react-animations";
+import { shake, pulse, wobble } from "react-animations";
 import { StyleSheet, css } from "aphrodite";
-
-console.log(shake);
 
 const styles = StyleSheet.create({
   shake: {
     animationName: shake,
+    animationDuration: "1s",
+  },
+  pulse: {
+    animationName: pulse,
+    animationDuration: "1s",
+  },
+  wobble: {
+    animationName: wobble,
     animationDuration: "1s",
   },
 });
@@ -20,10 +26,6 @@ const styles = StyleSheet.create({
 const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
 });
-
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 function RenderAttack(attack, attackIndex) {
   return (
@@ -63,20 +65,9 @@ function RenderAttacks(enemy) {
 }
 
 function RenderEnemy({ enemy }) {
-  console.log(enemy);
   if (enemy.animate) {
     return (
-      <div className={css(styles.shake)}>
-        <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
-        <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
-        {RenderHealth(enemy.health, enemy.maxHealth)}
-        {RenderAttacks(enemy)}
-        {enemy.effects.length > 0 && RenderEffects(enemy)}
-      </div>
-    );
-  } else {
-    return (
-      <div>
+      <div className={css(styles[[enemy.animate]])}>
         <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
         <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
         {RenderHealth(enemy.health, enemy.maxHealth)}
@@ -85,6 +76,15 @@ function RenderEnemy({ enemy }) {
       </div>
     );
   }
+  return (
+    <div>
+      <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
+      <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
+      {RenderHealth(enemy.health, enemy.maxHealth)}
+      {RenderAttacks(enemy)}
+      {enemy.effects.length > 0 && RenderEffects(enemy)}
+    </div>
+  );
 }
 
 export default function RenderEnemies({ enemies }) {
