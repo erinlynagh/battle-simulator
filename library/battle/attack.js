@@ -7,6 +7,12 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function killEnemy(enemies, enemyIndex, handleAttackModal, reset) {
+  enemies.splice(enemyIndex, 1);
+  handleAttackModal();
+  reset();
+}
+
 export function AttackEnemy(
   character,
   updateCharacter,
@@ -33,19 +39,24 @@ export function AttackEnemy(
   updateEnemies(newEnemies);
 
   if (enemy.health <= 0) {
-    newEnemies.splice(enemyIndex, 1);
-    handleAttackModal();
-    reset();
+    killEnemy(newEnemies, enemyIndex, handleAttackModal, reset);
   }
 
   if (newEnemies.length === 0) {
+    setEnemyAttacks([]);
     newEnemies = nextFloor();
     updateEnemies(newEnemies);
     return;
   } else if (character.mana === 1) {
     setEnemyAttacks([]);
     sleep(500).then(() => {
-      AttackPlayer(newCharacter, newEnemies, setEnemyAttacks);
+      AttackPlayer(
+        newCharacter,
+        newEnemies,
+        setEnemyAttacks,
+        handleAttackModal,
+        reset
+      );
       updateCharacter(newCharacter);
       updateEnemies(newEnemies);
       return;
@@ -65,7 +76,9 @@ export function AttackEnemy(
       reset();
     } else {
       var newCharacter = StateHelpers.makeNewCharacter(character);
+      newCharacter.effects = [];
       newCharacter.mana = newCharacter.maxMana;
+      setEnemyAttacks([]);
       updateCharacter(newCharacter);
       updateFloor(floor);
       reset();
@@ -74,18 +87,36 @@ export function AttackEnemy(
     return newEnemies;
   }
 }
-
-function AttackPlayer(character, enemies, setEnemyAttacks) {
-  setEnemyAttacks([]);
+function AttackPlayer(
+  character,
+  enemies,
+  setEnemyAttacks,
+  handleAttackModal,
+  reset
+) {
   var enemyAttacks = [];
+  var reflecting = false;
+  if (character.hasEffect("Heal")) {
+    if (character.health + 5 <= character.maxHealth) {
+      character.health += 5;
+    } else {
+      character.health = character.maxHealth;
+    }
+  }
+  if (character.hasEffect("Reflect")) {
+    reflecting = true;
+  }
+  AttackHelpers.reduceCharacterEffectDurations(character);
+  console.log(enemies);
   character.refreshMana();
 
   var heap = new Heap(function (a, b) {
     return b.priority - a.priority;
   });
 
-  enemies.forEach(function (enemy) {
+  enemies.forEach(function (enemy, enemyIndex) {
     var attacked = false;
+
     if (enemy.health <= 0 || enemy.hasEffect("Stun")) {
       enemy.animate = "shake";
       return;
@@ -98,13 +129,20 @@ function AttackPlayer(character, enemies, setEnemyAttacks) {
         if (!attacked && Math.random() <= attack.chance) {
           attacked = true;
           enemy.animate = "wobble";
-          enemyAttacks.push(attack);
-          if (character.hasEffect("Reflect")) {
+          if (reflecting) {
             AttackHelpers.Attack(enemy, attack, enemy);
+            if (enemy.health <= 0) {
+              enemyAttacks.push(enemy.name + " accidentally rekt themselves");
+              killEnemy(enemies, enemyIndex, handleAttackModal, reset);
+            } else {
+              enemyAttacks.push(
+                enemy.name + " attacks themselves with " + attack.name
+              );
+            }
           } else {
             AttackHelpers.Attack(enemy, attack, character);
+            enemyAttacks.push(attack);
           }
-          setEnemyAttacks(enemyAttacks);
         }
         if (character.health <= 0) {
           alert("you lose");
@@ -113,7 +151,7 @@ function AttackPlayer(character, enemies, setEnemyAttacks) {
       }
     }
   });
-  AttackHelpers.reduceCharacterEffectDurations(character);
+  setEnemyAttacks(enemyAttacks);
   AttackHelpers.reduceEnemiesEffectDurations(enemies);
 }
 
@@ -124,40 +162,11 @@ export function AttackPlayerFromStun(
   updateCharacter,
   updateEnemies
 ) {
+  console.log("hello");
+  setEnemyAttacks([]);
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
-  AttackHelpers.reduceEnemiesEffectDurations(newEnemies);
-  AttackHelpers.reduceCharacterEffectDurations(newCharacter);
-  var enemyAttacks = [];
-  character.refreshMana();
-
-  var heap = new Heap(function (a, b) {
-    return b.priority - a.priority;
-  });
-
-  newEnemies.forEach(function (enemy) {
-    var attacked = false;
-    if (enemy.health <= 0 || enemy.hasEffect("Stun")) {
-      return;
-    } else {
-      enemy.attacks.forEach(function (attack) {
-        heap.push(attack);
-      });
-      while (heap.nodes.length > 0) {
-        let attack = heap.pop();
-        if (!attacked && Math.random() <= attack.chance) {
-          attacked = true;
-          enemyAttacks.push(attack);
-          AttackHelpers.Attack(enemy, attack, character);
-          setEnemyAttacks(enemyAttacks);
-        }
-        if (character.health <= 0) {
-          alert("you lose");
-          window.location.reload();
-        }
-      }
-    }
-  });
+  AttackPlayer(newCharacter, newEnemies, setEnemyAttacks);
   updateCharacter(newCharacter);
   updateEnemies(newEnemies);
 }

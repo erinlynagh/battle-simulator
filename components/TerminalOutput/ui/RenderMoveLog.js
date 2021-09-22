@@ -6,6 +6,8 @@ const ReactTooltip = dynamic(() => import("react-tooltip"), {
 });
 
 function RenderMoveLog({ enemyAttacks, enemies }) {
+  console.log(enemyAttacks);
+  console.log(enemies);
   let style = { color: "#c50f1f" };
   if (Array.isArray(enemyAttacks) && enemyAttacks.length > 0) {
     style = { color: "#c50f1f", marginBottom: "1vh" };
@@ -16,17 +18,27 @@ function RenderMoveLog({ enemyAttacks, enemies }) {
         return (
           <React.Fragment key={index}>
             <span
-              data-tip={attack.effect.getTooltip()}
+              data-tip={tooltip()}
               style={{ display: "block", textAlign: "center" }}
             >
-              {"> " +
-                enemies[index].name +
-                " attacks with " +
-                attack.attackMessage}
+              {attack.attckMessage
+                ? "> " +
+                  enemies[index].name +
+                  " attacks with " +
+                  attack.attackMessage
+                : attack}
               <ReactTooltip html={true} />
             </span>
           </React.Fragment>
         );
+
+        function tooltip() {
+          if (attack?.effect?.getTooltip) {
+            return attack.effect.getTooltip();
+          } else {
+            return "";
+          }
+        }
       })}
     </div>
   );

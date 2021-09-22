@@ -1,0 +1,4 @@
+need to link attacks to characters so the message appear properly,
+reflections do not reflect status
+enemies cannot kill themselves,
+super broken stuns

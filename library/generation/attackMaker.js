@@ -10,7 +10,7 @@ function newAttack(name, damage, effect, casts) {
 
 export function Fireball() {
   const name = "Fireball";
-  const damage = 10;
+  const damage = 7;
   const effect = Effects.None;
   const casts = 5;
   return newAttack(name, damage, effect, casts);
@@ -49,6 +49,14 @@ export function ReflectiveCoating() {
   const name = "ReflectiveCoating";
   const damage = 0;
   const effect = Effects.Reflect(1);
+  const casts = 1;
+  return newAttack(name, damage, effect, casts);
+}
+
+export function Rejuvenate() {
+  const name = "Rejuvenate";
+  const damage = 0;
+  const effect = Effects.Heal(1);
   const casts = 1;
   return newAttack(name, damage, effect, casts);
 }

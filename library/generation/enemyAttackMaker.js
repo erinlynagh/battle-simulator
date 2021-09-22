@@ -9,10 +9,20 @@ export function Gouge() {
   return attack;
 }
 export function OgreSlam() {
-  let attack = new EnemyAttack("Orge Slam", 4, Effects.Stun(1), 0.25, 1);
+  let attack = new EnemyAttack("Orge Slam", 4, Effects.Stun(1), 0.15, 1);
   return attack;
 }
 export function HowlingBite() {
   let attack = new EnemyAttack("Howling Bite", 6, Effects.Furious(2), 0.5, 0);
+  return attack;
+}
+
+export function GoblinsTrick() {
+  let attack = new EnemyAttack("Goblin's Trick", 1, Effects.Stun(1), 0.75, 2);
+  return attack;
+}
+
+export function DrainingStab() {
+  let attack = new EnemyAttack("Draining Stab", 4, Effects.Wither(4), 0.75, 1);
   return attack;
 }
