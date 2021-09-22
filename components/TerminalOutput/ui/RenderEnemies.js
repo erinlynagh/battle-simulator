@@ -5,6 +5,17 @@ import {
   getAttackTooltip,
 } from "./RenderElements";
 import dynamic from "next/dynamic";
+import { shake } from "react-animations";
+import { StyleSheet, css } from "aphrodite";
+
+console.log(shake);
+
+const styles = StyleSheet.create({
+  shake: {
+    animationName: shake,
+    animationDuration: "1s",
+  },
+});
 
 const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
@@ -52,22 +63,28 @@ function RenderAttacks(enemy) {
 }
 
 function RenderEnemy({ enemy }) {
-  let style = {};
-  if (enemy.animateBackground) {
-    style = {
-      animationName: "attackBackground",
-      animationDuration: "1s",
-    };
+  console.log(enemy);
+  if (enemy.animate) {
+    return (
+      <div className={css(styles.shake)}>
+        <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
+        <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
+        {RenderHealth(enemy.health, enemy.maxHealth)}
+        {RenderAttacks(enemy)}
+        {enemy.effects.length > 0 && RenderEffects(enemy)}
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
+        <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
+        {RenderHealth(enemy.health, enemy.maxHealth)}
+        {RenderAttacks(enemy)}
+        {enemy.effects.length > 0 && RenderEffects(enemy)}
+      </div>
+    );
   }
-  return (
-    <div style={{ style }}>
-      <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
-      <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
-      {RenderHealth(enemy.health, enemy.maxHealth)}
-      {RenderAttacks(enemy)}
-      {enemy.effects.length > 0 && RenderEffects(enemy)}
-    </div>
-  );
 }
 
 export default function RenderEnemies({ enemies }) {

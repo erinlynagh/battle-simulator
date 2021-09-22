@@ -29,7 +29,7 @@ export function AttackEnemy(
 
   if (enemy.health <= 0) {
     newEnemies.splice(enemyIndex, 1);
-    handleAttackModal();
+    // handleAttackModal();
     reset();
   }
   if (newEnemies.length === 0) {
@@ -38,9 +38,6 @@ export function AttackEnemy(
     setEnemyAttacks([]);
     updateEnemies(newEnemies);
     AttackPlayer(newCharacter, newEnemies, setEnemyAttacks);
-    enemies.forEach(function (enemy) {
-      enemy.animateBackground = true;
-    });
   }
   updateCharacter(newCharacter);
   updateEnemies(newEnemies);
@@ -84,6 +81,7 @@ function AttackPlayer(character, enemies, setEnemyAttacks) {
         let attack = heap.pop();
         if (!attacked && Math.random() <= attack.chance) {
           attacked = true;
+          enemy.animate = true;
           enemyAttacks.push(attack);
           if (character.hasEffect("Reflect")) {
             AttackHelpers.Attack(enemy, attack, enemy);

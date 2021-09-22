@@ -84,7 +84,7 @@ export class Character {
     this.mana = mana;
     this.maxMana = maxMana;
     this.id = id;
-    this.animateBackground = false;
+    this.animate = false;
   }
   hasEffect(effect) {
     return this.effects.findIndex(({ name }) => name === effect) > -1;
