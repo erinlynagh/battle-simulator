@@ -117,27 +117,27 @@ function TerminalInput(props) {
                 {showAttacks ? "Use an Item" : "Attack"}
               </button>
               {showAttacks && (
-                <div className="flex justify-evenly flex-row w-screen">
+                <div className="flex justify-evenly flex-row w-screen flex-wrap">
                   {character.attacks.map((attack, index) => {
                     return (
                       <span
                         data-tip={attack.getTooltip()}
                         key={index}
-                        className="w-full self-center m-2 h-full"
+                        className="self-center m-2 w-5/12"
                       >
                         <button
                           type="button"
                           className={
                             selectedAttackId === index
-                              ? "bg-blue-900 py-2 px-4 rounded h-full w-full"
-                              : "bg-gray-900 hover:text-blue-900 hover:bg-gray-300 py-2 px-4 rounded h-full w-full"
+                              ? "bg-blue-900 py-2 px-4 rounded w-full h-full"
+                              : "bg-gray-900 hover:text-blue-900 hover:bg-gray-300 py-2 px-4 rounded w-full h-full"
                           }
                           value={index}
                           name={attack.name}
                           onClick={handleAttackButtonClick}
                         >
                           {attack.name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ")} (
-                          {attack.casts} casts remain)
+                          {attack.casts})
                           <ReactTooltip />
                         </button>
                       </span>
@@ -146,7 +146,7 @@ function TerminalInput(props) {
                 </div>
               )}
               {showTargets && (
-                <div className="flex justify-evenly flex-row w-screen">
+                <div className="flex justify-around flex-row w-screen">
                   {Array.isArray(enemies) &&
                     enemies.map((enemy, index) => {
                       return (
@@ -154,8 +154,8 @@ function TerminalInput(props) {
                           type="button"
                           className={
                             selectedTargetId === index
-                              ? "bg-pink-600 text-gray-300 m-2 py-2 px-4 rounded w-full"
-                              : "bg-gray-900 hover:text-pink-600 hover:bg-gray-300 m-2 py-2 px-4 rounded w-full"
+                              ? "bg-pink-600 text-gray-300 m-2 py-2 px-4 rounded"
+                              : "bg-gray-900 hover:text-pink-600 hover:bg-gray-300 m-2 py-2 px-4 rounded"
                           }
                           value={index}
                           name={enemy.id}

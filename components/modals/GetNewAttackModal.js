@@ -95,7 +95,7 @@ export default function GetNewAttackModal({
                     <ReactTooltip html={true} />
                     <button
                       type="button"
-                      className="py-2 px-4 rounded bg-green-600 w-4/12 self-center"
+                      className="py-2 rounded bg-green-600 w-4/12 self-center"
                       value={attack.name}
                       onClick={() => selectAttack(attack)}
                     >

@@ -10,7 +10,7 @@ function RenderMoveLog({ enemyAttacks, enemies }) {
   console.log(enemies);
   let className = "text-red-700";
   if (Array.isArray(enemyAttacks) && enemyAttacks.length > 0) {
-    className += "mb-1";
+    className += " mb-1";
   }
   return (
     <div id="enemy-moves" className={className}>
