@@ -55,8 +55,12 @@ function RenderAttacks(enemy) {
 function RenderEnemy({ enemy }) {
   if (enemy.animate) {
     return (
-      <div className={css(styles[[enemy.animate]])}>
-        <p className="m-0 text-7xl">{enemy.emoji}</p>
+      <div
+        className={
+          "border-red-300 p-2 border-2 mb-1 " + css(styles[[enemy.animate]])
+        }
+      >
+        <p className="mt-2 text-7xl">{enemy.emoji}</p>
         <h3>{enemy.name}</h3>
         {RenderHealth(enemy.health, enemy.maxHealth)}
         {RenderAttacks(enemy)}
@@ -65,8 +69,8 @@ function RenderEnemy({ enemy }) {
     );
   }
   return (
-    <div>
-      <p className="m-0 text-7xl">{enemy.emoji}</p>
+    <div className="border-red-300 p-2 border-2 mb-1">
+      <p className="mt-2 text-7xl">{enemy.emoji}</p>
       <h3>{enemy.name}</h3>
       {RenderHealth(enemy.health, enemy.maxHealth)}
       {RenderAttacks(enemy)}

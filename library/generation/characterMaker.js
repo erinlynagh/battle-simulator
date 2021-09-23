@@ -1,5 +1,5 @@
-import { Character } from "./classes";
-import * as Attacks from "./attackMaker";
+import { Character } from "../classes";
+import * as Attacks from "./attackMaker/attacks";
 import * as EnemyAttacks from "./enemyAttackMaker";
 
 const defaultName = "Erin";
@@ -17,6 +17,7 @@ export function makeCharacter(
   mana = defaultMana,
   maxMana = defaultMana
 ) {
+  console.log(Attacks);
   return new Character(
     name,
     health,

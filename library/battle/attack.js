@@ -1,4 +1,4 @@
-import * as AttackData from "../generation/attackMaker";
+import * as Attacks from "../generation/attackMaker/attacks";
 import * as AttackHelpers from "./attackHelpers";
 import * as StateHelpers from "../generation/createNewStateObjects";
 import Heap from "heap";
@@ -32,7 +32,7 @@ export function AttackEnemy(
   handleAttackModal
 ) {
   // loads attack data from library
-  attack = AttackData[[attack]]();
+  attack = Attacks[[attack]]();
 
   // create copy of state objects to transform then reassign to state
   let newEnemies = StateHelpers.makeNewEnemies(enemies);

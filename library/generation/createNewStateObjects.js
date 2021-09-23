@@ -1,4 +1,4 @@
-import { Character, Attack } from "../generation/classes";
+import { Character, Attack } from "../classes";
 export function makeNewCharacter(character) {
   return new Character(
     character.name,

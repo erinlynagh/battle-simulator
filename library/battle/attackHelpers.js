@@ -1,4 +1,4 @@
-import { Effect } from "../generation/classes";
+import { Effect } from "../classes";
 import { AppliesToAttacker } from "../generation/effectMaker";
 import * as StateHelpers from "../generation/createNewStateObjects";
 

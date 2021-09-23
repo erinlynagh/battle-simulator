@@ -1,4 +1,4 @@
-import { Effect } from "./classes";
+import { Effect } from "../classes";
 
 export const None = new Effect("None", 0, "");
 

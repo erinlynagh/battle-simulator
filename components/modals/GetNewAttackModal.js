@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
-import * as Attacks from "../../library/generation/attackMaker";
+import * as Attacks from "../../library/generation/attackMaker/attacks";
 import {
   makeNewCharacter,
   makeNewAttack,
@@ -20,6 +20,7 @@ export default function GetNewAttackModal({
   character,
   updateCharacter,
 }) {
+  console.log(Attacks);
   const AttacksArray = Object.keys(Attacks);
   const endIndex = AttacksArray.length - 1;
   const [randomAttacks, setRandomAttacks] = useState([]);
