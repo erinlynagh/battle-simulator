@@ -49,3 +49,14 @@
   border-color: #f0f0f0;
   color: #13a10e;
 }
+
+.attackHeader {
+  margin: 0px;
+}
+
+.attacks-container {
+  flex-direction: column;
+  display: flex;
+  text-align: center;
+  margin: 0px;
+}

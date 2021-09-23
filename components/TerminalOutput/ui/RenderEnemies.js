@@ -40,7 +40,6 @@ function RenderAttack(attack, attackIndex) {
       >
         {attack.name}
       </p>
-      &nbsp;
       <ReactTooltip html={true} />
     </React.Fragment>
   );
@@ -48,15 +47,8 @@ function RenderAttack(attack, attackIndex) {
 
 function RenderAttacks(enemy) {
   return (
-    <div
-      style={{
-        flexDirection: "row",
-        display: "flex",
-        textAlign: "center",
-        marginTop: "-1em",
-      }}
-    >
-      <p style={{ marginTop: "0px" }}>Attacks:</p>&nbsp;
+    <div className="attacks-container">
+      <p className={"attackHeader"}>Attacks:</p>
       {enemy.attacks.map((attack, attackIndex) =>
         RenderAttack(attack, attackIndex)
       )}
