@@ -18,11 +18,11 @@ export function HowlingBite() {
 }
 
 export function GoblinsTrick() {
-  let attack = new EnemyAttack("Goblin's Trick", 1, Effects.Stun(1), 0.75, 2);
+  let attack = new EnemyAttack("Goblin's Trick", 2, Effects.Stun(1), 0.75, 2);
   return attack;
 }
 
 export function DrainingStab() {
-  let attack = new EnemyAttack("Draining Stab", 4, Effects.Wither(4), 0.75, 1);
+  let attack = new EnemyAttack("Draining Stab", 4, Effects.Wither(4), 1, 1);
   return attack;
 }

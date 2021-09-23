@@ -103,7 +103,11 @@ function TerminalInput(props) {
               enemies,
               setEnemyAttacks,
               updateCharacter,
-              updateEnemies
+              updateEnemies,
+              floor,
+              allEnemies,
+              updateFloor,
+              reset
             )
           }
         >

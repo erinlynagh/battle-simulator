@@ -21,7 +21,7 @@ function RenderMoveLog({ enemyAttacks, enemies }) {
               data-tip={tooltip()}
               style={{ display: "block", textAlign: "center" }}
             >
-              {attack.attckMessage
+              {attack.attackMessage
                 ? "> " +
                   enemies[index].name +
                   " attacks with " +

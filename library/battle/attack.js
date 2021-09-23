@@ -44,7 +44,16 @@ export function AttackEnemy(
 
   if (newEnemies.length === 0) {
     setEnemyAttacks([]);
-    newEnemies = nextFloor();
+    newEnemies = nextFloor(
+      floor,
+      allEnemies,
+      character,
+      newEnemies,
+      setEnemyAttacks,
+      updateCharacter,
+      updateFloor,
+      reset
+    );
     updateEnemies(newEnemies);
     return;
   } else if (character.mana === 1) {
@@ -57,6 +66,21 @@ export function AttackEnemy(
         handleAttackModal,
         reset
       );
+      if (newEnemies.length === 0) {
+        setEnemyAttacks([]);
+        newEnemies = nextFloor(
+          floor,
+          allEnemies,
+          character,
+          newEnemies,
+          setEnemyAttacks,
+          updateCharacter,
+          updateFloor,
+          reset
+        );
+        updateEnemies(newEnemies);
+        return;
+      }
       updateCharacter(newCharacter);
       updateEnemies(newEnemies);
       return;
@@ -67,25 +91,6 @@ export function AttackEnemy(
   }
 
   return;
-
-  function nextFloor() {
-    floor = floor + 1;
-    if (floor >= allEnemies.length) {
-      alert("You win!");
-      window.location.reload();
-      reset();
-    } else {
-      var newCharacter = StateHelpers.makeNewCharacter(character);
-      newCharacter.effects = [];
-      newCharacter.mana = newCharacter.maxMana;
-      setEnemyAttacks([]);
-      updateCharacter(newCharacter);
-      updateFloor(floor);
-      reset();
-    }
-    newEnemies = allEnemies[floor];
-    return newEnemies;
-  }
 }
 function AttackPlayer(
   character,
@@ -160,7 +165,11 @@ export function AttackPlayerFromStun(
   enemies,
   setEnemyAttacks,
   updateCharacter,
-  updateEnemies
+  updateEnemies,
+  floor,
+  allEnemies,
+  updateFloor,
+  reset
 ) {
   console.log("hello");
   setEnemyAttacks([]);
@@ -169,4 +178,47 @@ export function AttackPlayerFromStun(
   AttackPlayer(newCharacter, newEnemies, setEnemyAttacks);
   updateCharacter(newCharacter);
   updateEnemies(newEnemies);
+  if (newEnemies.length === 0) {
+    setEnemyAttacks([]);
+    newEnemies = nextFloor(
+      floor,
+      allEnemies,
+      character,
+      newEnemies,
+      setEnemyAttacks,
+      updateCharacter,
+      updateFloor,
+      reset
+    );
+    updateEnemies(newEnemies);
+    return;
+  }
+}
+
+function nextFloor(
+  floor,
+  allEnemies,
+  character,
+  enemies,
+  setEnemyAttacks,
+  updateCharacter,
+  updateFloor,
+  reset
+) {
+  floor = floor + 1;
+  if (floor >= allEnemies.length) {
+    alert("You win!");
+    window.location.reload();
+    reset();
+  } else {
+    var newCharacter = StateHelpers.makeNewCharacter(character);
+    newCharacter.effects = [];
+    newCharacter.mana = newCharacter.maxMana;
+    setEnemyAttacks([]);
+    updateCharacter(newCharacter);
+    updateFloor(floor);
+    reset();
+  }
+  enemies = allEnemies[floor];
+  return enemies;
 }
