@@ -18,7 +18,7 @@ export function Fireball() {
 
 export function MagicMissile() {
   const name = "MagicMissile";
-  const damage = 11;
+  const damage = 13;
   const effect = Effects.None;
   const casts = 3;
   return newAttack(name, damage, effect, casts);
