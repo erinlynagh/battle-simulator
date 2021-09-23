@@ -208,7 +208,6 @@ function nextFloor(
 ) {
   floor = floor + 1;
   if (floor >= allEnemies.length) {
-    alert("You win!");
     reset();
   } else {
     var newCharacter = StateHelpers.makeNewCharacter(character);
