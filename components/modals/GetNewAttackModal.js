@@ -42,6 +42,7 @@ export default function GetNewAttackModal({
   }
 
   function selectAttack(attack) {
+    getThreeRandomAttacks();
     let newCharacter = makeNewCharacter(character);
     let attackIndex = getCharacterAttackIndex(character, attack);
     if (attackIndex > -1) {
@@ -50,7 +51,6 @@ export default function GetNewAttackModal({
       newCharacter.attacks.push(attack);
     }
     updateCharacter(newCharacter);
-    getThreeRandomAttacks();
     handleAttackModal();
   }
 
