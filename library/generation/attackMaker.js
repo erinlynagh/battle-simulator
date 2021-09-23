@@ -39,8 +39,8 @@ export function Stupefy() {
 }
 export function Wither() {
   const name = "Wither";
-  const damage = 1;
-  const effect = Effects.Wither(3);
+  const damage = 3;
+  const effect = Effects.Wither(7);
   const casts = 3;
   return newAttack(name, damage, effect, casts);
 }
