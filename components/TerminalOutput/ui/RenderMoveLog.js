@@ -16,6 +16,9 @@ function RenderMoveLog({ enemyAttacks, enemies }) {
     <div id="enemy-moves" style={style}>
       {enemyAttacks.map((attack, index) => {
         var enemy = enemies.find(({ id }) => id === attack.id);
+        if (enemy === undefined) {
+          return;
+        }
         return (
           <React.Fragment key={index}>
             <span

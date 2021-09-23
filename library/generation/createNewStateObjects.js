@@ -24,3 +24,12 @@ export function makeNewEnemies(enemies) {
 export function makeNewAttack(attack) {
   return new Attack(attack.name, attack.power, attack.effect, attack.casts);
 }
+
+export function spoofAttack(
+  name = "spoofAttack",
+  power = 0,
+  effect = "",
+  casts = 2
+) {
+  return new Attack(name, power, effect, casts);
+}
