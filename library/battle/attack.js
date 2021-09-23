@@ -146,6 +146,7 @@ function AttackPlayer(
             }
           } else {
             AttackHelpers.Attack(enemy, attack, character);
+            attack.id = enemy.id;
             enemyAttacks.push(attack);
           }
         }

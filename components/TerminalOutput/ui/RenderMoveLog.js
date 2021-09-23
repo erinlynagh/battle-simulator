@@ -15,6 +15,7 @@ function RenderMoveLog({ enemyAttacks, enemies }) {
   return (
     <div id="enemy-moves" style={style}>
       {enemyAttacks.map((attack, index) => {
+        var enemy = enemies.find(({ id }) => id === attack.id);
         return (
           <React.Fragment key={index}>
             <span
@@ -22,10 +23,7 @@ function RenderMoveLog({ enemyAttacks, enemies }) {
               style={{ display: "block", textAlign: "center" }}
             >
               {attack.attackMessage
-                ? "> " +
-                  enemies[index].name +
-                  " attacks with " +
-                  attack.attackMessage
+                ? "> " + enemy.name + " attacks with " + attack.attackMessage
                 : attack}
               <ReactTooltip html={true} />
             </span>
