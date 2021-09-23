@@ -8,12 +8,12 @@ const ReactTooltip = dynamic(() => import("react-tooltip"), {
 function RenderMoveLog({ enemyAttacks, enemies }) {
   console.log(enemyAttacks);
   console.log(enemies);
-  let style = { color: "#c50f1f" };
+  let className = "text-red-700";
   if (Array.isArray(enemyAttacks) && enemyAttacks.length > 0) {
-    style = { color: "#c50f1f", marginBottom: "1vh" };
+    className += "mb-1";
   }
   return (
-    <div id="enemy-moves" style={style}>
+    <div id="enemy-moves" className={className}>
       {enemyAttacks.map((attack, index) => {
         var enemy = enemies.find(({ id }) => id === attack.id);
         if (enemy === undefined) {
@@ -21,10 +21,7 @@ function RenderMoveLog({ enemyAttacks, enemies }) {
         }
         return (
           <React.Fragment key={index}>
-            <span
-              data-tip={tooltip()}
-              style={{ display: "block", textAlign: "center" }}
-            >
+            <span data-tip={tooltip()} className="block text-center">
               {attack.attackMessage
                 ? "> " + enemy.name + " attacks with " + attack.attackMessage
                 : attack}

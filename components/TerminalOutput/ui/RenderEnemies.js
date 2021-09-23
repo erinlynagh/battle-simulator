@@ -31,11 +31,7 @@ function RenderAttack(attack, attackIndex) {
   return (
     <React.Fragment key={attackIndex}>
       <p
-        style={{
-          color: "#C19C00",
-          textDecoration: "underline",
-          margin: "0px",
-        }}
+        className="text-yellow-300 m-0 underline"
         data-tip={attack.getTooltip()}
       >
         {attack.name}
@@ -47,8 +43,8 @@ function RenderAttack(attack, attackIndex) {
 
 function RenderAttacks(enemy) {
   return (
-    <div className="attacks-container">
-      <p className={"attackHeader"}>Attacks:</p>
+    <div className="m-0">
+      <p className={"flex flex-column justify-center m-0"}>Attacks:</p>
       {enemy.attacks.map((attack, attackIndex) =>
         RenderAttack(attack, attackIndex)
       )}
@@ -60,8 +56,8 @@ function RenderEnemy({ enemy }) {
   if (enemy.animate) {
     return (
       <div className={css(styles[[enemy.animate]])}>
-        <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
-        <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
+        <p className="m-0 text-7xl">{enemy.emoji}</p>
+        <h3>{enemy.name}</h3>
         {RenderHealth(enemy.health, enemy.maxHealth)}
         {RenderAttacks(enemy)}
         {enemy.effects.length > 0 && RenderEffects(enemy)}
@@ -70,8 +66,8 @@ function RenderEnemy({ enemy }) {
   }
   return (
     <div>
-      <p style={{ fontSize: "5em", margin: "0px" }}>{enemy.emoji}</p>
-      <h3 style={{ marginTop: "-10px" }}>{enemy.name}</h3>
+      <p className="m-0 text-7xl">{enemy.emoji}</p>
+      <h3>{enemy.name}</h3>
       {RenderHealth(enemy.health, enemy.maxHealth)}
       {RenderAttacks(enemy)}
       {enemy.effects.length > 0 && RenderEffects(enemy)}
@@ -81,27 +77,11 @@ function RenderEnemy({ enemy }) {
 
 export default function RenderEnemies({ enemies }) {
   return (
-    <div
-      id="enemies"
-      style={{
-        alignSelf: "flex-start",
-        textAlign: "center",
-      }}
-    >
-      <div
-        style={{
-          flexDirection: "row",
-          display: "flex",
-          justifyContent: "space-around",
-        }}
-      >
+    <div id="enemies" className="align-self-center text-center">
+      <div className="flex flex-row justify-around">
         {Array.isArray(enemies) ? (
           enemies.map((enemy, index) => {
-            return (
-              <React.Fragment key={index}>
-                <RenderEnemy enemy={enemy} />
-              </React.Fragment>
-            );
+            return <RenderEnemy key={index} enemy={enemy} />;
           })
         ) : (
           <div>

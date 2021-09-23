@@ -6,27 +6,27 @@ const ReactTooltip = dynamic(() => import("react-tooltip"), {
 });
 
 export function RenderHealth(health, maxHealth) {
-  let style = { color: "#13A10E", marginTop: "-1em", marginBottom: "0px" };
+  var className = "text-green-600";
   if (health / maxHealth <= 0.5) {
-    style = { color: "#C19C00", marginTop: "-1em", marginBottom: "0px" };
+    className = "text-yellow-300";
   }
   if (health / maxHealth <= 0.25) {
-    style = { color: "#C50F1F", marginTop: "-1em", marginBottom: "0px" };
+    className = "text-red-700";
   }
   return (
-    <h4 style={style}>
+    <h4 className={className}>
       Health: {health}/{maxHealth}
     </h4>
   );
 }
 
 export function RenderMana(mana, maxMana) {
-  let style = { color: "#13A10E", marginTop: "0px" };
+  let color = "text-green-600";
   if (mana === 1) {
-    style = { color: "#C19C00", marginTop: "0px" };
+    color = "text-yellow-300";
   }
   return (
-    <h4 style={style}>
+    <h4 className={color}>
       Mana: {mana}/{maxMana}
     </h4>
   );
@@ -39,12 +39,7 @@ export function RenderEffects(enemy) {
     }
     return (
       <React.Fragment key={effectIndex}>
-        <p
-          style={{
-            textAlign: "center",
-          }}
-          data-tip={effect.getTooltip()}
-        >
+        <p className="text-center" data-tip={effect.getTooltip()}>
           {`${effect.name}: ${effect.duration} turns`}
         </p>
         <ReactTooltip html={true} />
@@ -52,20 +47,8 @@ export function RenderEffects(enemy) {
     );
   }
   return (
-    <div
-      style={{
-        flexDirection: "column",
-        color: "#A2A9B4",
-        backgroundColor: "#8E3A56",
-      }}
-    >
-      <div
-        style={{
-          display: "grid",
-          gridAutoColumns: "auto",
-          gridAutoRows: "auto",
-        }}
-      >
+    <div className="text-pink-600">
+      <div className="grid auto-rows-auto auto-columns-auto">
         {enemy.effects.map((effect, effectIndex) =>
           RenderEffect(effect, effectIndex)
         )}

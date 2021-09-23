@@ -81,22 +81,9 @@ function TerminalInput(props) {
 
   if (character.hasEffect("Stun")) {
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          flexWrap: "wrap",
-          textAlign: "center",
-        }}
-      >
+      <div className="flex flex-row justify-evenly flex-wrap text-center">
         <button
-          className="btn btn-submit"
-          style={{
-            marginTop: "1.33em",
-            backgroundColor: "#C50F1F",
-            borderColor: "#C50F1F",
-          }}
+          className="mt-1 bg-red-700"
           onClick={() =>
             AttackPlayerFromStun(
               character,
@@ -119,55 +106,32 @@ function TerminalInput(props) {
     return (
       <>
         <form onSubmit={handleSubmit}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              flexWrap: "wrap",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-evenly",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                width: "100%",
-              }}
-            >
+          <div className="flex flex-row justify-evenly flex-wrap">
+            <div className="flex flex-row justify-evenly flex-wrap w-screen">
               <button
                 type="button"
-                className={"btn form-btn top-btn"}
-                style={{
-                  marginBottom: "1.33em",
-                }}
                 value="attack"
+                className="bg-green-900 mb-2 py-2 px-4 rounded"
                 onClick={handleButtonClick}
               >
                 {showAttacks ? "Use an Item" : "Attack"}
               </button>
               {showAttacks && (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-evenly",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    width: "100%",
-                  }}
-                >
+                <div className="flex justify-evenly flex-row w-screen">
                   {character.attacks.map((attack, index) => {
                     return (
-                      <span data-tip={attack.getTooltip()} key={index}>
+                      <span
+                        data-tip={attack.getTooltip()}
+                        key={index}
+                        className="w-full self-center m-2 h-full"
+                      >
                         <button
                           type="button"
                           className={
                             selectedAttackId === index
-                              ? "btn form-btn selected"
-                              : "btn form-btn"
+                              ? "bg-blue-900 py-2 px-4 rounded h-full w-full"
+                              : "bg-gray-900 hover:text-blue-900 hover:bg-gray-300 py-2 px-4 rounded h-full w-full"
                           }
-                          style={{ marginBottom: "1.33em" }}
                           value={index}
                           name={attack.name}
                           onClick={handleAttackButtonClick}
@@ -182,15 +146,7 @@ function TerminalInput(props) {
                 </div>
               )}
               {showTargets && (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-evenly",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    width: "100%",
-                  }}
-                >
+                <div className="flex justify-evenly flex-row w-screen">
                   {Array.isArray(enemies) &&
                     enemies.map((enemy, index) => {
                       return (
@@ -198,10 +154,9 @@ function TerminalInput(props) {
                           type="button"
                           className={
                             selectedTargetId === index
-                              ? "btn form-btn selected"
-                              : "btn form-btn"
+                              ? "bg-pink-600 text-gray-300 m-2 py-2 px-4 rounded w-full"
+                              : "bg-gray-900 hover:text-pink-600 hover:bg-gray-300 m-2 py-2 px-4 rounded w-full"
                           }
-                          style={{ marginBottom: "1.33em" }}
                           value={index}
                           name={enemy.id}
                           key={index}
@@ -214,18 +169,15 @@ function TerminalInput(props) {
                 </div>
               )}
               {showSubmit && (
-                <button
-                  type="submit"
-                  className="btn form-btn btn-submit"
-                  style={{
-                    marginBottom: "1.33em",
-                    backgroundColor: "#C50F1F",
-                    borderColor: "#C50F1F",
-                  }}
-                  onClick={handleSubmit}
-                >
-                  {showAttacks ? "Attack" : "Use Item"}
-                </button>
+                <div className="flex justify-evenly">
+                  <button
+                    type="submit"
+                    className="bg-red-900 py-2 px-4 rounded hover:bg-red-700"
+                    onClick={handleSubmit}
+                  >
+                    {showAttacks ? "Attack" : "Use Item"}
+                  </button>
+                </div>
               )}
             </div>
           </div>

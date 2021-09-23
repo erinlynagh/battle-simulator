@@ -1,7 +1,5 @@
 import { Attack } from "./classes";
 import * as Effects from "./effectMaker";
-import { makeNewAttack } from "./createNewStateObjects";
-// player attacks
 
 function newAttack(name, damage, effect, casts) {
   let attack = new Attack(name, damage, effect, casts);
@@ -57,7 +55,7 @@ export function Wither() {
 export function ReflectiveCoating() {
   const name = "ReflectiveCoating";
   const damage = 0;
-  const effect = Effects.Reflect(1);
+  const effect = Effects.Reflect(2);
   const casts = 1;
   return newAttack(name, damage, effect, casts);
 }
