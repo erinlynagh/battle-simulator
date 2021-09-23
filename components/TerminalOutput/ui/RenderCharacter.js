@@ -20,7 +20,7 @@ export default function RenderCharacter({ character }) {
   return (
     <div
       id="character-full"
-      className="text-center flex flex-column justify-center items-center flex-wrap"
+      className="text-center flex flex-col justify-center items-center flex-wrap"
     >
       <RenderPerson character={character} />
       <div className={effectDivClassName}>

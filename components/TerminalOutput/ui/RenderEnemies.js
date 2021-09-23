@@ -44,7 +44,7 @@ function RenderAttack(attack, attackIndex) {
 function RenderAttacks(enemy) {
   return (
     <div className="m-0">
-      <p className={"flex flex-column justify-center m-0"}>Attacks:</p>
+      <p className={"flex flex-col justify-center m-0"}>Attacks:</p>
       {enemy.attacks.map((attack, attackIndex) =>
         RenderAttack(attack, attackIndex)
       )}

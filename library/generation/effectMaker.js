@@ -4,7 +4,7 @@ export const None = new Effect("None", 0, "");
 
 export function Stun(duration) {
   const description = "cannot act";
-  return new Effect("Stun", duration, `target ${description} for BLANK turns`);
+  return new Effect("Stun", duration, `Target ${description} for BLANK turns`);
 }
 
 export function Wither(duration) {
@@ -12,7 +12,7 @@ export function Wither(duration) {
   return new Effect(
     "Wither",
     duration,
-    `target ${description} for BLANK turns`
+    `Target ${description} for BLANK turns`
   );
 }
 
@@ -21,23 +21,23 @@ export function Vulnerable(duration) {
   return new Effect(
     "Vulnerable",
     duration,
-    `target ${description} for BLANK turns`
+    `Target ${description} for BLANK turns`
   );
 }
 
 export function Furious(duration) {
   const description = "deals additional damage";
-  return new Effect("Furious", duration, `${description} for BLANK turns`);
+  return new Effect("Furious", duration, `User ${description} for BLANK turns`);
 }
 
 export function Reflect(duration) {
   const description = "incoming damage is dealt back to attacker";
-  return new Effect("Reflect", duration, `${description} for BLANK turns`);
+  return new Effect("Reflect", duration, `User ${description} for BLANK turns`);
 }
 
 export function Heal(duration) {
   const description = "heals 5 health";
-  return new Effect("Heal", duration, `${description} for BLANK turns`);
+  return new Effect("Heal", duration, `User ${description} for BLANK turns`);
 }
 
 export function AppliesToAttacker(effect) {
