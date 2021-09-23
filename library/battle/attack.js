@@ -101,13 +101,6 @@ function AttackPlayer(
 ) {
   var enemyAttacks = [];
   var reflecting = false;
-  if (character.hasEffect("Heal")) {
-    if (character.health + 5 <= character.maxHealth) {
-      character.health += 5;
-    } else {
-      character.health = character.maxHealth;
-    }
-  }
   if (character.hasEffect("Reflect")) {
     reflecting = true;
   }

@@ -36,6 +36,14 @@ function applyAttackEffect(effect, defender, attacker) {
 }
 
 function applyAffect(character, effect) {
+  if (effect.name === "Heal") {
+    if (character.health + 5 <= character.maxHealth) {
+      character.health += 5;
+    } else {
+      character.health = character.maxHealth;
+    }
+    return;
+  }
   const effectIndex = getEffectIndex(character, effect.name);
   if (effectIndex === -1) {
     character.effects.push(
