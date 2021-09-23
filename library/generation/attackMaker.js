@@ -16,6 +16,14 @@ export function Fireball() {
   return newAttack(name, damage, effect, casts);
 }
 
+export function MagicMissile() {
+  const name = "MagicMissile";
+  const damage = 11;
+  const effect = Effects.None;
+  const casts = 3;
+  return newAttack(name, damage, effect, casts);
+}
+
 export function HyperBeam() {
   const name = "HyperBeam";
   const damage = 20;
@@ -23,6 +31,7 @@ export function HyperBeam() {
   const casts = 1;
   return newAttack(name, damage, effect, casts);
 }
+
 export function StaffSlam() {
   const name = "StaffSlam";
   const damage = 5;

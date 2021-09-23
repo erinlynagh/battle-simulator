@@ -8,5 +8,8 @@ export default function makeAllEnemies() {
     [EnemyMaker.makeBat(), EnemyMaker.makeBat()],
     [EnemyMaker.makeGoblin(), EnemyMaker.makeBat()],
     [EnemyMaker.makeWolf(), EnemyMaker.makeGoblin()],
+    [EnemyMaker.makeOgre(), EnemyMaker.makeOgre()],
+    [EnemyMaker.makeWolf(), EnemyMaker.makeWolf(), EnemyMaker.makeBat()],
+    [EnemyMaker.makeGoblin(), EnemyMaker.makeWolf(), EnemyMaker.makeBat()],
   ];
 }
