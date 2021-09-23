@@ -79,6 +79,11 @@ function TerminalInput(props) {
     setShowSubmit(true);
   }
 
+  const finalRow =
+    2 + Math.ceil(character.attacks.length / 3) + Math.ceil(enemies.length / 3);
+
+  console.log(finalRow);
+
   if (character.hasEffect("Stun")) {
     return (
       <div className="flex flex-row justify-evenly flex-wrap text-center">
@@ -107,30 +112,31 @@ function TerminalInput(props) {
       <>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-row justify-evenly flex-wrap">
-            <div className="flex flex-row justify-evenly flex-wrap w-screen">
+            <div className="grid">
               <button
                 type="button"
                 value="attack"
-                className="bg-green-900 mb-2 py-2 px-4 rounded"
+                className="bg-green-900 m-2 py-2 px-4 rounded row-start-1 col-span-4"
                 onClick={handleButtonClick}
               >
                 {showAttacks ? "Use an Item" : "Attack"}
               </button>
               {showAttacks && (
-                <div className="flex justify-evenly flex-row w-screen">
+                <>
                   {character.attacks.map((attack, index) => {
+                    var row = 1 + Math.ceil((index + 1) / 3);
                     return (
                       <span
                         data-tip={attack.getTooltip()}
                         key={index}
-                        className="w-full self-center m-2 h-full"
+                        className={"m-2 row-start-" + row}
                       >
                         <button
                           type="button"
                           className={
                             selectedAttackId === index
-                              ? "bg-blue-900 py-2 px-4 rounded h-full w-full"
-                              : "bg-gray-900 hover:text-blue-900 hover:bg-gray-300 py-2 px-4 rounded h-full w-full"
+                              ? "bg-blue-900 py-2 px-4 rounded h-full"
+                              : "bg-gray-900 hover:text-blue-900 hover:bg-gray-300 py-2 px-4 rounded h-full"
                           }
                           value={index}
                           name={attack.name}
@@ -143,36 +149,42 @@ function TerminalInput(props) {
                       </span>
                     );
                   })}
-                </div>
+                </>
               )}
               {showTargets && (
-                <div className="flex justify-evenly flex-row w-screen">
+                <>
                   {Array.isArray(enemies) &&
                     enemies.map((enemy, index) => {
+                      var row =
+                        1 +
+                        Math.ceil((index + 1) / 3) +
+                        Math.ceil(character.attacks.length / 3);
+                      console.log();
                       return (
-                        <button
-                          type="button"
-                          className={
-                            selectedTargetId === index
-                              ? "bg-pink-600 text-gray-300 m-2 py-2 px-4 rounded w-full"
-                              : "bg-gray-900 hover:text-pink-600 hover:bg-gray-300 m-2 py-2 px-4 rounded w-full"
-                          }
-                          value={index}
-                          name={enemy.id}
-                          key={index}
-                          onClick={handleTargetButtonClick}
-                        >
-                          {enemy.name}
-                        </button>
+                        <div key={index} className={"m-2 row-start-" + row}>
+                          <button
+                            type="button"
+                            className={
+                              selectedTargetId === index
+                                ? "bg-pink-600 text-gray-300 py-2 px-4 rounded w-full h-full "
+                                : "bg-gray-900 hover:text-pink-600 hover:bg-gray-300 py-2 px-4 rounded w-full h-full"
+                            }
+                            value={index}
+                            name={enemy.id}
+                            onClick={handleTargetButtonClick}
+                          >
+                            {enemy.name}
+                          </button>
+                        </div>
                       );
                     })}
-                </div>
+                </>
               )}
               {showSubmit && (
-                <div className="flex justify-evenly">
+                <div className={"m-2 col-span-3 row-start-" + finalRow}>
                   <button
                     type="submit"
-                    className="bg-red-900 py-2 px-4 rounded hover:bg-red-700"
+                    className="bg-red-900 py-2 px-4 rounded hover:bg-red-700 w-full"
                     onClick={handleSubmit}
                   >
                     {showAttacks ? "Attack" : "Use Item"}
