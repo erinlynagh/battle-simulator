@@ -22,27 +22,26 @@ export default function BattleSimulator(props) {
   }
 
   return (
-    <div id="root" className="root">
-      <div id="terminal" className="terminal">
-        <TerminalOutput
-          character={character}
-          updateCharacter={updateCharacter}
-          enemies={enemies}
-          allEnemies={allEnemies}
-          updateEnemies={setEnemies}
-          floor={floor}
-          updateFloor={setFloor}
-          enemyAttacks={enemyAttacks}
-          setEnemyAttacks={setEnemyAttacks}
-          handleAttackModal={handleAttackModal}
-        />
-      </div>
+    <>
+      <TerminalOutput
+        character={character}
+        updateCharacter={updateCharacter}
+        enemies={enemies}
+        allEnemies={allEnemies}
+        updateEnemies={setEnemies}
+        floor={floor}
+        updateFloor={setFloor}
+        enemyAttacks={enemyAttacks}
+        setEnemyAttacks={setEnemyAttacks}
+        handleAttackModal={handleAttackModal}
+      />
+
       <GetNewAttackModal
         showAttackModal={showAttackModal}
         handleAttackModal={handleAttackModal}
         character={character}
         updateCharacter={updateCharacter}
       />
-    </div>
+    </>
   );
 }

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
   font-family: "HackNF";
   src: url("./fonts/HackNF/hack_bold_italic_nerd_font_complete_mono-webfont.woff2")
@@ -6,25 +10,4 @@
       format("woff");
   font-weight: normal;
   font-style: normal;
-}
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: "HackNF", sans-serif;
-  background-color: #0c0c0c;
-  color: #a4a4a4;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-.grid {
-  display: grid;
 }

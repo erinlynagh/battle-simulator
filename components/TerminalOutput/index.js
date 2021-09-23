@@ -21,16 +21,11 @@ function TerminalOutput(props) {
   const welcomeMessage = `❯ ${character.name}, Welcome to the Dungeon`;
 
   return (
-    <div id="terminal-output" style={{ height: "100%" }}>
+    <div id="terminal-output">
       <RenderEnemies enemies={enemies} />
       <RenderMoveLog enemyAttacks={enemyAttacks} enemies={enemies} />
       <RenderCharacter character={character} />
-      <div
-        style={{
-          flex: "1",
-          height: "100%",
-        }}
-      >
+      <div>
         <TerminalInput
           character={character}
           updateCharacter={updateCharacter}

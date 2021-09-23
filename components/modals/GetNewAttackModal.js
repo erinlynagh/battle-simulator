@@ -74,55 +74,29 @@ export default function GetNewAttackModal({
         overlay: { background: "#323232" },
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          background: "#0c0c0c",
-        }}
-      >
-        <div style={{ display: "flex" }}>
+      <div className="flex flex-col items-center text-gray-300 text-center">
+        <div className="flex">
           <p>Select a New Attack</p>
         </div>
-        <div className="grid cards-container">
+        <div className="text-center flex flex-col flex-wrap">
           {Array.isArray(randomAttacks) &&
             randomAttacks.map((attack, index) => {
+              var className = `bg-gray-900 m-1 grid-row-1 col-${index} hover:bg-gray-800`;
               return (
-                <div
-                  className="card"
-                  key={index}
-                  style={{
-                    margin: "1em",
-                    gridColumn: index,
-                    gridRow: 1,
-                  }}
-                >
-                  <div
-                    className="container"
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      height: "100%",
-                    }}
-                  >
-                    <h4 style={{ marginBottom: "0px" }}>
-                      <b>
+                <div className={className} key={index}>
+                  <div className="px-1 py-2 flex flex-col h-full">
+                    <h4>
+                      <b className="text-red-400">
                         {attack.name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ")}
                       </b>
                     </h4>
-                    <p data-tip={attack.effect.getTooltip()}>
-                      {attack.getTooltip()}
-                    </p>
-                    <p style={{ marginTop: "auto", marginBottom: "0.3vh" }}>
-                      Casts: {attack.casts}
-                    </p>
+                    <p>{attack.getTooltip()}</p>
+                    <p className="mt-auto mb-1">Casts: {attack.casts}</p>
                     <ReactTooltip html={true} />
                     <button
                       type="button"
-                      className="btn"
+                      className="py-2 px-4 rounded bg-green-600 w-4/12 self-center"
                       value={attack.name}
-                      style={{ marginTop: "0px", marginBottom: "0.3vh" }}
                       onClick={() => selectAttack(attack)}
                     >
                       Select
@@ -132,22 +106,21 @@ export default function GetNewAttackModal({
               );
             })}
         </div>
-        <div style={{ display: "flex", alignItems: "end", marginTop: "2vh" }}>
-          <button className="btn" onClick={() => getThreeRandomAttacks()}>
+        <div className="flex items-end mt-2">
+          <button
+            className="py-2 px-4 rounded bg-blue-600 mx-2"
+            onClick={() => getThreeRandomAttacks()}
+          >
             ReRoll
           </button>
-          <button className="btn" onClick={() => handleClick()}>
+          <button
+            className="py-2 px-4 rounded bg-blue-600 mx-2"
+            onClick={() => handleClick()}
+          >
             Skip
           </button>
         </div>
       </div>
     </Modal>
   );
-}
-
-function xorShift(seed) {
-  seed ^= seed << 13;
-  seed ^= seed >> 17;
-  seed ^= seed << 5;
-  return seed < 0 ? ~seed + 1 : seed; //2's complement of the negative result to make all numbers positive.
 }

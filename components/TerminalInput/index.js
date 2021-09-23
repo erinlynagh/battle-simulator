@@ -79,24 +79,16 @@ function TerminalInput(props) {
     setShowSubmit(true);
   }
 
+  const finalRow =
+    2 + Math.ceil(character.attacks.length / 3) + Math.ceil(enemies.length / 3);
+
+  console.log(finalRow);
+
   if (character.hasEffect("Stun")) {
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          flexWrap: "wrap",
-          textAlign: "center",
-        }}
-      >
+      <div className="flex flex-row justify-evenly flex-wrap text-center">
         <button
-          className="btn btn-submit"
-          style={{
-            marginTop: "1.33em",
-            backgroundColor: "#C50F1F",
-            borderColor: "#C50F1F",
-          }}
+          className="mt-1 bg-red-700"
           onClick={() =>
             AttackPlayerFromStun(
               character,
@@ -119,55 +111,33 @@ function TerminalInput(props) {
     return (
       <>
         <form onSubmit={handleSubmit}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              flexWrap: "wrap",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-evenly",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                width: "100%",
-              }}
-            >
+          <div className="flex flex-row justify-evenly flex-wrap">
+            <div className="grid">
               <button
                 type="button"
-                className={"btn form-btn top-btn"}
-                style={{
-                  marginBottom: "1.33em",
-                }}
                 value="attack"
+                className="bg-green-900 m-2 py-2 px-4 rounded row-start-1 col-span-4"
                 onClick={handleButtonClick}
               >
                 {showAttacks ? "Use an Item" : "Attack"}
               </button>
               {showAttacks && (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-evenly",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    width: "100%",
-                  }}
-                >
+                <>
                   {character.attacks.map((attack, index) => {
+                    var row = 1 + Math.ceil((index + 1) / 3);
                     return (
-                      <span data-tip={attack.getTooltip()} key={index}>
+                      <span
+                        data-tip={attack.getTooltip()}
+                        key={index}
+                        className={"m-2 row-start-" + row}
+                      >
                         <button
                           type="button"
                           className={
                             selectedAttackId === index
-                              ? "btn form-btn selected"
-                              : "btn form-btn"
+                              ? "bg-blue-900 py-2 px-4 rounded h-full"
+                              : "bg-gray-900 hover:text-blue-900 hover:bg-gray-300 py-2 px-4 rounded h-full"
                           }
-                          style={{ marginBottom: "1.33em" }}
                           value={index}
                           name={attack.name}
                           onClick={handleAttackButtonClick}
@@ -179,53 +149,47 @@ function TerminalInput(props) {
                       </span>
                     );
                   })}
-                </div>
+                </>
               )}
               {showTargets && (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-evenly",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    width: "100%",
-                  }}
-                >
+                <>
                   {Array.isArray(enemies) &&
                     enemies.map((enemy, index) => {
+                      var row =
+                        1 +
+                        Math.ceil((index + 1) / 3) +
+                        Math.ceil(character.attacks.length / 3);
+                      console.log();
                       return (
-                        <button
-                          type="button"
-                          className={
-                            selectedTargetId === index
-                              ? "btn form-btn selected"
-                              : "btn form-btn"
-                          }
-                          style={{ marginBottom: "1.33em" }}
-                          value={index}
-                          name={enemy.id}
-                          key={index}
-                          onClick={handleTargetButtonClick}
-                        >
-                          {enemy.name}
-                        </button>
+                        <div key={index} className={"m-2 row-start-" + row}>
+                          <button
+                            type="button"
+                            className={
+                              selectedTargetId === index
+                                ? "bg-pink-600 text-gray-300 py-2 px-4 rounded w-full h-full "
+                                : "bg-gray-900 hover:text-pink-600 hover:bg-gray-300 py-2 px-4 rounded w-full h-full"
+                            }
+                            value={index}
+                            name={enemy.id}
+                            onClick={handleTargetButtonClick}
+                          >
+                            {enemy.name}
+                          </button>
+                        </div>
                       );
                     })}
-                </div>
+                </>
               )}
               {showSubmit && (
-                <button
-                  type="submit"
-                  className="btn form-btn btn-submit"
-                  style={{
-                    marginBottom: "1.33em",
-                    backgroundColor: "#C50F1F",
-                    borderColor: "#C50F1F",
-                  }}
-                  onClick={handleSubmit}
-                >
-                  {showAttacks ? "Attack" : "Use Item"}
-                </button>
+                <div className={"m-2 col-span-3 row-start-" + finalRow}>
+                  <button
+                    type="submit"
+                    className="bg-red-900 py-2 px-4 rounded hover:bg-red-700 w-full"
+                    onClick={handleSubmit}
+                  >
+                    {showAttacks ? "Attack" : "Use Item"}
+                  </button>
+                </div>
               )}
             </div>
           </div>
