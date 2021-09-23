@@ -21,9 +21,9 @@ export function RenderHealth(health, maxHealth) {
 }
 
 export function RenderMana(mana, maxMana) {
-  let style = { color: "#13A10E", marginTop: "-1em" };
+  let style = { color: "#13A10E", marginTop: "0px" };
   if (mana === 1) {
-    style = { color: "#C19C00", marginTop: "-1em" };
+    style = { color: "#C19C00", marginTop: "0px" };
   }
   return (
     <h4 style={style}>
