@@ -6,7 +6,7 @@ export function newAttack(name, damage, effect, casts) {
 }
 
 module.exports = {
-  ...require("./TierOne"),
-  ...require("./TierTwo"),
   ...require("./TierThree"),
+  ...require("./TierTwo"),
+  ...require("./TierOne"),
 };

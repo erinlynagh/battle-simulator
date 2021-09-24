@@ -218,6 +218,7 @@ function nextFloor(
   } else {
     var newCharacter = StateHelpers.makeNewCharacter(character);
     newCharacter.effects = [];
+    newCharacter.coins += 3;
     newCharacter.mana = newCharacter.maxMana;
     setEnemyAttacks([]);
     updateCharacter(newCharacter);
