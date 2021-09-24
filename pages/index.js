@@ -21,7 +21,7 @@ export default function Home() {
       return check;
     };
     if (isMobile()) {
-      setRootStyle({ height: "100vh", overflow: "hidden" });
+      setRootStyle({ minHeight: "100vh", minHeight: "-webkit-fill-available" });
     }
   }, []);
 
