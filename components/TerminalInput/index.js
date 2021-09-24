@@ -91,100 +91,94 @@ function TerminalInput(props) {
     );
   } else {
     return (
-      <>
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-row justify-evenly flex-wrap">
-            <div className="flex flex-row justify-evenly flex-wrap w-screen">
-              <button
-                type="button"
-                value="attack"
-                className="bg-green-900 mb-2 py-2 px-4 rounded"
-                onClick={handleButtonClick}
-              >
-                {showAttacks ? "Use an Item" : "Attack"}
-              </button>
-              {showAttacks && (
-                <div className="flex justify-evenly flex-row w-screen flex-wrap">
-                  {character.attacks.map((attack, index) => {
-                    return (
-                      <span
-                        data-tip={attack.getTooltip()}
-                        key={index}
-                        className="self-center m-2 w-5/12"
-                      >
-                        <button
-                          type="button"
-                          className={
-                            selectedAttackId === index
-                              ? "bg-blue-900 py-2 px-4 rounded w-full h-full"
-                              : "bg-gray-900 hover:text-blue-900 hover:bg-gray-300 py-2 px-4 rounded w-full h-full"
-                          }
-                          value={index}
-                          name={attack.name}
-                          onClick={handleAttackButtonClick}
-                        >
-                          {attack.name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ")} (
-                          {attack.casts})
-                          <ReactTooltip />
-                        </button>
-                      </span>
-                    );
-                  })}
-                </div>
-              )}
-              {showTargets && (
-                <div className="flex justify-around flex-row w-screen">
-                  {Array.isArray(enemies) &&
-                    enemies.map((enemy, index) => {
-                      return (
-                        <button
-                          type="button"
-                          className={
-                            selectedTargetId === index
-                              ? "bg-pink-600 text-gray-300 m-2 py-2 px-4 rounded"
-                              : "bg-gray-900 hover:text-pink-600 hover:bg-gray-300 m-2 py-2 px-4 rounded"
-                          }
-                          value={index}
-                          name={enemy.id}
-                          key={index}
-                          onClick={handleTargetButtonClick}
-                        >
-                          {enemy.name}
-                        </button>
-                      );
-                    })}
-                </div>
-              )}
-              {showSubmit ? (
-                <div className="flex justify-evenly">
+      <div className="flex flex-row justify-evenly flex-wrap w-screen">
+        <button
+          type="button"
+          value="attack"
+          className="bg-green-900 m-2 py-2 px-4 rounded"
+          onClick={handleButtonClick}
+        >
+          {showAttacks ? "Use an Item" : "Attack"}
+        </button>
+        {showAttacks && (
+          <div className="flex justify-evenly flex-row w-screen flex-wrap ">
+            {character.attacks.map((attack, index) => {
+              return (
+                <span
+                  data-tip={attack.getTooltip()}
+                  key={index}
+                  className="self-center m-2 w-5/12"
+                >
                   <button
-                    type="submit"
-                    className="bg-red-900 py-2 px-4 rounded hover:bg-gray-400 hover:text-red-900"
-                    onClick={handleSubmit}
+                    type="button"
+                    className={
+                      selectedAttackId === index
+                        ? "bg-blue-900 py-2 px-4 rounded w-full h-full"
+                        : "bg-gray-900 hover:text-blue-900 hover:bg-gray-300 py-2 px-4 rounded w-full h-full"
+                    }
+                    value={index}
+                    name={attack.name}
+                    onClick={handleAttackButtonClick}
                   >
-                    {showAttacks ? "Attack" : "Use Item"}
+                    {attack.name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ")} (
+                    {attack.casts})
+                    <ReactTooltip />
                   </button>
-                </div>
-              ) : (
-                <>
-                  {!showTargets && (
-                    <div className="flex justify-evenly">
-                      <button
-                        type="submit"
-                        className="bg-yellow-600 py-2 px-4 rounded hover:bg-gray-300 hover:text-yellow-600"
-                        value="end turn"
-                        onClick={handleSubmit}
-                      >
-                        End Turn
-                      </button>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
+                </span>
+              );
+            })}
           </div>
-        </form>
-      </>
+        )}
+        {showTargets && (
+          <div className="flex justify-around flex-row w-screen">
+            {Array.isArray(enemies) &&
+              enemies.map((enemy, index) => {
+                return (
+                  <button
+                    type="button"
+                    className={
+                      selectedTargetId === index
+                        ? "bg-pink-600 text-gray-300 m-2 py-2 px-4 rounded"
+                        : "bg-gray-900 hover:text-pink-600 hover:bg-gray-300 m-2 py-2 px-4 rounded"
+                    }
+                    value={index}
+                    name={enemy.id}
+                    key={index}
+                    onClick={handleTargetButtonClick}
+                  >
+                    {enemy.name}
+                  </button>
+                );
+              })}
+          </div>
+        )}
+        {showSubmit ? (
+          <div className="flex justify-evenly">
+            <button
+              type="submit"
+              className="bg-red-900 py-2 px-4 rounded hover:bg-gray-400 hover:text-red-900"
+              onClick={handleSubmit}
+            >
+              {showAttacks ? "Attack" : "Use Item"}
+            </button>
+          </div>
+        ) : (
+          <>
+            {!showTargets && (
+              <div className="flex justify-center items-end">
+                <button
+                  type="submit"
+                  className="bg-yellow-600 py-2 px-4 rounded hover:bg-gray-300 hover:text-yellow-600"
+                  value="end turn"
+                  onClick={handleSubmit}
+                >
+                  End Turn
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     );
   }
 }

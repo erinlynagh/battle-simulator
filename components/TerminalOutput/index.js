@@ -21,24 +21,22 @@ function TerminalOutput(props) {
   const welcomeMessage = `❯ ${character.name}, Welcome to the Dungeon`;
 
   return (
-    <div id="terminal-output" className="pt-3">
+    <div id="terminal-output" className="pt-3  h-full">
       <RenderEnemies enemies={enemies} />
       <RenderMoveLog enemyAttacks={enemyAttacks} enemies={enemies} />
       <RenderCharacter character={character} />
-      <div>
-        <TerminalInput
-          character={character}
-          updateCharacter={updateCharacter}
-          enemies={enemies}
-          updateEnemies={updateEnemies}
-          allEnemies={allEnemies}
-          floor={floor}
-          updateFloor={updateFloor}
-          enemyAttacks={enemyAttacks}
-          setEnemyAttacks={setEnemyAttacks}
-          handleAttackModal={handleAttackModal}
-        />
-      </div>
+      <TerminalInput
+        character={character}
+        updateCharacter={updateCharacter}
+        enemies={enemies}
+        updateEnemies={updateEnemies}
+        allEnemies={allEnemies}
+        floor={floor}
+        updateFloor={updateFloor}
+        enemyAttacks={enemyAttacks}
+        setEnemyAttacks={setEnemyAttacks}
+        handleAttackModal={handleAttackModal}
+      />
     </div>
   );
 }
