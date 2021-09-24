@@ -1,4 +1,4 @@
-import { Character, Attack } from "../classes";
+import { Character, Attack } from "./classes";
 export function makeNewCharacter(character) {
   return new Character(
     character.name,
@@ -9,7 +9,8 @@ export function makeNewCharacter(character) {
     character.effects,
     character.mana,
     character.maxMana,
-    character.id
+    character.id,
+    false
   );
 }
 
@@ -25,11 +26,10 @@ export function makeNewAttack(attack) {
   return new Attack(attack.name, attack.power, attack.effect, attack.casts);
 }
 
-export function spoofAttack(
-  name = "spoofAttack",
-  power = 0,
-  effect = "",
-  casts = 2
-) {
-  return new Attack(name, power, effect, casts);
+export function spoofAttack(enemy) {
+  let name = enemy.name;
+  let spoofAttack = new Attack(name, 0, "", 2);
+  spoofAttack.id = enemy.id;
+  spoofAttack.spoof = true;
+  return spoofAttack;
 }

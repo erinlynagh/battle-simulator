@@ -7,7 +7,11 @@ module.exports = {
   ],
   darkMode: "media", // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        88: "21rem",
+      },
+    },
     fontFamily: {
       sans: ["HackNF"],
       serif: ["HackNF"],
@@ -17,5 +21,6 @@ module.exports = {
   variants: {
     extend: {},
   },
+
   plugins: [],
 };

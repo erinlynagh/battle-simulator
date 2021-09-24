@@ -1,6 +1,6 @@
 import * as Attacks from "../generation/attackMaker/attacks";
 import * as AttackHelpers from "./attackHelpers";
-import * as StateHelpers from "../generation/createNewStateObjects";
+import * as StateHelpers from "../copyClasses";
 import Heap from "heap";
 
 function sleep(ms) {
@@ -32,6 +32,21 @@ export function AttackEnemy(
   handleAttackModal
 ) {
   // loads attack data from library
+  if (!attack) {
+    AttackPlayerFromStun(
+      character,
+      enemies,
+      setEnemyAttacks,
+      updateCharacter,
+      updateEnemies,
+      floor,
+      allEnemies,
+      updateFloor,
+      reset,
+      handleAttackModal
+    );
+    return;
+  }
   attack = Attacks[[attack]]();
 
   // create copy of state objects to transform then reassign to state
@@ -102,6 +117,7 @@ export function AttackEnemy(
     updateEnemies(newEnemies);
   }
 }
+
 function AttackPlayer(
   character,
   enemies,
@@ -114,12 +130,20 @@ function AttackPlayer(
   if (character.hasEffect("Reflect")) {
     reflecting = true;
   }
+
   AttackHelpers.reduceCharacterEffectDurations(character);
-  console.log(enemies);
   character.refreshMana();
 
   enemies.forEach(function (enemy, enemyIndex) {
     var attacked = false;
+
+    if (enemy.hasEffect("Curse")) {
+      applyCurseDamage(enemy, enemyIndex);
+      if (enemy.hasEffect("Doomed")) {
+        var multiplier = enemy.getEffectDuration("Doomed");
+        applyDoomedDamage(enemy, enemyIndex, multiplier);
+      }
+    }
 
     if (enemy.health <= 0 || enemy.hasEffect("Stun")) {
       enemy.animate = "shake";
@@ -152,16 +176,42 @@ function AttackPlayer(
   setEnemyAttacks(enemyAttacks);
   AttackHelpers.reduceEnemiesEffectDurations(enemies);
 
+  function applyCurseDamage(enemy, enemyIndex) {
+    let spoofAttack = new StateHelpers.spoofAttack(enemy);
+    let curseDamage = enemy.getEffectDuration("Curse");
+    enemy.health -= curseDamage;
+    if (enemy.health <= 0) {
+      spoofAttack.attackMessage = `${enemy.name} dies from their curse!`;
+      killEnemy(enemies, enemyIndex, handleAttackModal, reset);
+    } else {
+      spoofAttack.attackMessage = `${enemy.name} takes ${curseDamage} from their curse!`;
+      enemyAttacks.push(spoofAttack);
+    }
+  }
+
+  function applyDoomedDamage(enemy, enemyIndex, multiplier) {
+    let spoofAttack = new StateHelpers.spoofAttack(enemy);
+    let curseDamage = multiplier * enemy.getEffectDuration("Curse");
+    enemy.health -= curseDamage;
+    if (enemy.health <= 0) {
+      spoofAttack.attackMessage = `${enemy.name} was doomed!`;
+      killEnemy(enemies, enemyIndex, handleAttackModal, reset);
+    } else {
+      spoofAttack.attackMessage = `${enemy.name} is doomed to take ${curseDamage}!`;
+      enemyAttacks.push(spoofAttack);
+    }
+  }
+
   function reflectAttack(enemy, attack, enemyIndex) {
     AttackHelpers.Attack(enemy, attack, enemy);
-    let spoofAttack = new StateHelpers.spoofAttack(enemy.name);
-    spoofAttack.id = enemy.id;
+    let spoofAttack = new StateHelpers.spoofAttack(enemy);
     if (enemy.health <= 0) {
-      spoofAttack.attackMessage = attack.name + " and kills themselves!";
+      spoofAttack.attackMessage =
+        attack.name + "is reflected back at " + enemy.name + " and kills them!";
       killEnemy(enemies, enemyIndex, handleAttackModal, reset);
     } else {
       spoofAttack.attackMessage =
-        attack.name + " and deals damage to themselves!";
+        attack.name + "is reflected back at " + enemy.name;
       enemyAttacks.push(spoofAttack);
     }
   }
@@ -176,30 +226,39 @@ export function AttackPlayerFromStun(
   floor,
   allEnemies,
   updateFloor,
-  reset
+  reset,
+  handleAttackModal
 ) {
-  console.log("hello");
   setEnemyAttacks([]);
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
-  AttackPlayer(newCharacter, newEnemies, setEnemyAttacks);
-  updateCharacter(newCharacter);
   updateEnemies(newEnemies);
-  if (newEnemies.length === 0) {
-    setEnemyAttacks([]);
-    newEnemies = nextFloor(
-      floor,
-      allEnemies,
-      character,
+  sleep(200).then(() => {
+    AttackPlayer(
+      newCharacter,
       newEnemies,
       setEnemyAttacks,
-      updateCharacter,
-      updateFloor,
+      handleAttackModal,
       reset
     );
+    updateCharacter(newCharacter);
     updateEnemies(newEnemies);
-    return;
-  }
+    if (newEnemies.length === 0) {
+      setEnemyAttacks([]);
+      newEnemies = nextFloor(
+        floor,
+        allEnemies,
+        character,
+        newEnemies,
+        setEnemyAttacks,
+        updateCharacter,
+        updateFloor,
+        reset
+      );
+      updateEnemies(newEnemies);
+      return;
+    }
+  });
 }
 
 function nextFloor(

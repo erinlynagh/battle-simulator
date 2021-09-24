@@ -16,3 +16,27 @@ export function HyperBeam() {
   const casts = 1;
   return newAttack(name, damage, effect, casts);
 }
+
+export function Torment() {
+  const name = "Torment";
+  const damage = 5;
+  const effect = Effects.Doomed(2);
+  const casts = 1;
+  return newAttack(name, damage, effect, casts);
+}
+
+// export function Chrysopoeia() {
+//   const name = "Chrysopoeia";
+//   const damage = 10;
+//   const effect = Effects.Midas(2);
+//   const casts = 1;
+//   return newAttack(name, damage, effect, casts);
+// }
+
+// export function ReapSpirit() {
+//   const name = "ReapSpirit";
+//   const damage = 10;
+//   const effect = Effects.IncreaseMana(1);
+//   const casts = 1;
+//   return newAttack(name, damage, effect, casts);
+// }

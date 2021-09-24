@@ -17,7 +17,6 @@ export function makeCharacter(
   mana = defaultMana,
   maxMana = defaultMana
 ) {
-  console.log(Attacks);
   return new Character(
     name,
     health,
