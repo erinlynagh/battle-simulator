@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TerminalOutput from "../TerminalOutput";
 import { makeCharacter } from "../../library/generation/characterMaker";
 import makeAllEnemies from "../../library/generation/makeAllEnemies";
@@ -33,6 +33,15 @@ export default function BattleSimulator(props) {
     }
   }
 
+  useEffect(() => {
+    if (document.documentElement.webkitRequestFullscreen) {
+      document.documentElement.webkitRequestFullscreen();
+    } else if (elem.requestFullscreen) {
+      document.documentElement.RequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      document.documentElement.msRequestFullscreen();
+    }
+  });
   return (
     <>
       <TerminalOutput
