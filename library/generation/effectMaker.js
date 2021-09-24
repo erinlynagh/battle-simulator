@@ -1,6 +1,8 @@
-import { Effect } from "./classes";
+import { Effect } from "../classes";
 
 export const None = new Effect("None", 0, "");
+
+//Target Defender
 
 export function Stun(duration) {
   const description = "cannot act";
@@ -24,6 +26,18 @@ export function Vulnerable(duration) {
     `Target ${description} for BLANK turns`
   );
 }
+
+export function Curse(duration) {
+  const description = "takes BLANK damage";
+  return new Effect("Curse", duration, `Target ${description} this turn`);
+}
+
+export function Doomed(duration) {
+  const description = `takes damage equal to ${duration}x it's Curse`;
+  return new Effect("Doomed", duration, `Target ${description}`);
+}
+
+//target attacker
 
 export function Furious(duration) {
   const description = "deals additional damage";

@@ -6,8 +6,6 @@ const ReactTooltip = dynamic(() => import("react-tooltip"), {
 });
 
 function RenderMoveLog({ enemyAttacks, enemies }) {
-  console.log(enemyAttacks);
-  console.log(enemies);
   let className = "text-red-700";
   if (Array.isArray(enemyAttacks) && enemyAttacks.length > 0) {
     className += " mb-1";
@@ -22,9 +20,9 @@ function RenderMoveLog({ enemyAttacks, enemies }) {
         return (
           <React.Fragment key={index}>
             <span data-tip={tooltip()} className="block text-center">
-              {attack.attackMessage
+              {attack.attackMessage && !attack.spoof
                 ? "> " + enemy.name + " attacks with " + attack.attackMessage
-                : attack}
+                : attack.attackMessage}
               <ReactTooltip html={true} />
             </span>
           </React.Fragment>

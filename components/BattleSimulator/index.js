@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TerminalOutput from "../TerminalOutput";
 import { makeCharacter } from "../../library/generation/characterMaker";
 import makeAllEnemies from "../../library/generation/makeAllEnemies";
-import GetNewAttackModal from "../modals/GetNewAttackModal";
+import ShopModal from "../modals/ShopModal";
+import BattleModal from "../modals/BattleModal";
 
 export default function BattleSimulator(props) {
   const allEnemies = makeAllEnemies();
@@ -12,6 +13,7 @@ export default function BattleSimulator(props) {
   const [enemies, setEnemies] = useState(allEnemies[floor]);
   const [enemyAttacks, setEnemyAttacks] = useState([]);
   const [showAttackModal, setShowAttackModal] = useState(false);
+  const [showBattleModal, setShowBattleModal] = useState(false);
 
   function handleAttackModal() {
     if (showAttackModal) {
@@ -20,6 +22,30 @@ export default function BattleSimulator(props) {
       setShowAttackModal(true);
     }
   }
+
+  function handleBattleModal() {
+    if (showBattleModal) {
+      setShowAttackModal(true);
+      setShowBattleModal(false);
+    } else {
+      setShowAttackModal(false);
+      setShowBattleModal(true);
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("keyup", (e) => {
+      if (e.code === "KeyF") {
+        if (document.documentElement.webkitRequestFullscreen) {
+          document.documentElement.webkitRequestFullscreen();
+        } else if (elem.requestFullscreen) {
+          document.documentElement.RequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          document.documentElement.msRequestFullscreen();
+        }
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -36,11 +62,18 @@ export default function BattleSimulator(props) {
         handleAttackModal={handleAttackModal}
       />
 
-      <GetNewAttackModal
+      <ShopModal
         showAttackModal={showAttackModal}
         handleAttackModal={handleAttackModal}
         character={character}
         updateCharacter={updateCharacter}
+        showBattleModal={showBattleModal}
+        handleBattleModal={handleBattleModal}
+      />
+
+      <BattleModal
+        showBattleModal={showBattleModal}
+        handleBattleModal={handleBattleModal}
       />
     </>
   );

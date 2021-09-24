@@ -1,6 +1,5 @@
-import { Effect } from "../generation/classes";
+import { Effect } from "../classes";
 import { AppliesToAttacker } from "../generation/effectMaker";
-import * as StateHelpers from "../generation/createNewStateObjects";
 
 // character attacks adversary with attack
 export function Attack(attacker, attack, defender, reset = false) {

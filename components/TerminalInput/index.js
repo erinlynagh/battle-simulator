@@ -19,7 +19,7 @@ function TerminalInput(props) {
     handleAttackModal,
   } = props;
   // for rendering
-  const [showAttacks, setShowAttacks] = useState(false);
+  const [showAttacks, setShowAttacks] = useState(true);
   const [showTargets, setShowTargets] = useState(false);
   const [showItems, setShowItems] = useState(false);
   const [showSubmit, setShowSubmit] = useState(false);
@@ -50,11 +50,11 @@ function TerminalInput(props) {
   function reset() {
     // setShowAttacks(false);
     // setShowItems(false);
-    setShowTargets(false);
     setSelectedAttackId("");
     setSelectedAttack(false);
     setSelectedTarget("");
     setSelectedTargetId("");
+    setShowTargets(false);
     setShowSubmit(false);
   }
 
@@ -64,12 +64,11 @@ function TerminalInput(props) {
 
   function handleAttackButtonClick(event) {
     setSelectedAttackId(parseInt(event.target.value));
-    setSelectedAttack(event.target.name);
-    if (Array.isArray(enemies)) {
-      setShowTargets(true);
+    if (parseInt(event.target.value) === selectedAttackId) {
+      reset();
     } else {
-      setSelectedTarget(enemies);
-      setShowSubmit(true);
+      setSelectedAttack(event.target.name);
+      setShowTargets(true);
     }
   }
 
@@ -83,20 +82,8 @@ function TerminalInput(props) {
     return (
       <div className="flex flex-row justify-evenly flex-wrap text-center">
         <button
-          className="mt-1 bg-red-700"
-          onClick={() =>
-            AttackPlayerFromStun(
-              character,
-              enemies,
-              setEnemyAttacks,
-              updateCharacter,
-              updateEnemies,
-              floor,
-              allEnemies,
-              updateFloor,
-              reset
-            )
-          }
+          className="mt-1 bg-red-700 rounded px-4 py-2 hover:text-red-700 hover:bg-gray-300"
+          onClick={handleSubmit}
         >
           You are Stunned
         </button>
@@ -168,16 +155,31 @@ function TerminalInput(props) {
                     })}
                 </div>
               )}
-              {showSubmit && (
+              {showSubmit ? (
                 <div className="flex justify-evenly">
                   <button
                     type="submit"
-                    className="bg-red-900 py-2 px-4 rounded hover:bg-red-700"
+                    className="bg-red-900 py-2 px-4 rounded hover:bg-gray-400 hover:text-red-900"
                     onClick={handleSubmit}
                   >
                     {showAttacks ? "Attack" : "Use Item"}
                   </button>
                 </div>
+              ) : (
+                <>
+                  {!showTargets && (
+                    <div className="flex justify-evenly">
+                      <button
+                        type="submit"
+                        className="bg-yellow-600 py-2 px-4 rounded hover:bg-gray-300 hover:text-yellow-600"
+                        value="end turn"
+                        onClick={handleSubmit}
+                      >
+                        End Turn
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>

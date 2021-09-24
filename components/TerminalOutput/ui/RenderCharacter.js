@@ -3,7 +3,7 @@ import { RenderHealth, RenderEffects, RenderMana } from "./RenderElements";
 
 function RenderPerson({ character }) {
   return (
-    <div id="character-brief" className="w-screen">
+    <div id="character-brief">
       <p className="text-7xl mt-8">{character.emoji}</p>
       <h3>{character.name}</h3>
       {RenderHealth(character.health, character.maxHealth)}

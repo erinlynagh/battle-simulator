@@ -72,7 +72,9 @@ export class Character {
     effects = [],
     mana,
     maxMana,
-    id = uuidv4()
+    id = uuidv4(),
+    animate = false,
+    coins = 10
   ) {
     this.effects = effects;
     this.name = name;
@@ -84,11 +86,20 @@ export class Character {
     this.mana = mana;
     this.maxMana = maxMana;
     this.id = id;
-    this.animate = false;
+    this.animate = animate;
+    this.coins = coins;
   }
   hasEffect(effect) {
     return this.effects.findIndex(({ name }) => name === effect) > -1;
   }
+
+  getEffectDuration(effect) {
+    if (this.hasEffect(effect)) {
+      let index = this.effects.findIndex(({ name }) => name === effect);
+      return this.effects[index].duration;
+    }
+  }
+
   refreshMana() {
     this.mana = this.maxMana;
   }
