@@ -4,6 +4,7 @@ import { makeCharacter } from "../../library/generation/characterMaker";
 import makeAllEnemies from "../../library/generation/makeAllEnemies";
 import ShopModal from "../modals/ShopModal";
 import BattleModal from "../modals/BattleModal";
+import fullscreen from "../../library/browser/fullscreen";
 
 export default function BattleSimulator(props) {
   const allEnemies = makeAllEnemies();
@@ -36,13 +37,7 @@ export default function BattleSimulator(props) {
   useEffect(() => {
     document.addEventListener("keyup", (e) => {
       if (e.code === "KeyF") {
-        if (document.documentElement.webkitRequestFullscreen) {
-          document.documentElement.webkitRequestFullscreen();
-        } else if (elem.requestFullscreen) {
-          document.documentElement.RequestFullscreen();
-        } else if (elem.msRequestFullscreen) {
-          document.documentElement.msRequestFullscreen();
-        }
+        fullscreen();
       }
     });
   }, []);
