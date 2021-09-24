@@ -34,14 +34,19 @@ export default function BattleSimulator(props) {
   }
 
   useEffect(() => {
-    if (document.documentElement.webkitRequestFullscreen) {
-      document.documentElement.webkitRequestFullscreen();
-    } else if (elem.requestFullscreen) {
-      document.documentElement.RequestFullscreen();
-    } else if (elem.msRequestFullscreen) {
-      document.documentElement.msRequestFullscreen();
-    }
-  });
+    document.addEventListener("keyup", (e) => {
+      if (e.code === "KeyF") {
+        if (document.documentElement.webkitRequestFullscreen) {
+          document.documentElement.webkitRequestFullscreen();
+        } else if (elem.requestFullscreen) {
+          document.documentElement.RequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          document.documentElement.msRequestFullscreen();
+        }
+      }
+    });
+  }, []);
+
   return (
     <>
       <TerminalOutput
