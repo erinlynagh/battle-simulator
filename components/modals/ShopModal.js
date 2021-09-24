@@ -209,7 +209,10 @@ export default function ShopModal({
         <h1 className={"text-2xl"}>
           <span className="text-green-600">Buy</span> a new Spell
         </h1>
-        <h2>You have {character.coins} left to spend</h2>
+        <h2>
+          You have <span className="text-yellow-400">${character.coins}</span>{" "}
+          left to spend
+        </h2>
         <h4 className="text-xs">You could win:</h4>
         <div className="block overflow-auto h-96 lg:w-1/2 border-yellow-200 border-2 mx-auto mb-3">
           {Array.isArray(TierArrays[selectedTier]) &&
@@ -267,7 +270,7 @@ export default function ShopModal({
             onClick={() => getThreeRandomAttacks()}
             disabled={character.coins < cost}
           >
-            Pay {cost} for {numberOfCards} cards
+            Pay ${cost} for {numberOfCards} cards
           </button>
         </div>
       </div>
@@ -322,7 +325,7 @@ export default function ShopModal({
 
   function ShowHelp() {
     return (
-      <div className="text-gray-300">
+      <div className="text-gray-300 ">
         <h1 className="text-center text-2xl text-green-700">Help</h1>
         <p>
           Every time that you kill an enemy, you are brought to the shop, you
