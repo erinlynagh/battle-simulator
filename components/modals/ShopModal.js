@@ -196,8 +196,6 @@ export default function ShopModal({
       updateCost(selectedTier, newNumberOfCards);
     }
     function ValidateNumberOfCards(newTier, newNumberOfCards) {
-      console.log(newNumberOfCards);
-      console.log(TierArrays[newTier].length);
       if (newNumberOfCards > TierArrays[newTier].length) {
         newNumberOfCards = TierArrays[newTier].length;
         setNumberOfCards(newNumberOfCards);

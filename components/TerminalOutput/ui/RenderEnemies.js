@@ -53,7 +53,6 @@ function RenderAttacks(enemy) {
 }
 
 function RenderEnemy({ enemy }) {
-  console.log(enemy);
   if (enemy.animate) {
     return (
       <div
