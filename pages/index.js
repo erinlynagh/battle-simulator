@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import BattleSimulator from "../components/BattleSimulator";
 
 export default function Home() {
-  const [screenHeight, setScreenHeight] = useState("100vh");
+  const [rootStyle, setRootStyle] = useState({ height: "100vh" });
   useEffect(() => {
     var isMobile = function () {
       let check = false;
@@ -21,7 +21,7 @@ export default function Home() {
       return check;
     };
     if (isMobile()) {
-      setScreenHeight(window.innerHeight + "px");
+      setRootStyle({ minHeight: +"-webkit-fill-available" });
     }
   }, []);
 
@@ -29,7 +29,7 @@ export default function Home() {
     <div
       id="root"
       className={"text-gray-300 bg-black w-screen"}
-      style={{ height: screenHeight }}
+      style={rootStyle}
     >
       <Head>
         <title>Battle Simulator</title>
@@ -37,7 +37,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <BattleSimulator />
-      {screenHeight}
     </div>
   );
 }
