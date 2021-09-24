@@ -32,7 +32,7 @@ export function AttackEnemy(
   handleAttackModal
 ) {
   // loads attack data from library
-  if (!attack) {
+  if (!attack || !target) {
     AttackPlayerFromStun(
       character,
       enemies,
@@ -277,7 +277,7 @@ function nextFloor(
   } else {
     var newCharacter = StateHelpers.makeNewCharacter(character);
     newCharacter.effects = [];
-    newCharacter.coins += 3;
+    newCharacter.coins += Math.ceil(floor / 2);
     newCharacter.mana = newCharacter.maxMana;
     setEnemyAttacks([]);
     updateCharacter(newCharacter);

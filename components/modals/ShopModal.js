@@ -7,7 +7,7 @@ import * as TierThree from "../../library/generation/attackMaker/TierOne";
 import { makeNewCharacter, makeNewAttack } from "../../library/copyClasses";
 import dynamic from "next/dynamic";
 import random from "random";
-
+const emoji = require("emoji-dictionary");
 const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
 });
@@ -18,11 +18,13 @@ const generateButtonClass = "py-2 px-4 rounded mx-2 md:w-1/2";
 const generateButtonEnabled = generateButtonClass + " bg-green-700";
 const generateButtonDisabled = generateButtonClass + " bg-gray-600";
 
-export default function GetNewAttackModal({
+export default function ShopModal({
   showAttackModal,
   handleAttackModal,
   character,
   updateCharacter,
+  showBattleModal,
+  handleBattleModal,
 }) {
   const AttacksArray = Object.keys(Attacks);
   const TierOneAttacksArray = Object.keys(TierOne);
@@ -107,24 +109,32 @@ export default function GetNewAttackModal({
         overlay: { background: "#323232" },
       }}
     >
-      {!showHelp && !showSelectCards && Shop()}
-      {!showHelp && showSelectCards && SelectCards()}
-      {showHelp && ShowHelp()}
-      <div className={bottomRightClassName}>
-        <button
-          className="py-2 px-4 rounded bg-red-600 mx-2 text-gray-300 self-end lg:w-80"
-          onClick={() => handleClick()}
-        >
-          Skip
-        </button>
-      </div>
-      <div className={bottomLeftClassName}>
-        <button
-          className="py-2 px-4 rounded bg-blue-700 mx-2 text-gray-300 self-end lg:w-80"
-          onClick={() => handleShowHelp()}
-        >
-          {showHelp ? "X" : "?"}
-        </button>
+      <div className="flex flex-col h-full">
+        <div className="mb-2">
+          {!showHelp && !showSelectCards && Shop()}
+          {!showHelp && showSelectCards && SelectCards()}
+          {showHelp && ShowHelp()}
+        </div>
+        <div className="flex mt-auto justify-evenly">
+          <button
+            className="text-gray-300 flex-1 py-2 px-4 rounded bg-blue-700 mx-3"
+            onClick={() => handleShowHelp()}
+          >
+            {showHelp ? "X" : "?"}
+          </button>
+          <button
+            className="text-gray-300 flex-1 py-2 px-4 rounded bg-green-600 mx-3"
+            onClick={() => handleBattleModal()}
+          >
+            {showBattleModal ? "X" : emoji.getUnicode("eyes")}
+          </button>
+          <button
+            className="text-gray-300 flex-1 py-2 px-4 rounded bg-red-600 mx-3"
+            onClick={() => handleClick()}
+          >
+            Skip
+          </button>
+        </div>
       </div>
     </Modal>
   );

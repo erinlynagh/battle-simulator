@@ -10,7 +10,8 @@ export function makeNewCharacter(character) {
     character.mana,
     character.maxMana,
     character.id,
-    false
+    false,
+    character.coins
   );
 }
 

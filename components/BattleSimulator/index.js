@@ -2,7 +2,8 @@ import { useState } from "react";
 import TerminalOutput from "../TerminalOutput";
 import { makeCharacter } from "../../library/generation/characterMaker";
 import makeAllEnemies from "../../library/generation/makeAllEnemies";
-import GetNewAttackModal from "../modals/GetNewAttackModal";
+import ShopModal from "../modals/ShopModal";
+import BattleModal from "../modals/BattleModal";
 
 export default function BattleSimulator(props) {
   const allEnemies = makeAllEnemies();
@@ -12,12 +13,23 @@ export default function BattleSimulator(props) {
   const [enemies, setEnemies] = useState(allEnemies[floor]);
   const [enemyAttacks, setEnemyAttacks] = useState([]);
   const [showAttackModal, setShowAttackModal] = useState(false);
+  const [showBattleModal, setShowBattleModal] = useState(false);
 
   function handleAttackModal() {
     if (showAttackModal) {
       setShowAttackModal(false);
     } else {
       setShowAttackModal(true);
+    }
+  }
+
+  function handleBattleModal() {
+    if (showBattleModal) {
+      setShowAttackModal(true);
+      setShowBattleModal(false);
+    } else {
+      setShowAttackModal(false);
+      setShowBattleModal(true);
     }
   }
 
@@ -36,11 +48,18 @@ export default function BattleSimulator(props) {
         handleAttackModal={handleAttackModal}
       />
 
-      <GetNewAttackModal
+      <ShopModal
         showAttackModal={showAttackModal}
         handleAttackModal={handleAttackModal}
         character={character}
         updateCharacter={updateCharacter}
+        showBattleModal={showBattleModal}
+        handleBattleModal={handleBattleModal}
+      />
+
+      <BattleModal
+        showBattleModal={showBattleModal}
+        handleBattleModal={handleBattleModal}
       />
     </>
   );

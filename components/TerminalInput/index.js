@@ -166,16 +166,20 @@ function TerminalInput(props) {
                   </button>
                 </div>
               ) : (
-                <div className="flex justify-evenly">
-                  <button
-                    type="submit"
-                    className="bg-yellow-600 py-2 px-4 rounded hover:bg-gray-300 hover:text-yellow-600"
-                    value="end turn"
-                    onClick={handleSubmit}
-                  >
-                    End Turn
-                  </button>
-                </div>
+                <>
+                  {!showTargets && (
+                    <div className="flex justify-evenly">
+                      <button
+                        type="submit"
+                        className="bg-yellow-600 py-2 px-4 rounded hover:bg-gray-300 hover:text-yellow-600"
+                        value="end turn"
+                        onClick={handleSubmit}
+                      >
+                        End Turn
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>

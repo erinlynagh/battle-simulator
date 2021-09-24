@@ -73,7 +73,8 @@ export class Character {
     mana,
     maxMana,
     id = uuidv4(),
-    animate = false
+    animate = false,
+    coins = 10
   ) {
     this.effects = effects;
     this.name = name;
@@ -86,7 +87,7 @@ export class Character {
     this.maxMana = maxMana;
     this.id = id;
     this.animate = animate;
-    this.coins = 999;
+    this.coins = coins;
   }
   hasEffect(effect) {
     return this.effects.findIndex(({ name }) => name === effect) > -1;
