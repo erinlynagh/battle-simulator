@@ -93,7 +93,7 @@ export class Character {
   }
 
   getEffectDuration(effect) {
-    if (this.hasEffect(effect)) {
+    if (characterHasEffect(this, effect)) {
       let index = this.effects.findIndex(({ name }) => name === effect);
       return this.effects[index].duration;
     }

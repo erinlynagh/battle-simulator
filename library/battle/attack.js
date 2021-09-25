@@ -29,7 +29,8 @@ export function CastSpell(
   updateFloor,
   reset,
   setEnemyAttacks,
-  handleShopModal
+  handleShopModal,
+  setLost
 ) {
   if (attackIndex === -1 || targetIndex === -1) {
     AttackPlayerFromStun(
@@ -42,7 +43,8 @@ export function CastSpell(
       allEnemies,
       updateFloor,
       reset,
-      handleShopModal
+      handleShopModal,
+      setLost
     );
     return;
   }
@@ -98,7 +100,8 @@ export function CastSpell(
       newEnemies,
       setEnemyAttacks,
       handleShopModal,
-      reset
+      reset,
+      setLost
     );
   }
 
@@ -122,8 +125,10 @@ function AttackPlayer(
   enemies,
   setEnemyAttacks,
   handleShopModal,
-  reset
+  reset,
+  setLost
 ) {
+  console.log(setLost);
   var enemyAttacks = [];
   var reflecting = false;
   if (hasEffect(character, "Reflect")) {
@@ -167,8 +172,9 @@ function AttackPlayer(
         }
       }
       if (character.health <= 0) {
-        alert("you lose");
-        window.location.reload();
+        setLost(true);
+        console.log("clearing data");
+        localStorage.clear();
       }
     }
   });
@@ -226,7 +232,8 @@ export function AttackPlayerFromStun(
   allEnemies,
   updateFloor,
   reset,
-  handleShopModal
+  handleShopModal,
+  setLost
 ) {
   setEnemyAttacks([]);
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
@@ -238,7 +245,8 @@ export function AttackPlayerFromStun(
       newEnemies,
       setEnemyAttacks,
       handleShopModal,
-      reset
+      reset,
+      setLost
     );
     updateCharacter(newCharacter);
     updateEnemies(newEnemies);
@@ -276,7 +284,7 @@ function nextFloor(
   } else {
     var newCharacter = StateHelpers.makeNewCharacter(character);
     newCharacter.effects = [];
-    newCharacter.coins += Math.ceil(floor / 2);
+    newCharacter.coins += floor % 7;
     newCharacter.mana = newCharacter.maxMana;
     setEnemyAttacks([]);
     updateCharacter(newCharacter);

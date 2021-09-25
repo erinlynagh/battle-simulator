@@ -34,6 +34,7 @@ export default function Root() {
   const [character, updateCharacter] = useState(makeCharacter());
   const [enemies, setEnemies] = useState(allEnemies[floor]);
   const [showSelectHelper, setShowSelectHelper] = useState(true);
+  const [lost, setLost] = useState(false);
   //per-battle game states
   const [enemyAttacks, setEnemyAttacks] = useState([]);
   const [currentAttackIndex, setCurrentAttackIndex] = useState(0);
@@ -84,6 +85,26 @@ export default function Root() {
     setTargetedEnemyIndex(-1);
   }
 
+  function ResetGame() {
+    setIsDocumentLoaded(false);
+    //modal states
+    setShowSpellbookModal(false);
+    setShowShopModal(false);
+    setShowBattleModal(false);
+    setAlternateModal(0);
+    //global game states
+    const allEnemies = makeAllEnemies();
+    setFloor(0);
+    updateCharacter(makeCharacter());
+    setEnemies(allEnemies[floor]);
+    setShowSelectHelper(true);
+    setLost(false);
+    //per-battle game states
+    setEnemyAttacks([]);
+    setCurrentAttackIndex(0);
+    setTargetedEnemyIndex(-1);
+  }
+
   useEffect(() => {
     document.addEventListener("keyup", (e) => {
       if (e.code === "KeyF") {
@@ -107,6 +128,7 @@ export default function Root() {
       setEnemies(newEnemies);
       setFloor(newFloor);
       updateCharacter(newCharacter);
+      setShowSelectHelper(false);
     }
   }, []);
 
@@ -129,8 +151,25 @@ export default function Root() {
 
   const spellInfoBorders =
     " border-l-2 border-r-2 bg-gray-900 border-gray-700z ";
+  if (lost) {
+    return (
+      <div className="flex w-full h-full justify-center items-center flex-col">
+        <h1 className="flex text-8xl">You Lose</h1>
+        <button
+          className="flex rounded px-2 py-1 text-lg bg-gray-700 hover:text-gray-700 hover:bg-gray-300"
+          onClick={ResetGame}
+        >
+          Retry?
+        </button>
+      </div>
+    );
+  }
+
+  const renderEnd =
+    characterHasEffect(character, "Stun") || targetedEnemyIndex < 0;
   return (
     <>
+      {console.log(targetedEnemyIndex)}
       <div className="flex flex-col py-3 xs:h-auto sm:h-full">
         <RenderElements.RenderEnemies
           enemies={enemies}
@@ -150,15 +189,14 @@ export default function Root() {
         {targetedEnemyIndex > -1 &&
           !characterHasEffect(character, "Stun") &&
           CastingSpellOptions()}
-        {(targetedEnemyIndex < 0 && !showSelectHelper) ||
-          (characterHasEffect(character, "Stun") && (
-            <button
-              className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700 lg:fixed lg:bottom-2 lg:right-3"
-              onClick={() => EndTurnWrapper()}
-            >
-              End Turn
-            </button>
-          ))}
+        {renderEnd && (
+          <button
+            className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700 lg:fixed lg:bottom-2 lg:right-3"
+            onClick={() => EndTurnWrapper()}
+          >
+            End Turn
+          </button>
+        )}
       </div>
 
       <Modals.ShopModal
@@ -267,7 +305,8 @@ export default function Root() {
       updateFloor,
       ResetRendering,
       setEnemyAttacks,
-      handleShopModal
+      handleShopModal,
+      setLost
     );
   }
 
@@ -284,7 +323,8 @@ export default function Root() {
       updateFloor,
       ResetRendering,
       setEnemyAttacks,
-      handleShopModal
+      handleShopModal,
+      setLost
     );
   }
 }

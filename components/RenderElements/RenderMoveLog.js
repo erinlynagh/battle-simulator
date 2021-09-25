@@ -31,7 +31,7 @@ function RenderMoveLog({ enemyAttacks, enemies }) {
 
         function tooltip() {
           if (attack?.effect && getEffectToolTip(attack.effect)) {
-            return attack.effect.getTooltip();
+            return getEffectToolTip(attack.effect);
           } else {
             return "";
           }
