@@ -20,9 +20,7 @@ export class Attack {
   getTooltip() {
     var tooltipString = "";
     if (this.power > 0) {
-      tooltipString = `${this.name
-        .match(/[A-Z][a-z]+|[0-9]+/g)
-        .join(" ")} hits for ${this.power} damage`;
+      tooltipString = `Deals ${this.power} damage`;
     }
     if (this.effect.name !== "None" && this.power > 0) {
       tooltipString += ", ";
@@ -43,9 +41,7 @@ export class Attack {
   setAttackMessage(damage = this.power) {
     var string = "";
     if (damage > 0) {
-      string = `${this.name
-        .match(/[A-Z][a-z]+|[0-9]+/g)
-        .join(" ")} hits for ${damage} damage. `;
+      string = `Deals ${damage} damage. `;
     }
     if (this.effect.name !== "None") {
       string += `It applies a ${this.effect.name}`;

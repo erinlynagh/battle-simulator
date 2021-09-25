@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import TerminalOutput from "../TerminalOutput";
 import { makeCharacter } from "../../library/generation/characterMaker";
 import makeAllEnemies from "../../library/generation/makeAllEnemies";
-import ShopModal from "../modals/ShopModal";
-import BattleModal from "../modals/BattleModal";
 import fullscreen from "../../library/browser/fullscreen";
 
-export default function BattleSimulator(props) {
+import * as Modals from "../Modals/index";
+import * as RenderElements from "../RenderElements/index";
+
+export default function Root(props) {
   const allEnemies = makeAllEnemies();
 
   const [character, updateCharacter] = useState(makeCharacter());
@@ -44,20 +44,18 @@ export default function BattleSimulator(props) {
 
   return (
     <>
-      <TerminalOutput
-        character={character}
-        updateCharacter={updateCharacter}
-        enemies={enemies}
-        allEnemies={allEnemies}
-        updateEnemies={setEnemies}
-        floor={floor}
-        updateFloor={setFloor}
-        enemyAttacks={enemyAttacks}
-        setEnemyAttacks={setEnemyAttacks}
-        handleAttackModal={handleAttackModal}
-      />
+      <div className="pt-3 h-full">
+        <RenderElements.RenderEnemies enemies={enemies} />
+        <RenderElements.RenderMoveLog
+          enemyAttacks={enemyAttacks}
+          enemies={enemies}
+        />
 
-      <ShopModal
+        <RenderElements.RenderCharacter character={character} />
+        <RenderElements.RenderCharacterAttacks character={character} />
+      </div>
+
+      <Modals.ShopModal
         showAttackModal={showAttackModal}
         handleAttackModal={handleAttackModal}
         character={character}
@@ -66,7 +64,7 @@ export default function BattleSimulator(props) {
         handleBattleModal={handleBattleModal}
       />
 
-      <BattleModal
+      <Modals.BattleModal
         showBattleModal={showBattleModal}
         handleBattleModal={handleBattleModal}
       />

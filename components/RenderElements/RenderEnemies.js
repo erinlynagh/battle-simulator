@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  RenderHealth,
-  RenderEffects,
-  getAttackTooltip,
-} from "./RenderElements";
+import { RenderHealth, RenderEffects, RenderAttacks } from "./RenderElements";
 import dynamic from "next/dynamic";
 import { shake, pulse, wobble } from "react-animations";
 import { StyleSheet, css } from "aphrodite";
@@ -26,31 +22,6 @@ const styles = StyleSheet.create({
 const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
 });
-
-function RenderAttack(attack, attackIndex) {
-  return (
-    <React.Fragment key={attackIndex}>
-      <p
-        className="text-yellow-300 m-0 underline"
-        data-tip={attack.getTooltip()}
-      >
-        {attack.name}
-      </p>
-      <ReactTooltip html={true} />
-    </React.Fragment>
-  );
-}
-
-function RenderAttacks(enemy) {
-  return (
-    <div className="m-0">
-      <p className={"flex flex-col justify-center m-0"}>Attacks:</p>
-      {enemy.attacks.map((attack, attackIndex) =>
-        RenderAttack(attack, attackIndex)
-      )}
-    </div>
-  );
-}
 
 function RenderEnemy({ enemy }) {
   if (enemy.animate) {

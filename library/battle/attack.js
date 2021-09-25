@@ -31,7 +31,6 @@ export function AttackEnemy(
   setEnemyAttacks,
   handleAttackModal
 ) {
-  // loads attack data from library
   if (!attack || !target) {
     AttackPlayerFromStun(
       character,
@@ -47,6 +46,7 @@ export function AttackEnemy(
     );
     return;
   }
+  // loads attack data from library
   attack = Attacks[[attack]]();
 
   // create copy of state objects to transform then reassign to state
