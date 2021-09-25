@@ -96,7 +96,7 @@ export function CastSpell(
       newCharacter,
       newEnemies,
       setEnemyAttacks,
-      handleSpellbookModal,
+      handleShopModal,
       reset
     );
   }
@@ -120,7 +120,7 @@ function AttackPlayer(
   character,
   enemies,
   setEnemyAttacks,
-  handleSpellbookModal,
+  handleShopModal,
   reset
 ) {
   var enemyAttacks = [];
@@ -180,7 +180,7 @@ function AttackPlayer(
     enemy.health -= curseDamage;
     if (enemy.health <= 0) {
       spoofAttack.attackMessage = `${enemy.name} dies from their curse!`;
-      killEnemy(enemies, enemyIndex, handleSpellbookModal, reset);
+      killEnemy(enemies, enemyIndex, handleShopModal, reset);
     } else {
       spoofAttack.attackMessage = `${enemy.name} takes ${curseDamage} from their curse!`;
       enemyAttacks.push(spoofAttack);
@@ -193,7 +193,7 @@ function AttackPlayer(
     enemy.health -= curseDamage;
     if (enemy.health <= 0) {
       spoofAttack.attackMessage = `${enemy.name} was doomed!`;
-      killEnemy(enemies, enemyIndex, handleSpellbookModal, reset);
+      killEnemy(enemies, enemyIndex, handleShopModal, reset);
     } else {
       spoofAttack.attackMessage = `${enemy.name} is doomed to take ${curseDamage}!`;
       enemyAttacks.push(spoofAttack);
@@ -206,7 +206,7 @@ function AttackPlayer(
     if (enemy.health <= 0) {
       spoofAttack.attackMessage =
         attack.name + "is reflected back at " + enemy.name + " and kills them!";
-      killEnemy(enemies, enemyIndex, handleSpellbookModal, reset);
+      killEnemy(enemies, enemyIndex, handleShopModal, reset);
     } else {
       spoofAttack.attackMessage =
         attack.name + "is reflected back at " + enemy.name;
