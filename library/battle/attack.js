@@ -1,5 +1,6 @@
 import * as AttackHelpers from "./attackHelpers";
 import * as StateHelpers from "../copyClasses";
+import { characterHasEffect as hasEffect } from "../classes";
 import Heap from "heap";
 
 function sleep(ms) {
@@ -125,7 +126,7 @@ function AttackPlayer(
 ) {
   var enemyAttacks = [];
   var reflecting = false;
-  if (character.hasEffect("Reflect")) {
+  if (hasEffect(character, "Reflect")) {
     reflecting = true;
   }
 
@@ -135,15 +136,15 @@ function AttackPlayer(
   enemies.forEach(function (enemy, enemyIndex) {
     var attacked = false;
 
-    if (enemy.hasEffect("Curse")) {
+    if (hasEffect(enemy, "Curse")) {
       applyCurseDamage(enemy, enemyIndex);
-      if (enemy.hasEffect("Doomed")) {
+      if (hasEffect(enemy, "Doomed")) {
         var multiplier = enemy.getEffectDuration("Doomed");
         applyDoomedDamage(enemy, enemyIndex, multiplier);
       }
     }
 
-    if (enemy.health <= 0 || enemy.hasEffect("Stun")) {
+    if (enemy.health <= 0 || hasEffect(enemy, "Stun")) {
       enemy.animate = "shake";
       return;
     }

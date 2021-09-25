@@ -1,3 +1,5 @@
+import { getAttackTooltip } from "../../library/classes";
+
 export default function RenderCharacterAttacks({
   character,
   currentAttackIndex,
@@ -50,7 +52,9 @@ function RenderAttack(attack) {
       <p className={"text-yellow-300 border-t-2 underline " + sharedClassName}>
         {attack.name}
       </p>
-      <p className={"border-b-2 " + sharedClassName}>{attack.getTooltip()}</p>
+      <p className={"border-b-2 " + sharedClassName}>
+        {getAttackTooltip(attack)}
+      </p>
     </div>
   );
 }

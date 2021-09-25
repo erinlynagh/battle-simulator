@@ -8,46 +8,47 @@ function uuidv4() {
   });
 }
 
+export function getAttackTooltip(attack) {
+  var tooltipString = "";
+  if (attack.power > 0) {
+    tooltipString = `Deals ${attack.power} damage`;
+  }
+  if (attack.effect.name !== "None" && attack.power > 0) {
+    tooltipString += ", ";
+  }
+  if (attack.effect.duration === 1) {
+    tooltipString += attack.effect.description
+      .replace("BLANK", attack.effect.duration)
+      .replace("turns", "turn");
+  } else if (attack.effect.duration > 1) {
+    tooltipString += attack.effect.description.replace(
+      "BLANK",
+      attack.effect.duration
+    );
+  }
+  return tooltipString;
+}
+
+export function setAttackMessage(attack, damage = attack.power) {
+  var string = "";
+  if (damage > 0) {
+    string = `Deals ${damage} damage. `;
+  }
+  if (attack.effect.name !== "None") {
+    string += `It applies a ${attack.effect.name}`;
+  }
+  attack.attackMessage = string;
+}
+
 export class Attack {
   constructor(name, power, effect, castsRemaining = 2) {
     this.name = name;
     this.power = power;
     this.effect = effect;
     this.casts = castsRemaining;
-    this.attackMessage = this.setAttackMessage();
+    this.attackMessage = setAttackMessage(this);
     this.id = uuidv4();
     this.displayName = name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ");
-  }
-  getTooltip() {
-    var tooltipString = "";
-    if (this.power > 0) {
-      tooltipString = `Deals ${this.power} damage`;
-    }
-    if (this.effect.name !== "None" && this.power > 0) {
-      tooltipString += ", ";
-    }
-    if (this.effect.duration === 1) {
-      tooltipString += this.effect.description
-        .replace("BLANK", this.effect.duration)
-        .replace("turns", "turn");
-    } else if (this.effect.duration > 1) {
-      tooltipString += this.effect.description.replace(
-        "BLANK",
-        this.effect.duration
-      );
-    }
-    return tooltipString;
-  }
-
-  setAttackMessage(damage = this.power) {
-    var string = "";
-    if (damage > 0) {
-      string = `Deals ${damage} damage. `;
-    }
-    if (this.effect.name !== "None") {
-      string += `It applies a ${this.effect.name}`;
-    }
-    this.attackMessage = string;
   }
 }
 
@@ -57,6 +58,10 @@ export class EnemyAttack extends Attack {
     this.chance = chance;
     this.priority = priority;
   }
+}
+
+export function characterHasEffect(character, effect) {
+  return character.effects.findIndex(({ name }) => name === effect) > -1;
 }
 
 export class Character {
@@ -86,9 +91,6 @@ export class Character {
     this.animate = animate;
     this.coins = coins;
   }
-  hasEffect(effect) {
-    return this.effects.findIndex(({ name }) => name === effect) > -1;
-  }
 
   getEffectDuration(effect) {
     if (this.hasEffect(effect)) {
@@ -102,19 +104,19 @@ export class Character {
   }
 }
 
+export function getEffectToolTip(effect) {
+  if (effect.duration === 1) {
+    return effect.description
+      .replace("BLANK", effect.duration)
+      .replace("turns", "turn");
+  }
+  return effect.description.replace("BLANK", effect.duration);
+}
+
 export class Effect {
   constructor(name, duration, description) {
     this.name = name;
     this.duration = duration;
     this.description = description;
-  }
-
-  getTooltip() {
-    if (this.duration === 1) {
-      return this.description
-        .replace("BLANK", this.duration)
-        .replace("turns", "turn");
-    }
-    return this.description.replace("BLANK", this.duration);
   }
 }

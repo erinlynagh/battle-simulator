@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import { getAttackTooltip, getEffectToolTip } from "../../library/classes";
 
 const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
@@ -54,7 +55,7 @@ export function RenderEffects(enemy) {
     }
     return (
       <React.Fragment key={effectIndex}>
-        <p className="text-center" data-tip={effect.getTooltip()}>
+        <p className="text-center" data-tip={getEffectToolTip(effect)}>
           {`${effect.name}: ${effect.duration} turns`}
         </p>
         <ReactTooltip html={true} />
@@ -86,11 +87,10 @@ export function RenderAttacks(character) {
 export function RenderAttack(attack, attackIndex) {
   return (
     <React.Fragment key={attackIndex}>
-      <p
-        className="text-yellow-300 m-0 underline "
-        data-tip={attack.getTooltip()}
-      >
-        {attack.displayName}
+      <p data-tip={getAttackTooltip(attack)}>
+        <span className="text-yellow-300 m-0 underline ">
+          {attack.displayName}
+        </span>
         {attack.constructor.name === "Attack" && (
           <span className="text-gray-300 no-underline">
             {" "}

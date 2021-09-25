@@ -18,6 +18,7 @@ import { makeCharacter } from "../../library/generation/characterMaker";
 import makeAllEnemies from "../../library/generation/makeAllEnemies";
 import { CastSpell } from "../../library/battle/attack";
 import { RenderCasts } from "../RenderElements/RenderElements";
+import { characterHasEffect } from "../../library/classes";
 
 export default function Root() {
   //one-time states
@@ -110,15 +111,18 @@ export default function Root() {
   }, []);
 
   useEffect(() => {
+    if (enemies.length === 1) {
+      setTargetedEnemyIndex(0);
+    }
+  }, [enemies]);
+
+  useEffect(() => {
     console.log("setting data...");
     console.log(enemies);
     localStorage.setItem("floor", JSON.stringify(floor));
     localStorage.setItem("character", JSON.stringify(character));
     localStorage.setItem("enemies", JSON.stringify(enemies));
-    if (enemies.length === 1) {
-      setTargetedEnemyIndex(0);
-    }
-  }, [enemies]);
+  }, [enemies, character, floor]);
 
   const spellInfoClassName =
     "flex justify-center flex-row w-full md:w-1/2 lg:w-1/3 ";
@@ -144,13 +148,13 @@ export default function Root() {
           showBattleModal={showBattleModal}
         />
         {targetedEnemyIndex > -1 &&
-          !character.hasEffect("Stun") &&
+          !characterHasEffect(character, "Stun") &&
           CastingSpellOptions()}
         {(targetedEnemyIndex < 0 && !showSelectHelper) ||
-          (character.hasEffect("Stun") && (
+          (characterHasEffect(character, "Stun") && (
             <button
               className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700 lg:fixed lg:bottom-2 lg:right-3"
-              onClick={() => CastSpellWrapper()}
+              onClick={() => EndTurnWrapper()}
             >
               End Turn
             </button>
@@ -247,6 +251,23 @@ export default function Root() {
           )}
         </div>
       </div>
+    );
+  }
+
+  function EndTurnWrapper() {
+    CastSpell(
+      character,
+      updateCharacter,
+      enemies,
+      setEnemies,
+      allEnemies,
+      -1,
+      -1,
+      floor,
+      updateFloor,
+      ResetRendering,
+      setEnemyAttacks,
+      handleShopModal
     );
   }
 

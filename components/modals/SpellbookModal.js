@@ -1,5 +1,6 @@
 import Modal from "react-modal";
 const emoji = require("emoji-dictionary");
+import { getAttackTooltip } from "../../library/classes";
 
 Modal.setAppElement("#root");
 
@@ -69,7 +70,7 @@ export default function SpellbookModal({
       >
         <div className={"px-1 py-2 flex flex-col h-full"}>
           <h4 className="text-red-400">{attack.displayName}</h4>
-          <p>{attack.getTooltip()}</p>
+          <p>{getAttackTooltip(attack)}</p>
           <p className="mt-auto mb-1">Casts: {attack.casts}</p>
         </div>
       </div>

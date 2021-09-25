@@ -1,5 +1,7 @@
 import { Effect } from "../classes";
 import { AppliesToAttacker } from "../generation/effectMaker";
+import { characterHasEffect as hasEffect } from "../classes";
+import { setAttackMessage } from "../classes";
 
 // character attacks adversary with attack
 export function Attack(attacker, attack, defender, reset = false) {
@@ -12,17 +14,17 @@ export function Attack(attacker, attack, defender, reset = false) {
 
 function calculateAttackDamage(attack, defender, attacker) {
   let damage = attack.power;
-  if (attacker.hasEffect("Wither")) {
+  if (hasEffect(attacker, "Wither")) {
     damage = 0.75 * damage;
   }
-  if (attacker.hasEffect("Furious")) {
+  if (hasEffect(attacker, "Furious")) {
     damage = (4 / 3) * damage;
   }
-  if (defender.hasEffect("Vulnerable")) {
+  if (hasEffect(defender, "Vulnerable")) {
     damage = (4 / 3) * damage;
   }
   damage = Math.floor(damage);
-  attack.setAttackMessage(damage);
+  setAttackMessage(attack, damage);
   return damage;
 }
 

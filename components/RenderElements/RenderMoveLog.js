@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import { getEffectToolTip } from "../../library/classes";
 
 const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
@@ -29,7 +30,7 @@ function RenderMoveLog({ enemyAttacks, enemies }) {
         );
 
         function tooltip() {
-          if (attack?.effect?.getTooltip) {
+          if (attack?.effect && getEffectToolTip(attack.effect)) {
             return attack.effect.getTooltip();
           } else {
             return "";

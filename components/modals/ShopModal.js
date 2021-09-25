@@ -5,6 +5,7 @@ import * as TierOne from "../../library/generation/attackMaker/TierThree";
 import * as TierTwo from "../../library/generation/attackMaker/TierTwo";
 import * as TierThree from "../../library/generation/attackMaker/TierOne";
 import { makeNewCharacter, makeNewAttack } from "../../library/copyClasses";
+import { getAttackTooltip } from "../../library/classes";
 import dynamic from "next/dynamic";
 import random from "random";
 const emoji = require("emoji-dictionary");
@@ -225,7 +226,7 @@ export default function ShopModal({
               return (
                 <div className={className} key={index}>
                   <h4 className="text-red-400 mt-2">{attack.displayName}</h4>
-                  <p>{attack.getTooltip()}</p>
+                  <p>{getAttackTooltip(attack)}</p>
                   <p className="mt-auto">Casts: {attack.casts}</p>
                 </div>
               );
@@ -294,7 +295,7 @@ export default function ShopModal({
                     <h4>
                       <b className="text-red-400">{attack.displayName}</b>
                     </h4>
-                    <p>{attack.getTooltip()}</p>
+                    <p>{getAttackTooltip(attack)}</p>
                     <p className="mt-auto mb-1">Casts: {attack.casts}</p>
                     <ReactTooltip html={true} />
                     <button
