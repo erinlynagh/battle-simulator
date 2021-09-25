@@ -11,7 +11,11 @@ const emoji = require("emoji-dictionary");
 
 Modal.setAppElement("#root");
 
-export default function BattleModal({ showBattleModal, handleBattleModal }) {
+export default function BattleModal({
+  showBattleModal,
+  handleBattleModal,
+  alternateModal,
+}) {
   return (
     <Modal
       isOpen={showBattleModal}
@@ -27,7 +31,7 @@ export default function BattleModal({ showBattleModal, handleBattleModal }) {
       <div className="flex h-full justify-center content-end">
         <button
           className="flex-1 py-2 px-4 rounded bg-green-600 mx-2 text-gray-300 mt-auto"
-          onClick={() => handleBattleModal()}
+          onClick={() => handleBattleModal(alternateModal)}
         >
           {showBattleModal ? "X" : emoji.getUnicode("eyes")}
         </button>

@@ -6,7 +6,7 @@ const ReactTooltip = dynamic(() => import("react-tooltip"), {
 });
 
 export function RenderHealth(health, maxHealth) {
-  var className = "text-green-600";
+  var className = "text-green-500";
   if (health / maxHealth <= 0.5) {
     className = "text-yellow-300";
   }
@@ -21,9 +21,9 @@ export function RenderHealth(health, maxHealth) {
 }
 
 export function RenderMana(mana, maxMana) {
-  let color = "text-green-600";
+  let color = "text-blue-600";
   if (mana === 1) {
-    color = "text-yellow-300";
+    color = "text-blue-300";
   }
   return (
     <h4 className={color}>

@@ -1,37 +1,67 @@
 import { useEffect, useState } from "react";
+
 import { makeCharacter } from "../../library/generation/characterMaker";
 import makeAllEnemies from "../../library/generation/makeAllEnemies";
+
 import fullscreen from "../../library/browser/fullscreen";
 
 import * as Modals from "../Modals/index";
 import * as RenderElements from "../RenderElements/index";
 
-export default function Root(props) {
-  const allEnemies = makeAllEnemies();
-
-  const [character, updateCharacter] = useState(makeCharacter());
-  const [floor, setFloor] = useState(0);
-  const [enemies, setEnemies] = useState(allEnemies[floor]);
-  const [enemyAttacks, setEnemyAttacks] = useState([]);
+export default function Root() {
+  //modal states
   const [showAttackModal, setShowAttackModal] = useState(false);
+  const [showShopModal, setShowShopModal] = useState(false);
   const [showBattleModal, setShowBattleModal] = useState(false);
+  const [alternateModal, setAlternateModal] = useState(0);
 
   function handleAttackModal() {
     if (showAttackModal) {
       setShowAttackModal(false);
     } else {
+      setAlternateModal(0);
       setShowAttackModal(true);
     }
   }
 
+  function handleShopModal() {
+    if (showShopModal) {
+      setShowShopModal(false);
+    } else {
+      setAlternateModal(1);
+      setShowShopModal(true);
+    }
+  }
+
+  const HandleModalFunctions = [handleAttackModal, handleShopModal];
   function handleBattleModal() {
+    let setPreviousModal = HandleModalFunctions[alternateModal];
     if (showBattleModal) {
-      setShowAttackModal(true);
+      setPreviousModal();
       setShowBattleModal(false);
     } else {
-      setShowAttackModal(false);
+      setPreviousModal();
       setShowBattleModal(true);
     }
+  }
+
+  //global game states
+  const allEnemies = makeAllEnemies();
+  const [floor, setFloor] = useState(0);
+  const [character, updateCharacter] = useState(makeCharacter());
+  const [enemies, setEnemies] = useState(allEnemies[floor]);
+
+  //per-battle game states
+  const [enemyAttacks, setEnemyAttacks] = useState([]);
+  const [currentAttackIndex, setCurrentAttackIndex] = useState(0);
+  const [targetedEnemyIndex, setTargetedEnemyIndex] = useState(0);
+
+  function getEnemyIndex(enemy) {
+    return enemies.findIndex((x) => x.id === enemy.id);
+  }
+
+  function getEnemy(enemy) {
+    return enemies.find((x) => x.id === enemy.id);
   }
 
   useEffect(() => {
@@ -40,24 +70,39 @@ export default function Root(props) {
         fullscreen();
       }
     });
+    setAlternateModal(setShowAttackModal());
   }, []);
 
   return (
     <>
-      <div className="pt-3 h-full">
-        <RenderElements.RenderEnemies enemies={enemies} />
+      <div className="flex flex-col pt-3 h-full">
+        <RenderElements.RenderEnemies
+          enemies={enemies}
+          targetedEnemyIndex={targetedEnemyIndex}
+          setTargetedEnemyIndex={setTargetedEnemyIndex}
+        />
         <RenderElements.RenderMoveLog
           enemyAttacks={enemyAttacks}
           enemies={enemies}
         />
 
         <RenderElements.RenderCharacter character={character} />
-        <RenderElements.RenderCharacterAttacks character={character} />
+        <RenderElements.RenderCharacterAttacks
+          character={character}
+          currentAttackIndex={currentAttackIndex}
+          setCurrentAttackIndex={setCurrentAttackIndex}
+        />
+        <button
+          className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700"
+          onClick={() => handleAttackModal()}
+        >
+          Attack!
+        </button>
       </div>
 
       <Modals.ShopModal
-        showAttackModal={showAttackModal}
-        handleAttackModal={handleAttackModal}
+        showShopModal={showShopModal}
+        handleShopModal={handleShopModal}
         character={character}
         updateCharacter={updateCharacter}
         showBattleModal={showBattleModal}
@@ -65,6 +110,15 @@ export default function Root(props) {
       />
 
       <Modals.BattleModal
+        showBattleModal={showBattleModal}
+        handleBattleModal={handleBattleModal}
+        alternateModal={alternateModal}
+      />
+
+      <Modals.AttackModal
+        showAttackModal={showAttackModal}
+        handleAttackModal={handleAttackModal}
+        character={character}
         showBattleModal={showBattleModal}
         handleBattleModal={handleBattleModal}
       />

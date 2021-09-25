@@ -19,8 +19,8 @@ const generateButtonEnabled = generateButtonClass + " bg-green-700";
 const generateButtonDisabled = generateButtonClass + " bg-gray-600";
 
 export default function ShopModal({
-  showAttackModal,
-  handleAttackModal,
+  showShopModal,
+  handleShopModal,
   character,
   updateCharacter,
   showBattleModal,
@@ -32,9 +32,10 @@ export default function ShopModal({
   const TierThreeAttacksArray = Object.keys(TierThree);
   const [showSelectCards, setShowSelectCards] = useState(false);
   const [randomAttacks, setRandomAttacks] = useState([]);
+
   function handleClick() {
     setShowSelectCards(false);
-    handleAttackModal();
+    handleShopModal();
   }
 
   // shop state variables
@@ -79,7 +80,7 @@ export default function ShopModal({
       newCharacter.attacks.push(attack);
     }
     updateCharacter(newCharacter);
-    handleAttackModal();
+    handleShopModal();
     setShowSelectCards(false);
     setSelectedTier(0);
     setSelectedArray(TierOneAttacksArray);
@@ -102,7 +103,7 @@ export default function ShopModal({
 
   return (
     <Modal
-      isOpen={showAttackModal}
+      isOpen={showShopModal}
       contentLabel="Pick your new spell!"
       style={{
         content: { background: "#0c0c0c" },
@@ -124,7 +125,7 @@ export default function ShopModal({
           </button>
           <button
             className="text-gray-300 flex-1 py-2 px-4 rounded bg-green-600 mx-3"
-            onClick={() => handleBattleModal()}
+            onClick={() => handleBattleModal(handleShopModal())}
           >
             {showBattleModal ? "X" : emoji.getUnicode("eyes")}
           </button>

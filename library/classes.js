@@ -69,7 +69,7 @@ export class Character {
     mana,
     maxMana,
     id = uuidv4(),
-    animate = false,
+    animate = "None",
     coins = 10
   ) {
     this.effects = effects;

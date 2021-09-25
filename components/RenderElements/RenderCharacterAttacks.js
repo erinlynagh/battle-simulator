@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-
-export default function RenderCharacterAttacks({ character }) {
-  const [currentAttackIndex, setCurrentAttackIndex] = useState(0);
-
+export default function RenderCharacterAttacks({
+  character,
+  currentAttackIndex,
+  setCurrentAttackIndex,
+}) {
   return (
     <div className="flex flex-row justify-center flex-wrap mt-3">
       <button
@@ -15,7 +15,6 @@ export default function RenderCharacterAttacks({ character }) {
       <button
         onClick={increaseIndex}
         className="px-2 rounded bg-red-700 mx-2 hover:bg-gray-300 hover:text-red-700"
-        onL
       >
         &gt;
       </button>
@@ -26,19 +25,20 @@ export default function RenderCharacterAttacks({ character }) {
     var newAttackIndex = currentAttackIndex;
     if (currentAttackIndex > 0) {
       newAttackIndex -= 1;
-      setCurrentAttackIndex(newAttackIndex);
+    } else {
+      newAttackIndex = character.attacks.length - 1;
     }
+    setCurrentAttackIndex(newAttackIndex);
   }
 
   function increaseIndex() {
     var newAttackIndex = currentAttackIndex;
     if (currentAttackIndex < character.attacks.length - 1) {
       newAttackIndex += 1;
-      setCurrentAttackIndex(newAttackIndex);
     } else {
       newAttackIndex = 0;
-      setCurrentAttackIndex(newAttackIndex);
     }
+    setCurrentAttackIndex(newAttackIndex);
   }
 }
 
