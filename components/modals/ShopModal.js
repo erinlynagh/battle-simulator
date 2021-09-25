@@ -26,7 +26,6 @@ export default function ShopModal({
   showBattleModal,
   handleBattleModal,
 }) {
-  console.log(showShopModal);
   const TierOneAttacksArray = Object.keys(TierOne);
   const TierTwoAttacksArray = Object.keys(TierTwo);
   const TierThreeAttacksArray = Object.keys(TierThree);

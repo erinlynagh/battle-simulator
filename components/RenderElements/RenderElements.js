@@ -37,12 +37,12 @@ export function RenderCasts(character, attackIndex) {
     return null;
   }
   let casts = character.attacks[attackIndex].casts;
-  var className = "text-indigo-700";
+  var className = "text-green-700";
   if (casts <= 2) {
     className = "text-indigo-500";
   }
   if (casts <= 1) {
-    className = "text-indigo-50";
+    className = "text-indigo-300 text-opacity-25";
   }
   return <h4 className={className}>Casts Remaining: {casts}</h4>;
 }
@@ -72,11 +72,11 @@ export function RenderEffects(enemy) {
   );
 }
 
-export function RenderAttacks(enemy) {
+export function RenderAttacks(character) {
   return (
     <div className="m-0">
       <p className={"flex flex-col justify-center m-0"}>Attacks:</p>
-      {enemy.attacks.map((attack, attackIndex) =>
+      {character.attacks.map((attack, attackIndex) =>
         RenderAttack(attack, attackIndex)
       )}
     </div>
@@ -87,10 +87,16 @@ export function RenderAttack(attack, attackIndex) {
   return (
     <React.Fragment key={attackIndex}>
       <p
-        className="text-yellow-300 m-0 underline"
+        className="text-yellow-300 m-0 underline "
         data-tip={attack.getTooltip()}
       >
         {attack.name}
+        {attack.constructor.name === "Attack" && (
+          <span className="text-gray-300 no-underline">
+            {" "}
+            (Casts: ${attack.casts})
+          </span>
+        )}
       </p>
       <ReactTooltip html={true} />
     </React.Fragment>

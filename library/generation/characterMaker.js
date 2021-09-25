@@ -25,7 +25,8 @@ export function makeCharacter(
     emojiName,
     effects,
     mana,
-    maxMana
+    maxMana,
+    420
   );
 }
 

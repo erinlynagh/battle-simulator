@@ -7,7 +7,6 @@ function sleep(ms) {
 }
 
 function killEnemy(enemies, enemyIndex, handleShopModal, reset) {
-  console.log(handleShopModal);
   enemies.splice(enemyIndex, 1);
   handleShopModal();
   reset();
@@ -48,13 +47,11 @@ export function CastSpell(
   }
   // loads attack data from library
   let attack = character.attacks[attackIndex];
-  console.log(attack);
 
   // create copy of state objects to transform then reassign to state
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
   const enemy = newEnemies[targetIndex];
-  console.log(enemy);
 
   // attack the enemy
   AttackHelpers.Attack(newCharacter, attack, enemy, reset);
@@ -228,7 +225,7 @@ export function AttackPlayerFromStun(
   allEnemies,
   updateFloor,
   reset,
-  handleSpellbookModal
+  handleShopModal
 ) {
   setEnemyAttacks([]);
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
@@ -239,7 +236,7 @@ export function AttackPlayerFromStun(
       newCharacter,
       newEnemies,
       setEnemyAttacks,
-      handleSpellbookModal,
+      handleShopModal,
       reset
     );
     updateCharacter(newCharacter);

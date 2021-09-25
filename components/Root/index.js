@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, css } from "aphrodite";
-import { fadeInUpBig as animation } from "react-animations";
+import { flash as animation } from "react-animations";
 
 const animationDuration = 1.5;
 const animations = StyleSheet.create({
@@ -48,12 +48,9 @@ export default function Root() {
   }
 
   function handleShopModal() {
-    console.log("changing shop modal state");
-    console.log(showShopModal);
     if (showShopModal) {
       setShowShopModal(false);
     } else {
-      console.log("setting show shop modal to true");
       setAlternateModal(1);
       setShowShopModal(true);
     }
@@ -77,7 +74,6 @@ export default function Root() {
   }
 
   function ResetRendering() {
-    setIsDocumentLoaded(false);
     //modal states
     setShowSpellbookModal(false);
     setShowBattleModal(false);
@@ -97,6 +93,12 @@ export default function Root() {
     setIsDocumentLoaded(true);
   }, []);
 
+  useEffect(() => {
+    if (enemies.length === 1) {
+      setTargetedEnemyIndex(0);
+    }
+  }, [enemies]);
+
   const spellInfoClassName =
     "flex justify-center flex-row w-full md:w-1/2 lg:w-1/3 ";
 
@@ -104,91 +106,34 @@ export default function Root() {
     " border-l-2 border-r-2 bg-gray-900 border-gray-700z ";
   return (
     <>
-      <div className="flex flex-col pt-3 h-full">
+      <div className="flex flex-col py-3 xs:h-auto sm:h-full">
         <RenderElements.RenderEnemies
           enemies={enemies}
           targetedEnemyIndex={targetedEnemyIndex}
           setTargetedEnemyIndex={setTargetedEnemyIndex}
           setShowSelectHelper={setShowSelectHelper}
         />
-        {isDocumentLoaded && (
-          <div className={"flex justify-around text-white"}>
-            <p
-              className={
-                css(animations.animate) +
-                (showSelectHelper ? " px-2 bg-red-700" : "")
-              }
-            >
-              ^^^
-            </p>
-            <p
-              className={
-                css(animations.animate) +
-                (showSelectHelper ? " px-2 bg-red-700" : "")
-              }
-            >
-              ^^^
-            </p>
-          </div>
-        )}
+        {isDocumentLoaded && TargetingHelpers()}
         <RenderElements.RenderMoveLog
           enemyAttacks={enemyAttacks}
           enemies={enemies}
         />
         <RenderElements.RenderCharacter
           character={character}
-          currentAttackIndex={currentAttackIndex}
+          showBattleModal={showBattleModal}
         />
-        {targetedEnemyIndex > -1 && (
-          <div className="flex justify-center items-center flex-col">
-            <div
-              className={
-                spellInfoClassName +
-                (currentAttackIndex > -1
-                  ? spellInfoBorders + "border-t-2 mt-2 pt-2"
-                  : " ")
-              }
-            >
-              {RenderCasts(character, currentAttackIndex)}
-            </div>
-            <div
-              className={
-                spellInfoClassName +
-                (currentAttackIndex > -1
-                  ? spellInfoBorders + "border-b-2"
-                  : " ")
-              }
-            >
-              <button
-                className="flex self-center px-2 py-2 m-2 rounded bg-green-700 hover:bg-gray-300 hover:text-green-700"
-                onClick={() => {
-                  setCurrentAttackIndex(-1);
-                  handleSpellbookModal();
-                }}
-              >
-                {currentAttackIndex > -1 ? "Change" : "Select"} Spell
-              </button>
-              {currentAttackIndex > -1 && (
-                <button
-                  className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700"
-                  onClick={() => CastSpellWrapper()}
-                >
-                  {"Cast " + character.attacks[currentAttackIndex].displayName}
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-        {targetedEnemyIndex < 0 && !showSelectHelper && (
-          <>
+        {targetedEnemyIndex > -1 &&
+          !character.hasEffect("Stun") &&
+          CastingSpellOptions()}
+        {(targetedEnemyIndex < 0 && !showSelectHelper) ||
+          (character.hasEffect("Stun") && (
             <button
-              className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700"
+              className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700 lg:fixed lg:bottom-2 lg:right-3"
               onClick={() => CastSpellWrapper()}
             >
               End Turn
             </button>
-          </>
-        )}
+          ))}
       </div>
 
       <Modals.ShopModal
@@ -217,6 +162,72 @@ export default function Root() {
       />
     </>
   );
+
+  function TargetingHelpers() {
+    return (
+      <div className={"flex justify-around text-white"}>
+        {enemies.map((enemy, index) => {
+          return (
+            <p
+              key={index}
+              className={
+                css(animations.animate) +
+                (showSelectHelper
+                  ? " text-red-600 line-through"
+                  : " line-through")
+              }
+            >
+              ^^^
+            </p>
+          );
+        })}
+      </div>
+    );
+  }
+
+  function CastingSpellOptions() {
+    if (showBattleModal) {
+      return;
+    }
+    return (
+      <div className="flex justify-center items-center flex-col">
+        <div
+          className={
+            spellInfoClassName +
+            (currentAttackIndex > -1
+              ? spellInfoBorders + "border-t-2 mt-2 pt-2"
+              : " ")
+          }
+        >
+          {RenderCasts(character, currentAttackIndex)}
+        </div>
+        <div
+          className={
+            spellInfoClassName +
+            (currentAttackIndex > -1 ? spellInfoBorders + "border-b-2" : " ")
+          }
+        >
+          <button
+            className="flex self-center px-2 py-2 m-2 rounded bg-green-700 hover:bg-gray-300 hover:text-green-700"
+            onClick={() => {
+              setCurrentAttackIndex(-1);
+              handleSpellbookModal();
+            }}
+          >
+            {currentAttackIndex > -1 ? "Change" : "Select"} Spell
+          </button>
+          {currentAttackIndex > -1 && (
+            <button
+              className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700"
+              onClick={() => CastSpellWrapper()}
+            >
+              {"Cast " + character.attacks[currentAttackIndex].displayName}
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   function CastSpellWrapper() {
     CastSpell(

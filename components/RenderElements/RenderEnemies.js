@@ -67,7 +67,6 @@ export default function RenderEnemies({
 }) {
   useEffect(() => {
     if (targetedEnemyIndex !== -1) {
-      console.log("hiding");
       setShowSelectHelper(false);
     }
   }, [targetedEnemyIndex]);
