@@ -35,7 +35,7 @@ export default function Root() {
   const [showSelectHelper, setShowSelectHelper] = useState(true);
   //per-battle game states
   const [enemyAttacks, setEnemyAttacks] = useState([]);
-  const [currentAttackIndex, setCurrentAttackIndex] = useState(-1);
+  const [currentAttackIndex, setCurrentAttackIndex] = useState(0);
   const [targetedEnemyIndex, setTargetedEnemyIndex] = useState(-1);
 
   function handleSpellbookModal() {
@@ -74,6 +74,8 @@ export default function Root() {
   }
 
   function ResetRendering() {
+    // save character, floor, enemies (and potentially allEnemies once it becomes random) to local storage, load on reload
+    let myStorage = window.localStorage;
     setShowSpellbookModal(false);
     setShowBattleModal(false);
     setEnemyAttacks([]);
@@ -89,9 +91,30 @@ export default function Root() {
     });
     setAlternateModal(setShowSpellbookModal());
     setIsDocumentLoaded(true);
+    console.log("loading data...");
+    const [newEnemiesString, newFloorString, newCharacterString] = [
+      localStorage.getItem("enemies"),
+      localStorage.getItem("floor"),
+      localStorage.getItem("character"),
+    ];
+    console.log(newEnemiesString, newFloorString, newCharacterString);
+    const newEnemies = JSON.parse(newEnemiesString);
+    const newFloor = JSON.parse(newFloorString);
+    const newCharacter = JSON.parse(newCharacterString);
+    console.log(newEnemies, newFloor, newCharacter);
+    if (newEnemies && newFloor && newCharacter) {
+      setEnemies(newEnemies);
+      setFloor(newFloor);
+      updateCharacter(newCharacter);
+    }
   }, []);
 
   useEffect(() => {
+    console.log("setting data...");
+    console.log(enemies);
+    localStorage.setItem("floor", JSON.stringify(floor));
+    localStorage.setItem("character", JSON.stringify(character));
+    localStorage.setItem("enemies", JSON.stringify(enemies));
     if (enemies.length === 1) {
       setTargetedEnemyIndex(0);
     }

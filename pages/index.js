@@ -10,6 +10,7 @@ function useWindowHeight() {
     }
     window.addEventListener("resize", updateSize);
     updateSize();
+
     return () => window.removeEventListener("resize", updateSize);
   }, []);
   return height;

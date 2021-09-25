@@ -90,11 +90,11 @@ export function RenderAttack(attack, attackIndex) {
         className="text-yellow-300 m-0 underline "
         data-tip={attack.getTooltip()}
       >
-        {attack.name}
+        {attack.displayName}
         {attack.constructor.name === "Attack" && (
           <span className="text-gray-300 no-underline">
             {" "}
-            (Casts: ${attack.casts})
+            (Casts: {attack.casts})
           </span>
         )}
       </p>

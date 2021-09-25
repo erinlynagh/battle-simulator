@@ -52,7 +52,7 @@ export default function SpellbookModal({
     return (
       <div className="flex flex-col items-center text-gray-300 text-center">
         <div className="flex mb-2">
-          <p>Current Spellbook</p>
+          <p>Spellbook</p>
         </div>
         <div className="block overflow-auto lg:w-1/2 border-gray-700 border-2 mx-auto mb-3">
           {character.attacks.map((attack, index) => {
