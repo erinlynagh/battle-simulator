@@ -10,7 +10,7 @@ const animations = StyleSheet.create({
   },
 });
 
-import * as Modals from "../Modals/index";
+import * as Modals from "../modals/index";
 import * as RenderElements from "../RenderElements/index";
 
 import fullscreen from "../../library/browser/fullscreen";
