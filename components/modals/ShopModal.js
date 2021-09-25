@@ -220,9 +220,7 @@ export default function ShopModal({
               var className = `bg-gray-900 text-center m-2 hover:bg-gray-800`;
               return (
                 <div className={className} key={index}>
-                  <h4 className="text-red-400 mt-2">
-                    {attack.name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ")}
-                  </h4>
+                  <h4 className="text-red-400 mt-2">{attack.displayName}</h4>
                   <p>{attack.getTooltip()}</p>
                   <p className="mt-auto">Casts: {attack.casts}</p>
                 </div>
@@ -290,9 +288,7 @@ export default function ShopModal({
                 <div className={className} key={index}>
                   <div className="px-1 py-2 flex flex-col h-full">
                     <h4>
-                      <b className="text-red-400">
-                        {attack.name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ")}
-                      </b>
+                      <b className="text-red-400">{attack.displayName}</b>
                     </h4>
                     <p>{attack.getTooltip()}</p>
                     <p className="mt-auto mb-1">Casts: {attack.casts}</p>

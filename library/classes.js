@@ -16,6 +16,7 @@ export class Attack {
     this.casts = castsRemaining;
     this.attackMessage = this.setAttackMessage();
     this.id = uuidv4();
+    this.displayName = name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ");
   }
   getTooltip() {
     var tooltipString = "";

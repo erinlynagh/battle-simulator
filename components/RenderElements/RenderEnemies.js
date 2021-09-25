@@ -24,13 +24,20 @@ const classNameEnemy = "p-2 mb-1 ";
 const classNameSelectedEnemy = classNameEnemy + "border-green-600 border-2 ";
 
 function RenderEnemy({
-  key,
+  index,
   enemy,
   targetedEnemyIndex,
   setTargetedEnemyIndex,
 }) {
+  const className = "p-2 mb-1 " + css(styles[[enemy.animate]]);
+  const selectedClass =
+    targetedEnemyIndex === index ? " border-2 border-green-600" : "";
   return (
-    <div className={classNameSelectedEnemy + css(styles[[enemy.animate]])}>
+    <div
+      key={index}
+      className={className + selectedClass}
+      onClick={() => handleTargetedEnemyIndex(index)}
+    >
       <p className="mt-2 text-7xl">{enemy.emoji}</p>
       <h3>{enemy.name}</h3>
       {RenderHealth(enemy.health, enemy.maxHealth)}
@@ -38,6 +45,14 @@ function RenderEnemy({
       {enemy.effects.length > 0 && RenderEffects(enemy)}
     </div>
   );
+
+  function handleTargetedEnemyIndex(index) {
+    if (targetedEnemyIndex === index) {
+      setTargetedEnemyIndex(-1);
+    } else {
+      setTargetedEnemyIndex(index);
+    }
+  }
 }
 
 export default function RenderEnemies({
@@ -52,7 +67,7 @@ export default function RenderEnemies({
           enemies.map((enemy, index) => {
             return (
               <RenderEnemy
-                key={index}
+                index={index}
                 enemy={enemy}
                 targetedEnemyIndex={targetedEnemyIndex}
                 setTargetedEnemyIndex={setTargetedEnemyIndex}

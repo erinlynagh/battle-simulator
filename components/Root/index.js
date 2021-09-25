@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { StyleSheet, css } from "aphrodite";
 
 import { makeCharacter } from "../../library/generation/characterMaker";
 import makeAllEnemies from "../../library/generation/makeAllEnemies";
@@ -53,8 +54,8 @@ export default function Root() {
 
   //per-battle game states
   const [enemyAttacks, setEnemyAttacks] = useState([]);
-  const [currentAttackIndex, setCurrentAttackIndex] = useState(0);
-  const [targetedEnemyIndex, setTargetedEnemyIndex] = useState(0);
+  const [currentAttackIndex, setCurrentAttackIndex] = useState(-1);
+  const [targetedEnemyIndex, setTargetedEnemyIndex] = useState(-1);
 
   function getEnemyIndex(enemy) {
     return enemies.findIndex((x) => x.id === enemy.id);
@@ -81,23 +82,36 @@ export default function Root() {
           targetedEnemyIndex={targetedEnemyIndex}
           setTargetedEnemyIndex={setTargetedEnemyIndex}
         />
+        <div className="flex justify-center">
+          <p> ^^^^ Select an Enemy Target ^^^^</p>
+        </div>
         <RenderElements.RenderMoveLog
           enemyAttacks={enemyAttacks}
           enemies={enemies}
         />
 
         <RenderElements.RenderCharacter character={character} />
-        <RenderElements.RenderCharacterAttacks
-          character={character}
-          currentAttackIndex={currentAttackIndex}
-          setCurrentAttackIndex={setCurrentAttackIndex}
-        />
-        <button
-          className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700"
-          onClick={() => handleAttackModal()}
-        >
-          Attack!
-        </button>
+
+        {targetedEnemyIndex >= 0 && (
+          <button
+            className="flex self-center px-2 py-2 m-2 rounded bg-green-700 hover:bg-gray-300 hover:text-green-700"
+            onClick={() => handleAttackModal()}
+          >
+            {currentAttackIndex === -1
+              ? "Select Spell"
+              : "Cast " + character.attacks[currentAttackIndex].displayName}
+          </button>
+        )}
+        {targetedEnemyIndex < 0 && (
+          <>
+            <button
+              className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700"
+              onClick={() => handleAttackModal()}
+            >
+              End Turn
+            </button>
+          </>
+        )}
       </div>
 
       <Modals.ShopModal
@@ -116,9 +130,11 @@ export default function Root() {
       />
 
       <Modals.AttackModal
+        character={character}
+        currentAttackIndex={currentAttackIndex}
+        setCurrentAttackIndex={setCurrentAttackIndex}
         showAttackModal={showAttackModal}
         handleAttackModal={handleAttackModal}
-        character={character}
         showBattleModal={showBattleModal}
         handleBattleModal={handleBattleModal}
       />
