@@ -1,4 +1,3 @@
-import * as Attacks from "../generation/attackMaker/attacks";
 import * as AttackHelpers from "./attackHelpers";
 import * as StateHelpers from "../copyClasses";
 import Heap from "heap";
@@ -7,9 +6,10 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function killEnemy(enemies, enemyIndex, handleAttackModal, reset) {
+function killEnemy(enemies, enemyIndex, handleShopModal, reset) {
+  console.log(handleShopModal);
   enemies.splice(enemyIndex, 1);
-  handleAttackModal();
+  handleShopModal();
   reset();
 }
 
@@ -17,53 +17,54 @@ const BinaryHeap = new Heap(function (a, b) {
   return b.priority - a.priority;
 });
 
-export function AttackEnemy(
+export function CastSpell(
   character,
   updateCharacter,
-  attack,
-  target,
   enemies,
-  updateEnemies,
+  setEnemies,
   allEnemies,
+  attackIndex,
+  targetIndex,
   floor,
   updateFloor,
   reset,
   setEnemyAttacks,
-  handleAttackModal
+  handleShopModal
 ) {
-  if (!attack || !target) {
+  if (attackIndex === -1 || targetIndex === -1) {
     AttackPlayerFromStun(
       character,
       enemies,
       setEnemyAttacks,
       updateCharacter,
-      updateEnemies,
+      setEnemies,
       floor,
       allEnemies,
       updateFloor,
       reset,
-      handleAttackModal
+      handleShopModal
     );
     return;
   }
   // loads attack data from library
-  attack = Attacks[[attack]]();
+  let attack = character.attacks[attackIndex];
+  console.log(attack);
 
   // create copy of state objects to transform then reassign to state
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
-  const enemy = newEnemies.find(({ id }) => id === target);
-  const enemyIndex = newEnemies.findIndex(({ id }) => id === target);
+  const enemy = newEnemies[targetIndex];
+  console.log(enemy);
 
   // attack the enemy
   AttackHelpers.Attack(newCharacter, attack, enemy, reset);
   // update the screen
-  newEnemies[enemyIndex] = enemy;
-  updateEnemies(newEnemies);
+  newEnemies[targetIndex] = enemy;
+  setEnemies(newEnemies);
 
   // if the enemy dies remove it from the screen
   if (enemy.health <= 0) {
-    killEnemy(newEnemies, enemyIndex, handleAttackModal, reset);
+    killEnemy(newEnemies, targetIndex, handleShopModal, reset);
   }
 
   // if there are no more enemies
@@ -82,12 +83,12 @@ export function AttackEnemy(
         return;
       }
       updateCharacter(newCharacter); // update the screen
-      updateEnemies(newEnemies);
+      setEnemies(newEnemies);
       return;
     });
   } else {
     updateCharacter(newCharacter); // update the screen
-    updateEnemies(newEnemies);
+    setEnemies(newEnemies);
   }
 
   return; // done
@@ -98,7 +99,7 @@ export function AttackEnemy(
       newCharacter,
       newEnemies,
       setEnemyAttacks,
-      handleAttackModal,
+      handleSpellbookModal,
       reset
     );
   }
@@ -114,7 +115,7 @@ export function AttackEnemy(
       updateFloor,
       reset
     ); //get the enemies for the next floor and prepare the screen
-    updateEnemies(newEnemies);
+    setEnemies(newEnemies);
   }
 }
 
@@ -122,7 +123,7 @@ function AttackPlayer(
   character,
   enemies,
   setEnemyAttacks,
-  handleAttackModal,
+  handleSpellbookModal,
   reset
 ) {
   var enemyAttacks = [];
@@ -182,7 +183,7 @@ function AttackPlayer(
     enemy.health -= curseDamage;
     if (enemy.health <= 0) {
       spoofAttack.attackMessage = `${enemy.name} dies from their curse!`;
-      killEnemy(enemies, enemyIndex, handleAttackModal, reset);
+      killEnemy(enemies, enemyIndex, handleSpellbookModal, reset);
     } else {
       spoofAttack.attackMessage = `${enemy.name} takes ${curseDamage} from their curse!`;
       enemyAttacks.push(spoofAttack);
@@ -195,7 +196,7 @@ function AttackPlayer(
     enemy.health -= curseDamage;
     if (enemy.health <= 0) {
       spoofAttack.attackMessage = `${enemy.name} was doomed!`;
-      killEnemy(enemies, enemyIndex, handleAttackModal, reset);
+      killEnemy(enemies, enemyIndex, handleSpellbookModal, reset);
     } else {
       spoofAttack.attackMessage = `${enemy.name} is doomed to take ${curseDamage}!`;
       enemyAttacks.push(spoofAttack);
@@ -208,7 +209,7 @@ function AttackPlayer(
     if (enemy.health <= 0) {
       spoofAttack.attackMessage =
         attack.name + "is reflected back at " + enemy.name + " and kills them!";
-      killEnemy(enemies, enemyIndex, handleAttackModal, reset);
+      killEnemy(enemies, enemyIndex, handleSpellbookModal, reset);
     } else {
       spoofAttack.attackMessage =
         attack.name + "is reflected back at " + enemy.name;
@@ -227,7 +228,7 @@ export function AttackPlayerFromStun(
   allEnemies,
   updateFloor,
   reset,
-  handleAttackModal
+  handleSpellbookModal
 ) {
   setEnemyAttacks([]);
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
@@ -238,7 +239,7 @@ export function AttackPlayerFromStun(
       newCharacter,
       newEnemies,
       setEnemyAttacks,
-      handleAttackModal,
+      handleSpellbookModal,
       reset
     );
     updateCharacter(newCharacter);

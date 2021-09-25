@@ -2,7 +2,7 @@ import { Character } from "../classes";
 import * as Attacks from "./attackMaker/attacks";
 import * as EnemyAttacks from "./enemyAttackMaker";
 
-const defaultName = "Erin";
+const defaultName = "Faust";
 const startingHealth = 20;
 const defaultEmoji = "wizard";
 const defaultEffect = [];

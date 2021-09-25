@@ -1,40 +1,65 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, css } from "aphrodite";
+import { fadeInUpBig as animation } from "react-animations";
 
-import { makeCharacter } from "../../library/generation/characterMaker";
-import makeAllEnemies from "../../library/generation/makeAllEnemies";
-
-import fullscreen from "../../library/browser/fullscreen";
+const animationDuration = 1.5;
+const animations = StyleSheet.create({
+  animate: {
+    animationName: animation,
+    animationDuration: animationDuration + "s",
+  },
+});
 
 import * as Modals from "../Modals/index";
 import * as RenderElements from "../RenderElements/index";
 
+import fullscreen from "../../library/browser/fullscreen";
+import { makeCharacter } from "../../library/generation/characterMaker";
+import makeAllEnemies from "../../library/generation/makeAllEnemies";
+import { CastSpell } from "../../library/battle/attack";
+import { RenderCasts } from "../RenderElements/RenderElements";
+
 export default function Root() {
+  //one-time states
+  const [isDocumentLoaded, setIsDocumentLoaded] = useState(false);
   //modal states
-  const [showAttackModal, setShowAttackModal] = useState(false);
+  const [showSpellbookModal, setShowSpellbookModal] = useState(false);
   const [showShopModal, setShowShopModal] = useState(false);
   const [showBattleModal, setShowBattleModal] = useState(false);
   const [alternateModal, setAlternateModal] = useState(0);
+  //global game states
+  const allEnemies = makeAllEnemies();
+  const [floor, setFloor] = useState(0);
+  const [character, updateCharacter] = useState(makeCharacter());
+  const [enemies, setEnemies] = useState(allEnemies[floor]);
+  const [showSelectHelper, setShowSelectHelper] = useState(true);
+  //per-battle game states
+  const [enemyAttacks, setEnemyAttacks] = useState([]);
+  const [currentAttackIndex, setCurrentAttackIndex] = useState(-1);
+  const [targetedEnemyIndex, setTargetedEnemyIndex] = useState(-1);
 
-  function handleAttackModal() {
-    if (showAttackModal) {
-      setShowAttackModal(false);
+  function handleSpellbookModal() {
+    if (showSpellbookModal) {
+      setShowSpellbookModal(false);
     } else {
       setAlternateModal(0);
-      setShowAttackModal(true);
+      setShowSpellbookModal(true);
     }
   }
 
   function handleShopModal() {
+    console.log("changing shop modal state");
+    console.log(showShopModal);
     if (showShopModal) {
       setShowShopModal(false);
     } else {
+      console.log("setting show shop modal to true");
       setAlternateModal(1);
       setShowShopModal(true);
     }
   }
 
-  const HandleModalFunctions = [handleAttackModal, handleShopModal];
+  const HandleModalFunctions = [handleSpellbookModal, handleShopModal];
   function handleBattleModal() {
     let setPreviousModal = HandleModalFunctions[alternateModal];
     if (showBattleModal) {
@@ -46,23 +71,20 @@ export default function Root() {
     }
   }
 
-  //global game states
-  const allEnemies = makeAllEnemies();
-  const [floor, setFloor] = useState(0);
-  const [character, updateCharacter] = useState(makeCharacter());
-  const [enemies, setEnemies] = useState(allEnemies[floor]);
-
-  //per-battle game states
-  const [enemyAttacks, setEnemyAttacks] = useState([]);
-  const [currentAttackIndex, setCurrentAttackIndex] = useState(-1);
-  const [targetedEnemyIndex, setTargetedEnemyIndex] = useState(-1);
-
-  function getEnemyIndex(enemy) {
-    return enemies.findIndex((x) => x.id === enemy.id);
+  function updateFloor() {
+    let newFloor = floor + 1;
+    setFloor(newFloor);
   }
 
-  function getEnemy(enemy) {
-    return enemies.find((x) => x.id === enemy.id);
+  function ResetRendering() {
+    setIsDocumentLoaded(false);
+    //modal states
+    setShowSpellbookModal(false);
+    setShowBattleModal(false);
+    //per-battle game states
+    setEnemyAttacks([]);
+    setCurrentAttackIndex(-1);
+    setTargetedEnemyIndex(-1);
   }
 
   useEffect(() => {
@@ -71,9 +93,15 @@ export default function Root() {
         fullscreen();
       }
     });
-    setAlternateModal(setShowAttackModal());
+    setAlternateModal(setShowSpellbookModal());
+    setIsDocumentLoaded(true);
   }, []);
 
+  const spellInfoClassName =
+    "flex justify-center flex-row w-full md:w-1/2 lg:w-1/3 ";
+
+  const spellInfoBorders =
+    " border-l-2 border-r-2 bg-gray-900 border-gray-700z ";
   return (
     <>
       <div className="flex flex-col pt-3 h-full">
@@ -81,32 +109,81 @@ export default function Root() {
           enemies={enemies}
           targetedEnemyIndex={targetedEnemyIndex}
           setTargetedEnemyIndex={setTargetedEnemyIndex}
+          setShowSelectHelper={setShowSelectHelper}
         />
-        <div className="flex justify-center">
-          <p> ^^^^ Select an Enemy Target ^^^^</p>
-        </div>
+        {isDocumentLoaded && (
+          <div className={"flex justify-around text-white"}>
+            <p
+              className={
+                css(animations.animate) +
+                (showSelectHelper ? " px-2 bg-red-700" : "")
+              }
+            >
+              ^^^
+            </p>
+            <p
+              className={
+                css(animations.animate) +
+                (showSelectHelper ? " px-2 bg-red-700" : "")
+              }
+            >
+              ^^^
+            </p>
+          </div>
+        )}
         <RenderElements.RenderMoveLog
           enemyAttacks={enemyAttacks}
           enemies={enemies}
         />
-
-        <RenderElements.RenderCharacter character={character} />
-
-        {targetedEnemyIndex >= 0 && (
-          <button
-            className="flex self-center px-2 py-2 m-2 rounded bg-green-700 hover:bg-gray-300 hover:text-green-700"
-            onClick={() => handleAttackModal()}
-          >
-            {currentAttackIndex === -1
-              ? "Select Spell"
-              : "Cast " + character.attacks[currentAttackIndex].displayName}
-          </button>
+        <RenderElements.RenderCharacter
+          character={character}
+          currentAttackIndex={currentAttackIndex}
+        />
+        {targetedEnemyIndex > -1 && (
+          <div className="flex justify-center items-center flex-col">
+            <div
+              className={
+                spellInfoClassName +
+                (currentAttackIndex > -1
+                  ? spellInfoBorders + "border-t-2 mt-2 pt-2"
+                  : " ")
+              }
+            >
+              {RenderCasts(character, currentAttackIndex)}
+            </div>
+            <div
+              className={
+                spellInfoClassName +
+                (currentAttackIndex > -1
+                  ? spellInfoBorders + "border-b-2"
+                  : " ")
+              }
+            >
+              <button
+                className="flex self-center px-2 py-2 m-2 rounded bg-green-700 hover:bg-gray-300 hover:text-green-700"
+                onClick={() => {
+                  setCurrentAttackIndex(-1);
+                  handleSpellbookModal();
+                }}
+              >
+                {currentAttackIndex > -1 ? "Change" : "Select"} Spell
+              </button>
+              {currentAttackIndex > -1 && (
+                <button
+                  className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700"
+                  onClick={() => CastSpellWrapper()}
+                >
+                  {"Cast " + character.attacks[currentAttackIndex].displayName}
+                </button>
+              )}
+            </div>
+          </div>
         )}
-        {targetedEnemyIndex < 0 && (
+        {targetedEnemyIndex < 0 && !showSelectHelper && (
           <>
             <button
               className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700"
-              onClick={() => handleAttackModal()}
+              onClick={() => CastSpellWrapper()}
             >
               End Turn
             </button>
@@ -129,15 +206,32 @@ export default function Root() {
         alternateModal={alternateModal}
       />
 
-      <Modals.AttackModal
+      <Modals.SpellbookModal
         character={character}
         currentAttackIndex={currentAttackIndex}
         setCurrentAttackIndex={setCurrentAttackIndex}
-        showAttackModal={showAttackModal}
-        handleAttackModal={handleAttackModal}
+        showAttackModal={showSpellbookModal}
+        handleSpellbookModal={handleSpellbookModal}
         showBattleModal={showBattleModal}
         handleBattleModal={handleBattleModal}
       />
     </>
   );
+
+  function CastSpellWrapper() {
+    CastSpell(
+      character,
+      updateCharacter,
+      enemies,
+      setEnemies,
+      allEnemies,
+      currentAttackIndex,
+      targetedEnemyIndex,
+      floor,
+      updateFloor,
+      ResetRendering,
+      setEnemyAttacks,
+      handleShopModal
+    );
+  }
 }

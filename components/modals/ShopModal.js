@@ -26,7 +26,7 @@ export default function ShopModal({
   showBattleModal,
   handleBattleModal,
 }) {
-  const AttacksArray = Object.keys(Attacks);
+  console.log(showShopModal);
   const TierOneAttacksArray = Object.keys(TierOne);
   const TierTwoAttacksArray = Object.keys(TierTwo);
   const TierThreeAttacksArray = Object.keys(TierThree);
@@ -106,7 +106,12 @@ export default function ShopModal({
       isOpen={showShopModal}
       contentLabel="Pick your new spell!"
       style={{
-        content: { background: "#0c0c0c" },
+        content: {
+          background: "black",
+          height: "100%",
+          inset: "0",
+          border: "0",
+        },
         overlay: { background: "#323232" },
       }}
     >
@@ -125,7 +130,7 @@ export default function ShopModal({
           </button>
           <button
             className="text-gray-300 flex-1 py-2 px-4 rounded bg-green-600 mx-3"
-            onClick={() => handleBattleModal(handleShopModal())}
+            onClick={() => handleBattleModal()}
           >
             {showBattleModal ? "X" : emoji.getUnicode("eyes")}
           </button>

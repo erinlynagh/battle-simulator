@@ -1,7 +1,7 @@
 import React from "react";
 import { RenderHealth, RenderEffects, RenderMana } from "./RenderElements";
 
-function RenderPerson({ character }) {
+function RenderPerson({ character, currentAttackIndex }) {
   return (
     <div id="character-brief">
       <p className="text-7xl mt-8">{character.emoji}</p>
@@ -12,17 +12,20 @@ function RenderPerson({ character }) {
   );
 }
 
-export default function RenderCharacter({ character }) {
-  var effectDivClassName = "1vh flex px-1 text-pink-600";
+export default function RenderCharacter({ character, currentAttackIndex }) {
+  var effectDivClassName = "1vh flex px-1 text-pink-600 flex-col";
   if (character?.effect?.length > 0) {
-    effectDivClassName = "0px flex px-1 text-pink-600";
+    effectDivClassName = "0px flex flex-col px-1 text-pink-600";
   }
   return (
     <div
       id="character-full"
-      className="text-center flex flex-col justify-center items-center flex-wrap"
+      className="text-center flex flex-col justify-center items-center"
     >
-      <RenderPerson character={character} />
+      <RenderPerson
+        character={character}
+        currentAttackIndex={currentAttackIndex}
+      />
       <div className={effectDivClassName}>
         {character.effects.length > 0 && RenderEffects(character)}
       </div>

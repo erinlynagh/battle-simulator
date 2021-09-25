@@ -3,9 +3,9 @@ const emoji = require("emoji-dictionary");
 
 Modal.setAppElement("#root");
 
-export default function AttackModal({
+export default function SpellbookModal({
   showAttackModal,
-  handleAttackModal,
+  handleSpellbookModal,
   character,
   showBattleModal,
   handleBattleModal,
@@ -17,7 +17,12 @@ export default function AttackModal({
       isOpen={showAttackModal}
       contentLabel="Pick your new spell!"
       style={{
-        content: { background: "#0c0c0c" },
+        content: {
+          background: "black",
+          height: "100%",
+          inset: "0",
+          border: "0",
+        },
         overlay: { background: "#323232" },
       }}
     >
@@ -26,7 +31,7 @@ export default function AttackModal({
         <div className="flex mt-auto justify-evenly flex-col lg:flex-row-reverse">
           <button
             className="text-gray-300 flex-1 py-2 px-4 rounded bg-red-600 m-3"
-            onClick={() => handleAttackModal()}
+            onClick={() => handleSpellbookModal()}
           >
             {currentAttackIndex === -1
               ? "Exit"
@@ -34,7 +39,7 @@ export default function AttackModal({
           </button>
           <button
             className="text-gray-300 flex-1 py-2 px-4 rounded bg-green-600 m-3"
-            onClick={() => handleBattleModal(handleAttackModal)}
+            onClick={() => handleBattleModal(handleSpellbookModal)}
           >
             {showBattleModal ? "X" : emoji.getUnicode("eyes")}
           </button>
@@ -49,7 +54,7 @@ export default function AttackModal({
         <div className="flex mb-2">
           <p>Current Spellbook</p>
         </div>
-        <div className="block overflow-auto h-96 lg:w-1/2 border-gray-700 border-2 mx-auto mb-3">
+        <div className="block overflow-auto lg:w-1/2 border-gray-700 border-2 mx-auto mb-3">
           {character.attacks.map((attack, index) => {
             return Card(attack, index);
           })}

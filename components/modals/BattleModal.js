@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
-import * as Attacks from "../../library/generation/attackMaker/attacks";
-import * as TierOne from "../../library/generation/attackMaker/TierThree";
-import * as TierTwo from "../../library/generation/attackMaker/TierTwo";
-import * as TierThree from "../../library/generation/attackMaker/TierOne";
-import { makeNewCharacter, makeNewAttack } from "../../library/copyClasses";
-import dynamic from "next/dynamic";
-import random from "random";
 const emoji = require("emoji-dictionary");
 
 Modal.setAppElement("#root");
@@ -21,7 +14,11 @@ export default function BattleModal({
       isOpen={showBattleModal}
       contentLabel="Pick your new spell!"
       style={{
-        content: { background: "transparent !important", border: "0px" },
+        content: {
+          background: "transparent !important",
+          border: "0px",
+          inset: "0",
+        },
         overlay: {
           background: "transparent !important",
           backgroundColor: "rgba(255, 255, 255, 0)",

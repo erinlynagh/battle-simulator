@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { shake, pulse, wobble } from "react-animations";
 import { StyleSheet, css } from "aphrodite";
 
 import { RenderHealth, RenderEffects, RenderAttacks } from "./RenderElements";
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 const styles = StyleSheet.create({
   none: {},
@@ -29,9 +33,9 @@ function RenderEnemy({
   targetedEnemyIndex,
   setTargetedEnemyIndex,
 }) {
-  const className = "p-2 mb-1 " + css(styles[[enemy.animate]]);
-  const selectedClass =
-    targetedEnemyIndex === index ? " border-2 border-green-600" : "";
+  const className =
+    "p-2 mb-1 border-2 border-black " + css(styles[[enemy.animate]]);
+  const selectedClass = targetedEnemyIndex === index ? " border-green-600" : "";
   return (
     <div
       key={index}
@@ -59,7 +63,14 @@ export default function RenderEnemies({
   enemies,
   targetedEnemyIndex,
   setTargetedEnemyIndex,
+  setShowSelectHelper,
 }) {
+  useEffect(() => {
+    if (targetedEnemyIndex !== -1) {
+      console.log("hiding");
+      setShowSelectHelper(false);
+    }
+  }, [targetedEnemyIndex]);
   return (
     <div id="enemies" className="align-self-center text-center">
       <div className="flex flex-row justify-around">
@@ -68,6 +79,7 @@ export default function RenderEnemies({
             return (
               <RenderEnemy
                 index={index}
+                key={index}
                 enemy={enemy}
                 targetedEnemyIndex={targetedEnemyIndex}
                 setTargetedEnemyIndex={setTargetedEnemyIndex}

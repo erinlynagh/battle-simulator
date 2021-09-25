@@ -32,6 +32,21 @@ export function RenderMana(mana, maxMana) {
   );
 }
 
+export function RenderCasts(character, attackIndex) {
+  if (attackIndex < 0) {
+    return null;
+  }
+  let casts = character.attacks[attackIndex].casts;
+  var className = "text-indigo-700";
+  if (casts <= 2) {
+    className = "text-indigo-500";
+  }
+  if (casts <= 1) {
+    className = "text-indigo-50";
+  }
+  return <h4 className={className}>Casts Remaining: {casts}</h4>;
+}
+
 export function RenderEffects(enemy) {
   function RenderEffect(effect, effectIndex) {
     if (effect.name === "None") {
