@@ -74,10 +74,8 @@ export default function Root() {
   }
 
   function ResetRendering() {
-    //modal states
     setShowSpellbookModal(false);
     setShowBattleModal(false);
-    //per-battle game states
     setEnemyAttacks([]);
     setCurrentAttackIndex(-1);
     setTargetedEnemyIndex(-1);
