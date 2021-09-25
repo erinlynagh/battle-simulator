@@ -19,22 +19,22 @@ const generateButtonEnabled = generateButtonClass + " bg-green-700";
 const generateButtonDisabled = generateButtonClass + " bg-gray-600";
 
 export default function ShopModal({
-  showAttackModal,
-  handleAttackModal,
+  showShopModal,
+  handleShopModal,
   character,
   updateCharacter,
   showBattleModal,
   handleBattleModal,
 }) {
-  const AttacksArray = Object.keys(Attacks);
   const TierOneAttacksArray = Object.keys(TierOne);
   const TierTwoAttacksArray = Object.keys(TierTwo);
   const TierThreeAttacksArray = Object.keys(TierThree);
   const [showSelectCards, setShowSelectCards] = useState(false);
   const [randomAttacks, setRandomAttacks] = useState([]);
+
   function handleClick() {
     setShowSelectCards(false);
-    handleAttackModal();
+    handleShopModal();
   }
 
   // shop state variables
@@ -79,7 +79,7 @@ export default function ShopModal({
       newCharacter.attacks.push(attack);
     }
     updateCharacter(newCharacter);
-    handleAttackModal();
+    handleShopModal();
     setShowSelectCards(false);
     setSelectedTier(0);
     setSelectedArray(TierOneAttacksArray);
@@ -102,10 +102,15 @@ export default function ShopModal({
 
   return (
     <Modal
-      isOpen={showAttackModal}
+      isOpen={showShopModal}
       contentLabel="Pick your new spell!"
       style={{
-        content: { background: "#0c0c0c" },
+        content: {
+          background: "black",
+          height: "100%",
+          inset: "0",
+          border: "0",
+        },
         overlay: { background: "#323232" },
       }}
     >
@@ -219,9 +224,7 @@ export default function ShopModal({
               var className = `bg-gray-900 text-center m-2 hover:bg-gray-800`;
               return (
                 <div className={className} key={index}>
-                  <h4 className="text-red-400 mt-2">
-                    {attack.name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ")}
-                  </h4>
+                  <h4 className="text-red-400 mt-2">{attack.displayName}</h4>
                   <p>{attack.getTooltip()}</p>
                   <p className="mt-auto">Casts: {attack.casts}</p>
                 </div>
@@ -289,9 +292,7 @@ export default function ShopModal({
                 <div className={className} key={index}>
                   <div className="px-1 py-2 flex flex-col h-full">
                     <h4>
-                      <b className="text-red-400">
-                        {attack.name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ")}
-                      </b>
+                      <b className="text-red-400">{attack.displayName}</b>
                     </h4>
                     <p>{attack.getTooltip()}</p>
                     <p className="mt-auto mb-1">Casts: {attack.casts}</p>
