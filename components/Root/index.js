@@ -86,20 +86,16 @@ export default function Root() {
   }
 
   function ResetGame() {
-    setIsDocumentLoaded(false);
-    //modal states
     setShowSpellbookModal(false);
     setShowShopModal(false);
     setShowBattleModal(false);
     setAlternateModal(0);
-    //global game states
     const allEnemies = makeAllEnemies();
     setFloor(0);
     updateCharacter(makeCharacter());
-    setEnemies(allEnemies[floor]);
+    setEnemies(allEnemies[0]);
     setShowSelectHelper(true);
     setLost(false);
-    //per-battle game states
     setEnemyAttacks([]);
     setCurrentAttackIndex(0);
     setTargetedEnemyIndex(-1);
@@ -157,7 +153,7 @@ export default function Root() {
         <h1 className="flex text-8xl">You Lose</h1>
         <button
           className="flex rounded px-2 py-1 text-lg bg-gray-700 hover:text-gray-700 hover:bg-gray-300"
-          onClick={ResetGame}
+          onClick={() => ResetGame()}
         >
           Retry?
         </button>

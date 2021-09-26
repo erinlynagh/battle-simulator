@@ -24,9 +24,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const classNameEnemy = "p-2 mb-1 ";
-const classNameSelectedEnemy = classNameEnemy + "border-green-600 border-2 ";
-
 function RenderEnemy({
   index,
   enemy,
@@ -34,8 +31,10 @@ function RenderEnemy({
   setTargetedEnemyIndex,
 }) {
   const className =
-    "p-2 mb-1 border-2 border-black " + css(styles[[enemy.animate]]);
-  const selectedClass = targetedEnemyIndex === index ? " border-green-600" : "";
+    "p-2 mb-1 border-2 border-black hover:bg-gray-800 " +
+    css(styles[[enemy.animate]]);
+  const selectedClass =
+    targetedEnemyIndex === index ? " border-green-600 bg-gray-800" : "";
   return (
     <div
       key={index}

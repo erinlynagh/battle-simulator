@@ -27,7 +27,7 @@ export default function BattleModal({
     >
       <div className="flex h-full justify-center content-end">
         <button
-          className="flex-1 py-2 px-4 rounded bg-green-600 mx-2 text-gray-300 mt-auto"
+          className="flex-1 py-2 px-4 rounded bg-green-600 mx-2 text-gray-300 mt-auto hover:bg-gray-300 hover:text-green-600"
           onClick={() => handleBattleModal(alternateModal)}
         >
           {showBattleModal ? "X" : emoji.getUnicode("eyes")}

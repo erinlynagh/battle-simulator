@@ -15,8 +15,9 @@ const ReactTooltip = dynamic(() => import("react-tooltip"), {
 
 Modal.setAppElement("#root");
 
-const generateButtonClass = "py-2 px-4 rounded mx-2 md:w-1/2";
-const generateButtonEnabled = generateButtonClass + " bg-green-700";
+const generateButtonClass = "py-2 px-4 rounded mx-2 md:w-1/2 ";
+const generateButtonEnabled =
+  generateButtonClass + " bg-green-700 hover:text-green-700 hover:bg-gray-300";
 const generateButtonDisabled = generateButtonClass + " bg-gray-600";
 
 export default function ShopModal({
@@ -123,19 +124,19 @@ export default function ShopModal({
         </div>
         <div className="flex mt-auto justify-evenly">
           <button
-            className="text-gray-300 flex-1 py-2 px-4 rounded bg-blue-700 mx-3"
+            className="text-gray-300 flex-1 py-2 px-4 rounded bg-blue-700 mx-3 hover:text-blue-700 hover:bg-gray-300"
             onClick={() => handleShowHelp()}
           >
             {showHelp ? "X" : "?"}
           </button>
           <button
-            className="text-gray-300 flex-1 py-2 px-4 rounded bg-green-600 mx-3"
+            className="text-gray-300 flex-1 py-2 px-4 rounded bg-green-600 mx-3 hover:text-green-600 hover:bg-gray-300"
             onClick={() => handleBattleModal()}
           >
             {showBattleModal ? "X" : emoji.getUnicode("eyes")}
           </button>
           <button
-            className="text-gray-300 flex-1 py-2 px-4 rounded bg-red-600 mx-3"
+            className="text-gray-300 flex-1 py-2 px-4 rounded bg-red-600 mx-3 hover:text-red-600 hover:bg-gray-300"
             onClick={() => handleClick()}
           >
             Skip
@@ -222,7 +223,7 @@ export default function ShopModal({
           {Array.isArray(TierArrays[selectedTier]) &&
             TierArrays[selectedTier].map((attackName, index) => {
               var attack = Attacks[[attackName]]();
-              var className = `bg-gray-900 text-center m-2 hover:bg-gray-800`;
+              var className = `bg-gray-900 text-center m-2`;
               return (
                 <div className={className} key={index}>
                   <h4 className="text-red-400 mt-2">{attack.displayName}</h4>
@@ -236,14 +237,14 @@ export default function ShopModal({
           <div>
             <p>Power Level:</p>
             <button
-              className="bg-blue-700 px-2 py-1 rounded"
+              className="bg-blue-700 px-2 py-1 rounded hover:text-blue-700 hover:bg-gray-300"
               onClick={() => decreaseTier()}
             >
               &lt;
             </button>
             <span> {selectedTier} </span>
             <button
-              className="bg-blue-700 px-2 py-1 rounded"
+              className="bg-blue-700 px-2 py-1 rounded hover:text-blue-700 hover:bg-gray-300"
               onClick={() => increaseTier()}
             >
               &gt;
@@ -252,14 +253,14 @@ export default function ShopModal({
           <div>
             <p>Number of Cards:</p>
             <button
-              className="bg-blue-700 px-2 py-1 rounded"
+              className="bg-blue-700 px-2 py-1 rounded hover:text-blue-700 hover:bg-gray-300"
               onClick={() => decreaseCards()}
             >
               &lt;
             </button>
             <span> {numberOfCards} </span>
             <button
-              className="bg-blue-700 px-2 py-1 rounded"
+              className="bg-blue-700 px-2 py-1 rounded hover:text-blue-700 hover:bg-gray-300"
               onClick={() => increaseCards()}
             >
               &gt;
