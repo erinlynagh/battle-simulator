@@ -86,11 +86,11 @@ export default function Root() {
   }
 
   function ResetGame() {
+    const allEnemies = makeAllEnemies();
     setShowSpellbookModal(false);
     setShowShopModal(false);
     setShowBattleModal(false);
     setAlternateModal(0);
-    const allEnemies = makeAllEnemies();
     setFloor(0);
     updateCharacter(makeCharacter());
     setEnemies(allEnemies[0]);
@@ -163,6 +163,7 @@ export default function Root() {
 
   const renderEnd =
     characterHasEffect(character, "Stun") || targetedEnemyIndex < 0;
+
   return (
     <>
       {console.log(targetedEnemyIndex)}
