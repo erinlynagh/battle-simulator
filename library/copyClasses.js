@@ -11,7 +11,8 @@ export function makeNewCharacter(character) {
     character.maxMana,
     character.id,
     false,
-    character.coins
+    character.coins,
+    character.items
   );
 }
 

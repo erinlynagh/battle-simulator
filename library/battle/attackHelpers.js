@@ -92,3 +92,9 @@ function getEffectIndex(character, effect) {
 function getAttackIndex(character, attack) {
   return character.attacks.findIndex(({ name }) => name === attack);
 }
+
+export function killEnemy(enemies, enemyIndex, handleShopModal, reset) {
+  enemies.splice(enemyIndex, 1);
+  handleShopModal();
+  reset();
+}

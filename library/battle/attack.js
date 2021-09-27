@@ -7,12 +7,6 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function killEnemy(enemies, enemyIndex, handleShopModal, reset) {
-  enemies.splice(enemyIndex, 1);
-  handleShopModal();
-  reset();
-}
-
 const BinaryHeap = new Heap(function (a, b) {
   return b.priority - a.priority;
 });
@@ -25,12 +19,11 @@ export function CastSpell(
   allEnemies,
   attackIndex,
   targetIndex,
-  floor,
-  updateFloor,
   reset,
   setEnemyAttacks,
   handleShopModal,
-  setLost
+  setLost,
+  nextFloor
 ) {
   if (attackIndex === -1 || targetIndex === -1) {
     AttackPlayerFromStun(
@@ -39,9 +32,7 @@ export function CastSpell(
       setEnemyAttacks,
       updateCharacter,
       setEnemies,
-      floor,
       allEnemies,
-      updateFloor,
       reset,
       handleShopModal,
       setLost
@@ -63,13 +54,14 @@ export function CastSpell(
   setEnemies(newEnemies);
 
   // if the enemy dies remove it from the screen
+  // TODO: Iterate through all enemies and remove them all?
   if (enemy.health <= 0) {
-    killEnemy(newEnemies, targetIndex, handleShopModal, reset);
+    AttackHelpers.killEnemy(newEnemies, targetIndex, handleShopModal, reset);
   }
 
   // if there are no more enemies
   if (newEnemies.length === 0) {
-    goToNextFloor(); //update the enemies on the screen
+    nextFloor(); //update the enemies on the screen
     return;
   } else if (character.mana === 1) {
     //end of your turn
@@ -79,7 +71,7 @@ export function CastSpell(
       AttackPlayerWrapper(); // calculate the enemies attack
       if (newEnemies.length === 0) {
         // because of the reflecting attack, enemies can lose on their turn, so we need to cover this
-        goToNextFloor();
+        nextFloor();
         return;
       }
       updateCharacter(newCharacter); // update the screen
@@ -104,20 +96,6 @@ export function CastSpell(
       setLost
     );
   }
-
-  function goToNextFloor() {
-    newEnemies = nextFloor(
-      floor,
-      allEnemies,
-      character,
-      newEnemies,
-      setEnemyAttacks,
-      updateCharacter,
-      updateFloor,
-      reset
-    ); //get the enemies for the next floor and prepare the screen
-    setEnemies(newEnemies);
-  }
 }
 
 function AttackPlayer(
@@ -128,7 +106,6 @@ function AttackPlayer(
   reset,
   setLost
 ) {
-  console.log(setLost);
   var enemyAttacks = [];
   var reflecting = false;
   if (hasEffect(character, "Reflect")) {
@@ -171,11 +148,6 @@ function AttackPlayer(
           enemyAttacks.push(attack);
         }
       }
-      if (character.health <= 0) {
-        setLost(true);
-        console.log("clearing data");
-        localStorage.clear();
-      }
     }
   });
   setEnemyAttacks(enemyAttacks);
@@ -187,7 +159,7 @@ function AttackPlayer(
     enemy.health -= curseDamage;
     if (enemy.health <= 0) {
       spoofAttack.attackMessage = `${enemy.name} dies from their curse!`;
-      killEnemy(enemies, enemyIndex, handleShopModal, reset);
+      AttackHelpers.killEnemy(enemies, enemyIndex, handleShopModal, reset);
     } else {
       spoofAttack.attackMessage = `${enemy.name} takes ${curseDamage} from their curse!`;
       enemyAttacks.push(spoofAttack);
@@ -200,7 +172,7 @@ function AttackPlayer(
     enemy.health -= curseDamage;
     if (enemy.health <= 0) {
       spoofAttack.attackMessage = `${enemy.name} was doomed!`;
-      killEnemy(enemies, enemyIndex, handleShopModal, reset);
+      AttackHelpers.killEnemy(enemies, enemyIndex, handleShopModal, reset);
     } else {
       spoofAttack.attackMessage = `${enemy.name} is doomed to take ${curseDamage}!`;
       enemyAttacks.push(spoofAttack);
@@ -213,7 +185,7 @@ function AttackPlayer(
     if (enemy.health <= 0) {
       spoofAttack.attackMessage =
         attack.name + "is reflected back at " + enemy.name + " and kills them!";
-      killEnemy(enemies, enemyIndex, handleShopModal, reset);
+      AttackHelpers.killEnemy(enemies, enemyIndex, handleShopModal, reset);
     } else {
       spoofAttack.attackMessage =
         attack.name + "is reflected back at " + enemy.name;
@@ -228,9 +200,6 @@ export function AttackPlayerFromStun(
   setEnemyAttacks,
   updateCharacter,
   updateEnemies,
-  floor,
-  allEnemies,
-  updateFloor,
   reset,
   handleShopModal,
   setLost
@@ -238,6 +207,7 @@ export function AttackPlayerFromStun(
   setEnemyAttacks([]);
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
+  let lost = false;
   updateEnemies(newEnemies);
   sleep(200).then(() => {
     AttackPlayer(
@@ -250,47 +220,13 @@ export function AttackPlayerFromStun(
     );
     updateCharacter(newCharacter);
     updateEnemies(newEnemies);
-    if (newEnemies.length === 0) {
-      setEnemyAttacks([]);
-      newEnemies = nextFloor(
-        floor,
-        allEnemies,
-        character,
-        newEnemies,
-        setEnemyAttacks,
-        updateCharacter,
-        updateFloor,
-        reset
-      );
+    if (newEnemies.length === 0 && !lost) {
+      handleShopModal();
+      nextFloor();
+    } else if (newEnemies.length < enemies.length && !lost) {
+      handleShopModal();
+      reset();
       updateEnemies(newEnemies);
-      return;
     }
   });
-}
-
-function nextFloor(
-  floor,
-  allEnemies,
-  character,
-  enemies,
-  setEnemyAttacks,
-  updateCharacter,
-  updateFloor,
-  reset
-) {
-  floor = floor + 1;
-  if (floor >= allEnemies.length) {
-    reset();
-  } else {
-    var newCharacter = StateHelpers.makeNewCharacter(character);
-    newCharacter.effects = [];
-    newCharacter.coins += floor % 7;
-    newCharacter.mana = newCharacter.maxMana;
-    setEnemyAttacks([]);
-    updateCharacter(newCharacter);
-    updateFloor(floor);
-    reset();
-  }
-  enemies = allEnemies[floor];
-  return enemies;
 }
