@@ -8,7 +8,16 @@ const startingHealth = 20;
 const defaultEmoji = "wizard";
 const defaultEffect = [];
 const defaultMana = 2;
-const defaultItems = [Items.SparklingHeart(), Items.Scissors()];
+const defaultAttacks = [
+  Attacks.Fireball(),
+  Attacks.Stupefy(),
+  Attacks.Wither(),
+];
+const defaultItems = [
+  Items.SparklingHeart(),
+  Items.Scissors(),
+  Items.SpookyGhost(),
+];
 
 export function makeCharacter(
   name = defaultName,
@@ -24,7 +33,7 @@ export function makeCharacter(
     name,
     health,
     maxHealth,
-    [Attacks.Fireball(), Attacks.Stupefy(), Attacks.Wither()],
+    defaultAttacks,
     emojiName,
     effects,
     mana,
@@ -38,7 +47,7 @@ export function makeCharacter(
 
 export function makeBat() {
   const name = "Bat";
-  const health = 4;
+  const health = 7;
   const attacks = [EnemyAttacks.Scratch()];
   const emojiName = "bat";
   return new Character(name, health, health, attacks, emojiName, [], 0, 0);
