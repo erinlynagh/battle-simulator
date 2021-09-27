@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import * as Attacks from "../../library/generation/attackMaker/attacks";
+import * as Items from "../../library/generation/itemMaker/itemsMaker";
 import * as TierOne from "../../library/generation/attackMaker/TierThree";
 import * as TierTwo from "../../library/generation/attackMaker/TierTwo";
 import * as TierThree from "../../library/generation/attackMaker/TierOne";
-import { makeNewCharacter, makeNewAttack } from "../../library/copyClasses";
+import {
+  makeNewCharacter,
+  makeNewAttack,
+  makeNewItem,
+} from "../../library/copyClasses";
 import { getAttackTooltip } from "../../library/classes";
 import dynamic from "next/dynamic";
 import random from "random";
@@ -31,6 +36,7 @@ export default function ShopModal({
   const TierOneAttacksArray = Object.keys(TierOne);
   const TierTwoAttacksArray = Object.keys(TierTwo);
   const TierThreeAttacksArray = Object.keys(TierThree);
+  const ItemsArray = Object.keys(Items);
   const [showSelectCards, setShowSelectCards] = useState(false);
   const [randomAttacks, setRandomAttacks] = useState([]);
 
@@ -42,7 +48,7 @@ export default function ShopModal({
   // shop state variables
   const [selectedTier, setSelectedTier] = useState(0);
   const [selectedArray, setSelectedArray] = useState(TierOneAttacksArray);
-  const [numberOfCards, setNumberOfCards] = useState(3);
+  const [numberOfObjects, setNumberOfCards] = useState(3);
   const [cost, setCost] = useState(0);
   const [shopButtonClassName, setShopButtonClassName] = useState(
     generateButtonEnabled
@@ -59,12 +65,20 @@ export default function ShopModal({
     setShowSelectCards(true);
     setRandomAttacks([]);
     let randAttacks = [];
-    while (randAttacks.length < numberOfCards) {
+    console.log(selectedTier);
+    while (randAttacks.length < numberOfObjects) {
       // this broken, we need more cards
       let newAttack = selectedArray[random.int(0, endIndex)];
+      console.log(randAttacks);
+      console.log(newAttack);
       if (getAttackIndex(randAttacks, newAttack) === -1) {
-        newAttack = Attacks[[newAttack]]();
-        randAttacks.push(makeNewAttack(newAttack));
+        if (selectedTier < 3) {
+          newAttack = Attacks[[newAttack]]();
+          randAttacks.push(makeNewAttack(newAttack));
+        } else {
+          newAttack = Items[[newAttack]]();
+          randAttacks.push(makeNewItem(newAttack));
+        }
       }
     }
     setRandomAttacks(randAttacks);
@@ -72,13 +86,18 @@ export default function ShopModal({
 
   function selectAttack(attack) {
     getThreeRandomAttacks();
+
     let newCharacter = makeNewCharacter(character);
-    let attackIndex = getCharacterAttackIndex(character, attack);
     newCharacter.coins -= cost;
-    if (attackIndex > -1) {
-      newCharacter.attacks[attackIndex].casts += attack.casts;
+    if (selectedTier < 3) {
+      let attackIndex = getCharacterAttackIndex(character, attack);
+      if (attackIndex > -1) {
+        newCharacter.attacks[attackIndex].casts += attack.casts;
+      } else {
+        newCharacter.attacks.push(attack);
+      }
     } else {
-      newCharacter.attacks.push(attack);
+      newCharacter.items.push(attack);
     }
     updateCharacter(newCharacter);
     handleShopModal();
@@ -96,11 +115,6 @@ export default function ShopModal({
   function getAttackIndex(attacks, attack) {
     return attacks.findIndex(({ name }) => name === attack);
   }
-
-  const bottomDivClassName = "absolute bottom-4";
-  const xDisplacement = 4;
-  const bottomRightClassName = bottomDivClassName + " right-" + xDisplacement;
-  const bottomLeftClassName = bottomDivClassName + " left-" + xDisplacement;
 
   return (
     <Modal
@@ -151,6 +165,7 @@ export default function ShopModal({
       TierOneAttacksArray,
       TierTwoAttacksArray,
       TierThreeAttacksArray,
+      ItemsArray,
     ];
 
     function updateCost(tier, number) {
@@ -165,7 +180,7 @@ export default function ShopModal({
 
     function decreaseTier() {
       var newTier = selectedTier;
-      var newNumberOfCards = numberOfCards;
+      var newNumberOfCards = numberOfObjects;
       if (selectedTier > 0) {
         newTier -= 1;
         setSelectedTier(newTier);
@@ -176,7 +191,7 @@ export default function ShopModal({
     }
     function increaseTier() {
       var newTier = selectedTier;
-      var newNumberOfCards = numberOfCards;
+      var newNumberOfCards = numberOfObjects;
       if (selectedTier < TierArrays.length - 1) {
         newTier += 1;
         setSelectedTier(newTier);
@@ -187,16 +202,16 @@ export default function ShopModal({
     }
 
     function decreaseCards() {
-      var newNumberOfCards = numberOfCards;
-      if (numberOfCards > 3) {
+      var newNumberOfCards = numberOfObjects;
+      if (numberOfObjects > 3) {
         newNumberOfCards -= 1;
-        setNumberOfCards(numberOfCards - 1);
+        setNumberOfCards(numberOfObjects - 1);
       }
       updateCost(selectedTier, newNumberOfCards);
     }
     function increaseCards() {
-      var newNumberOfCards = numberOfCards;
-      if (numberOfCards < TierArrays[selectedTier].length) {
+      var newNumberOfCards = numberOfObjects;
+      if (numberOfObjects < TierArrays[selectedTier].length) {
         newNumberOfCards += 1;
         setNumberOfCards(newNumberOfCards);
       }
@@ -212,7 +227,8 @@ export default function ShopModal({
     return (
       <div className="text-center text-gray-300">
         <h1 className={"text-2xl"}>
-          <span className="text-green-600">Buy</span> a new Spell
+          <span className="text-green-600">Buy</span> a new{" "}
+          {selectedTier < 3 ? "Spell" : "Item"}
         </h1>
         <h2>
           You have <span className="text-yellow-400">${character.coins}</span>{" "}
@@ -222,13 +238,25 @@ export default function ShopModal({
         <div className="block overflow-auto h-96 lg:w-1/2 border-yellow-200 border-2 mx-auto mb-3">
           {Array.isArray(TierArrays[selectedTier]) &&
             TierArrays[selectedTier].map((attackName, index) => {
-              var attack = Attacks[[attackName]]();
+              if (selectedTier < 3) {
+                var attack = Attacks[[attackName]]();
+              } else if (selectedTier === 3) {
+                var attack = Items[[attackName]]();
+              }
               var className = `bg-gray-900 text-center m-2`;
               return (
                 <div className={className} key={index}>
                   <h4 className="text-red-400 mt-2">{attack.displayName}</h4>
-                  <p>{getAttackTooltip(attack)}</p>
-                  <p className="mt-auto">Casts: {attack.casts}</p>
+                  <p>
+                    {selectedTier < 3
+                      ? getAttackTooltip(attack)
+                      : attack.description}
+                  </p>
+                  {selectedTier < 3 ? (
+                    <p className="mt-auto">Casts: {attack.casts}</p>
+                  ) : (
+                    <p className="text-3xl">{attack.emoji}</p>
+                  )}
                 </div>
               );
             })}
@@ -251,14 +279,14 @@ export default function ShopModal({
             </button>
           </div>
           <div>
-            <p>Number of Cards:</p>
+            <p>Number of Items:</p>
             <button
               className="bg-blue-700 px-2 py-1 rounded hover:text-blue-700 hover:bg-gray-300"
               onClick={() => decreaseCards()}
             >
               &lt;
             </button>
-            <span> {numberOfCards} </span>
+            <span> {numberOfObjects} </span>
             <button
               className="bg-blue-700 px-2 py-1 rounded hover:text-blue-700 hover:bg-gray-300"
               onClick={() => increaseCards()}
@@ -273,7 +301,8 @@ export default function ShopModal({
             onClick={() => getThreeRandomAttacks()}
             disabled={character.coins < cost}
           >
-            Pay ${cost} for {numberOfCards} cards
+            Pay ${cost} to choose from {numberOfObjects}{" "}
+            {selectedTier < 3 ? "Spells" : "Items"}
           </button>
         </div>
       </div>
@@ -281,10 +310,11 @@ export default function ShopModal({
   }
 
   function SelectCards() {
+    console.log(selectedTier);
     return (
       <div className="flex flex-col items-center text-gray-300 text-center">
         <div className="flex">
-          <p>Select a New Attack</p>
+          <p>Select a New {selectedTier < 3 ? "Attack" : "Item"}</p>
         </div>
         <div className="text-center flex flex-col flex-wrap">
           {Array.isArray(randomAttacks) &&
@@ -296,8 +326,16 @@ export default function ShopModal({
                     <h4>
                       <b className="text-red-400">{attack.displayName}</b>
                     </h4>
-                    <p>{getAttackTooltip(attack)}</p>
-                    <p className="mt-auto mb-1">Casts: {attack.casts}</p>
+                    <p>
+                      {selectedTier < 3
+                        ? getAttackTooltip(attack)
+                        : attack.description}
+                    </p>
+                    {selectedTier < 3 ? (
+                      <p className="mt-auto">Casts: {attack.casts}</p>
+                    ) : (
+                      <p className="text-3xl">{attack.emoji}</p>
+                    )}
                     <ReactTooltip html={true} />
                     <button
                       type="button"
