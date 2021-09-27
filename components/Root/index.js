@@ -103,7 +103,6 @@ export default function Root() {
       console.log("you win!");
       reset();
     } else {
-      console.log("going to floor " + newFloor);
       var newCharacter = StateHelpers.makeNewCharacter(character);
       newCharacter.effects = [];
       newCharacter.coins += floor % 7;
@@ -111,7 +110,6 @@ export default function Root() {
       updateCharacter(newCharacter);
       setFloor(newFloor);
       setEnemies(allEnemies[newFloor]);
-      console.log(allEnemies[newFloor]);
       ResetRendering();
     }
   }
@@ -149,7 +147,6 @@ export default function Root() {
 
   useEffect(() => {
     console.log("setting data...");
-    console.log(character);
     localStorage.setItem("floor", JSON.stringify(floor));
     localStorage.setItem("character", JSON.stringify(character));
     localStorage.setItem("enemies", JSON.stringify(enemies));
@@ -335,8 +332,6 @@ export default function Root() {
       allEnemies,
       currentAttackIndex,
       targetedEnemyIndex,
-      floor,
-      updateFloor,
       ResetRendering,
       setEnemyAttacks,
       handleShopModal,

@@ -14,8 +14,6 @@ export default function ItemsList(
   reset,
   nextFloor
 ) {
-  console.log(handleSpellbookModal);
-  console.log(enemies);
   return (
     <div className="flex flex-col text-gray-300 text-center h-full w-full lg:w-3/4">
       <p>Items</p>

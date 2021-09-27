@@ -10,8 +10,6 @@ const defaultEffect = [];
 const defaultMana = 2;
 const defaultItems = [Items.SparklingHeart(), Items.Scissors()];
 
-console.log(defaultItems);
-
 export function makeCharacter(
   name = defaultName,
   health = startingHealth,

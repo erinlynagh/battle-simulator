@@ -61,7 +61,7 @@ export function CastSpell(
 
   // if there are no more enemies
   if (newEnemies.length === 0) {
-    goToNextFloor(); //update the enemies on the screen
+    nextFloor(); //update the enemies on the screen
     return;
   } else if (character.mana === 1) {
     //end of your turn
@@ -106,7 +106,6 @@ function AttackPlayer(
   reset,
   setLost
 ) {
-  console.log(setLost);
   var enemyAttacks = [];
   var reflecting = false;
   if (hasEffect(character, "Reflect")) {
@@ -206,7 +205,6 @@ export function AttackPlayerFromStun(
   setEnemyAttacks,
   updateCharacter,
   updateEnemies,
-  allEnemies,
   reset,
   handleShopModal,
   setLost
@@ -227,19 +225,12 @@ export function AttackPlayerFromStun(
     updateCharacter(newCharacter);
     updateEnemies(newEnemies);
     if (newEnemies.length === 0) {
-      setEnemyAttacks([]);
-      newEnemies = nextFloor(
-        floor,
-        allEnemies,
-        character,
-        newEnemies,
-        setEnemyAttacks,
-        updateCharacter,
-        updateFloor,
-        reset
-      );
+      handleShopModal();
+      nextFloor();
+    } else if (enemyKilled) {
+      handleShopModal();
+      reset();
       updateEnemies(newEnemies);
-      return;
     }
   });
 }

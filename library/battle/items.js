@@ -12,7 +12,6 @@ export default function UseItem(
   reset,
   nextFloor
 ) {
-  console.log(item, index, character, updateCharacter);
   let newCharacter = StateHelpers.makeNewCharacter(character);
   newCharacter.items.splice(index, 1);
   switch (item.name) {
@@ -25,12 +24,13 @@ export default function UseItem(
       let newEnemies = info[0];
       let enemyKilled = info[1];
       if (newEnemies.length === 0) {
+        handleShopModal();
         nextFloor();
       } else if (enemyKilled) {
         handleShopModal();
         reset();
+        setEnemies(newEnemies);
       }
-      setEnemies(newEnemies);
       break;
   }
 
@@ -42,12 +42,10 @@ function CalculateEnemyDamage(enemies, damage) {
   let flag = false;
   for (var i = 0; i < newEnemies.length; i++) {
     let enemy = newEnemies[i];
-    console.log(enemy);
     enemy.health -= damage;
     if (enemy.health <= 0) {
       newEnemies.splice(i, 1);
       i--;
-      console.log("dies");
       flag = true;
     }
   }
