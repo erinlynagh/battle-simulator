@@ -20,7 +20,7 @@ export default function UseItem(
       newCharacter.health += 5;
       break;
     case "Scissors":
-      damage = 5;
+      let damage = 5;
       DamageEnemies(
         enemies,
         handleShopModal,
