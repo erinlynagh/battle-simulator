@@ -21,7 +21,7 @@ export function Torment() {
   const name = "Torment";
   const damage = 5;
   const effect = Effects.Doomed(2);
-  const casts = 1;
+  const casts = 2;
   return newAttack(name, damage, effect, casts);
 }
 

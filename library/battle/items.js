@@ -12,8 +12,11 @@ export default function UseItem(
   reset,
   nextFloor
 ) {
+  console.log(item);
+  console;
   let newCharacter = StateHelpers.makeNewCharacter(character);
   newCharacter.items.splice(index, 1);
+  let effect = "";
   switch (item.name) {
     case "Healing Heart":
       newCharacter.maxHealth += 5;
@@ -31,8 +34,12 @@ export default function UseItem(
       );
       break;
     case "Faulty Plug":
-      let effect = "Stun";
+      effect = "Stun";
       ApplyEffectToEnemies(enemies, effect, setEnemies);
+      break;
+    case "Really Shiny Dust":
+      effect = "Reflect";
+      character.effects.push(EffectMaker[[effect]](1));
       break;
     default:
       throw new Error("Item not Found");

@@ -184,11 +184,14 @@ function AttackPlayer(
     let spoofAttack = new StateHelpers.spoofAttack(enemy);
     if (enemy.health <= 0) {
       spoofAttack.attackMessage =
-        attack.name + "is reflected back at " + enemy.name + " and kills them!";
+        attack.name +
+        " is reflected back at " +
+        enemy.name +
+        " and kills them!";
       AttackHelpers.killEnemy(enemies, enemyIndex, handleShopModal, reset);
     } else {
       spoofAttack.attackMessage =
-        attack.name + "is reflected back at " + enemy.name;
+        attack.name + " is reflected back at " + enemy.name;
       enemyAttacks.push(spoofAttack);
     }
   }

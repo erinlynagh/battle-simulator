@@ -17,3 +17,9 @@ export function FaultyPlug() {
   let item = new Item("Faulty Plug", description, "electric_plug");
   return item;
 }
+
+export function ReallyShinyDust() {
+  const description = "Applies 1 Reflect to the User";
+  let item = new Item("Really Shiny Dust", description, "sparkles");
+  return item;
+}

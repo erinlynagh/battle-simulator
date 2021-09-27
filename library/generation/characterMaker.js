@@ -17,6 +17,7 @@ const defaultItems = [
   Items.SparklingHeart(),
   Items.Scissors(),
   Items.FaultyPlug(),
+  Items.ReallyShinyDust(),
 ];
 
 export function makeCharacter(
