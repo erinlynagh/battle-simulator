@@ -25,14 +25,15 @@ export function Torment() {
   return newAttack(name, damage, effect, casts);
 }
 
-// export function Chrysopoeia() {
-//   const name = "Chrysopoeia";
-//   const damage = 10;
-//   const effect = Effects.Midas(2);
-//   const casts = 1;
-//   return newAttack(name, damage, effect, casts);
-// }
+export function Chrysopoeia() {
+  const name = "Chrysopoeia";
+  const damage = 0;
+  const effect = Effects.Midas(9);
+  const casts = 1;
+  return newAttack(name, damage, effect, casts);
+}
 
+// Right now the engine doesn't allow for editing the character and killing an enemy in the same spell... :(
 // export function ReapSpirit() {
 //   const name = "ReapSpirit";
 //   const damage = 10;

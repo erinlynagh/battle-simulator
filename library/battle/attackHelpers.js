@@ -45,6 +45,13 @@ function applyAffect(character, effect) {
     }
     return;
   }
+  if (effect.name === "Midas") {
+    console.log("increasing coins by " + effect.duration);
+    console.log(character);
+    character.coins += effect.duration;
+    console.log(character);
+    return;
+  }
   const effectIndex = getEffectIndex(character, effect.name);
   if (effectIndex === -1) {
     character.effects.push(

@@ -54,10 +54,16 @@ export function Heal(duration) {
   return new Effect("Heal", duration, `User ${description} for BLANK turns`);
 }
 
+export function Midas(duration) {
+  const description = `grants user ${duration} gold`;
+  return new Effect("Midas", duration, description);
+}
+
 export function AppliesToAttacker(effect) {
   if (
     effect.name === "Furious" ||
     effect.name === "Reflect" ||
+    effect.name === "Midas" ||
     effect.name === "Heal"
   ) {
     return true;
