@@ -16,7 +16,7 @@ const defaultAttacks = [
 const defaultItems = [
   Items.SparklingHeart(),
   Items.Scissors(),
-  Items.SpookyGhost(),
+  Items.FaultyPlug(),
 ];
 
 export function makeCharacter(

@@ -12,8 +12,8 @@ export function Scissors() {
   return item;
 }
 
-export function SpookyGhost() {
+export function FaultyPlug() {
   const description = "Applies 1 Stun to all enemies";
-  let item = new Item("Spooky Ghost", description, "ghost");
+  let item = new Item("Faulty Plug", description, "electric_plug");
   return item;
 }

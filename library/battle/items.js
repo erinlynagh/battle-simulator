@@ -30,10 +30,12 @@ export default function UseItem(
         damage
       );
       break;
-    case "Spooky Ghost":
+    case "Faulty Plug":
       let effect = "Stun";
       ApplyEffectToEnemies(enemies, effect, setEnemies);
       break;
+    default:
+      throw new Error("Item not Found");
   }
 
   updateCharacter(newCharacter);
