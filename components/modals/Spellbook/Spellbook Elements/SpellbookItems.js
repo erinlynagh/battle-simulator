@@ -29,13 +29,13 @@ export default function ItemsList(
             className="rounded border-2 border-blue-600 text-blue-600 px-1 flex-1 mr-1 ml-3 hover:bg-blue-600 hover:text-black "
             onClick={() => decreaseSpellIndex()}
           >
-            &lt; {character.items[getDecreasedIndex()].name}
+            &lt; {character.items[getDecreasedIndex()].displayName}
           </p>
           <p
             className="rounded border-2 border-blue-600 text-blue-600 px-1 flex-1 ml-1 mr-3 hover:bg-blue-600 hover:text-black "
             onClick={() => increaseSpellIndex()}
           >
-            {character.items[getIncreasedIndex()].name} &gt;
+            {character.items[getIncreasedIndex()].displayName} &gt;
           </p>
         </div>
       )}

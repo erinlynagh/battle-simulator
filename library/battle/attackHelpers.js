@@ -13,6 +13,7 @@ export function Attack(attacker, attack, defender, reset = false) {
 }
 
 function calculateAttackDamage(attack, defender, attacker) {
+  // TODO: Re-Balance these equations
   let damage = attack.power;
   if (hasEffect(attacker, "Wither")) {
     damage = 0.75 * damage;
