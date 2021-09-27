@@ -148,12 +148,6 @@ function AttackPlayer(
           enemyAttacks.push(attack);
         }
       }
-      if (character.health <= 0) {
-        setLost(true);
-        console.log("clearing data");
-        localStorage.clear();
-        return;
-      }
     }
   });
   setEnemyAttacks(enemyAttacks);
@@ -224,12 +218,6 @@ export function AttackPlayerFromStun(
       reset,
       setLost
     );
-    if (newCharacter.health <= 0) {
-      setLost(true);
-      lost = true;
-      console.log("clearing data");
-      localStorage.clear();
-    }
     updateCharacter(newCharacter);
     updateEnemies(newEnemies);
     if (newEnemies.length === 0 && !lost) {

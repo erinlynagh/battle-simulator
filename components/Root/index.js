@@ -91,7 +91,7 @@ export default function Root() {
     updateCharacter(makeCharacter());
     setEnemies(allEnemies[0]);
     setShowSelectHelper(true);
-    // setLost(false);
+    setLost(false);
     setEnemyAttacks([]);
     setCurrentAttackIndex(0);
     setTargetedEnemyIndex(-1);
@@ -146,11 +146,17 @@ export default function Root() {
   }, [enemies]);
 
   useEffect(() => {
-    console.log("setting data...");
-    localStorage.setItem("floor", JSON.stringify(floor));
-    localStorage.setItem("character", JSON.stringify(character));
-    localStorage.setItem("enemies", JSON.stringify(enemies));
-  }, [enemies, character, floor]);
+    if (character.health <= 0) {
+      setLost(true);
+      console.log("Clearing Save");
+      localStorage.clear();
+      return;
+    } else {
+      localStorage.setItem("floor", JSON.stringify(floor));
+      localStorage.setItem("character", JSON.stringify(character));
+      localStorage.setItem("enemies", JSON.stringify(enemies));
+    }
+  }, [enemies, character]);
 
   const spellInfoClassName =
     "flex justify-center flex-row w-full md:w-1/2 lg:w-1/3 ";
@@ -173,8 +179,6 @@ export default function Root() {
 
   const renderEnd =
     characterHasEffect(character, "Stun") || targetedEnemyIndex < 0;
-
-  console.log(lost);
 
   return (
     <>
