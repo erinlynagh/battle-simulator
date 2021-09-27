@@ -77,7 +77,6 @@ export default function Root() {
 
   function ResetRendering() {
     // save character, floor, enemies (and potentially allEnemies once it becomes random) to local storage, load on reload
-    let myStorage = window.localStorage;
     setShowSpellbookModal(false);
     setShowBattleModal(false);
     setEnemyAttacks([]);
@@ -109,18 +108,16 @@ export default function Root() {
     });
     setAlternateModal(setShowSpellbookModal());
     setIsDocumentLoaded(true);
-    console.log("loading data...");
     const [newEnemiesString, newFloorString, newCharacterString] = [
       localStorage.getItem("enemies"),
       localStorage.getItem("floor"),
       localStorage.getItem("character"),
     ];
-    console.log(newEnemiesString, newFloorString, newCharacterString);
     const newEnemies = JSON.parse(newEnemiesString);
     const newFloor = JSON.parse(newFloorString);
     const newCharacter = JSON.parse(newCharacterString);
-    console.log(newEnemies, newFloor, newCharacter);
-    if (newEnemies && newFloor && newCharacter) {
+    if (false && newEnemies && newFloor && newCharacter) {
+      console.log("Save Loaded!");
       setEnemies(newEnemies);
       setFloor(newFloor);
       updateCharacter(newCharacter);
@@ -136,7 +133,7 @@ export default function Root() {
 
   useEffect(() => {
     console.log("setting data...");
-    console.log(enemies);
+    console.log(character);
     localStorage.setItem("floor", JSON.stringify(floor));
     localStorage.setItem("character", JSON.stringify(character));
     localStorage.setItem("enemies", JSON.stringify(enemies));
@@ -166,7 +163,6 @@ export default function Root() {
 
   return (
     <>
-      {console.log(targetedEnemyIndex)}
       <div className="flex flex-col py-3 xs:h-auto sm:h-full">
         <RenderElements.RenderEnemies
           enemies={enemies}
@@ -186,6 +182,7 @@ export default function Root() {
         {targetedEnemyIndex > -1 &&
           !characterHasEffect(character, "Stun") &&
           CastingSpellOptions()}
+
         {renderEnd && (
           <button
             className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700 lg:fixed lg:bottom-2 lg:right-3"
@@ -213,12 +210,15 @@ export default function Root() {
 
       <Modals.SpellbookModal
         character={character}
+        updateCharacter={updateCharacter}
         currentAttackIndex={currentAttackIndex}
         setCurrentAttackIndex={setCurrentAttackIndex}
         showAttackModal={showSpellbookModal}
         handleSpellbookModal={handleSpellbookModal}
         showBattleModal={showBattleModal}
         handleBattleModal={handleBattleModal}
+        enemies={enemies}
+        setEnemies={setEnemies}
       />
     </>
   );
@@ -250,7 +250,7 @@ export default function Root() {
       return;
     }
     return (
-      <div className="flex justify-center items-center flex-col">
+      <div className="flex justify-center items-center flex-col mx-2">
         <div
           className={
             spellInfoClassName +
@@ -274,7 +274,7 @@ export default function Root() {
               handleSpellbookModal();
             }}
           >
-            {currentAttackIndex > -1 ? "Change" : "Select"} Spell
+            Open Spellbook
           </button>
           {currentAttackIndex > -1 && (
             <button

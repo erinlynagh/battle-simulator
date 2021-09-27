@@ -1,5 +1,6 @@
 import { Character } from "../classes";
 import * as Attacks from "./attackMaker/attacks";
+import * as Items from "./itemMaker/itemsMaker";
 import * as EnemyAttacks from "./enemyAttackMaker";
 
 const defaultName = "Faust";
@@ -7,6 +8,9 @@ const startingHealth = 20;
 const defaultEmoji = "wizard";
 const defaultEffect = [];
 const defaultMana = 2;
+const defaultItems = [Items.SparklingHeart(), Items.Scissors()];
+
+console.log(defaultItems);
 
 export function makeCharacter(
   name = defaultName,
@@ -15,7 +19,8 @@ export function makeCharacter(
   emojiName = defaultEmoji,
   effects = defaultEffect,
   mana = defaultMana,
-  maxMana = defaultMana
+  maxMana = defaultMana,
+  items = defaultItems
 ) {
   return new Character(
     name,
@@ -26,7 +31,10 @@ export function makeCharacter(
     effects,
     mana,
     maxMana,
-    420
+    420,
+    false,
+    10,
+    items
   );
 }
 
