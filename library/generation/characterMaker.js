@@ -13,12 +13,7 @@ const defaultAttacks = [
   Attacks.Stupefy(),
   Attacks.Wither(),
 ];
-const defaultItems = [
-  Items.SparklingHeart(),
-  Items.Scissors(),
-  Items.FaultyPlug(),
-  Items.ReallyShinyDust(),
-];
+const defaultItems = [Items.SparklingHeart(), Items.Scissors()];
 
 export function makeCharacter(
   name = defaultName,
