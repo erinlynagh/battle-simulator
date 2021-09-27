@@ -5,7 +5,11 @@ import * as Items from "../../library/generation/itemMaker/itemsMaker";
 import * as TierOne from "../../library/generation/attackMaker/TierThree";
 import * as TierTwo from "../../library/generation/attackMaker/TierTwo";
 import * as TierThree from "../../library/generation/attackMaker/TierOne";
-import { makeNewCharacter, makeNewAttack } from "../../library/copyClasses";
+import {
+  makeNewCharacter,
+  makeNewAttack,
+  makeNewItem,
+} from "../../library/copyClasses";
 import { getAttackTooltip } from "../../library/classes";
 import dynamic from "next/dynamic";
 import random from "random";
@@ -61,12 +65,18 @@ export default function ShopModal({
     setShowSelectCards(true);
     setRandomAttacks([]);
     let randAttacks = [];
+    console.log(selectedTier);
     while (randAttacks.length < numberOfCards) {
       // this broken, we need more cards
       let newAttack = selectedArray[random.int(0, endIndex)];
       if (getAttackIndex(randAttacks, newAttack) === -1) {
-        newAttack = Attacks[[newAttack]]();
-        randAttacks.push(makeNewAttack(newAttack));
+        if (selectedTier < 3) {
+          newAttack = Attacks[[newAttack]]();
+          randAttacks.push(makeNewAttack(newAttack));
+        } else {
+          newAttack = Items[[newAttack]]();
+          randAttacks.push(makeNewItem(newAttack));
+        }
       }
     }
     setRandomAttacks(randAttacks);
@@ -74,13 +84,18 @@ export default function ShopModal({
 
   function selectAttack(attack) {
     getThreeRandomAttacks();
+
     let newCharacter = makeNewCharacter(character);
-    let attackIndex = getCharacterAttackIndex(character, attack);
     newCharacter.coins -= cost;
-    if (attackIndex > -1) {
-      newCharacter.attacks[attackIndex].casts += attack.casts;
+    if (selectedTier < 3) {
+      let attackIndex = getCharacterAttackIndex(character, attack);
+      if (attackIndex > -1) {
+        newCharacter.attacks[attackIndex].casts += attack.casts;
+      } else {
+        newCharacter.attacks.push(attack);
+      }
     } else {
-      newCharacter.attacks.push(attack);
+      newCharacter.items.push(attack);
     }
     updateCharacter(newCharacter);
     handleShopModal();
@@ -210,7 +225,8 @@ export default function ShopModal({
     return (
       <div className="text-center text-gray-300">
         <h1 className={"text-2xl"}>
-          <span className="text-green-600">Buy</span> a new Spell
+          <span className="text-green-600">Buy</span> a new{" "}
+          {selectedTier < 3 ? "Spell" : "Item"}
         </h1>
         <h2>
           You have <span className="text-yellow-400">${character.coins}</span>{" "}
@@ -234,7 +250,11 @@ export default function ShopModal({
                       ? getAttackTooltip(attack)
                       : attack.description}
                   </p>
-                  <p className="mt-auto">Casts: {attack.casts}</p>
+                  {selectedTier < 3 ? (
+                    <p className="mt-auto">Casts: {attack.casts}</p>
+                  ) : (
+                    <p className="text-3xl">{attack.emoji}</p>
+                  )}
                 </div>
               );
             })}
@@ -291,7 +311,7 @@ export default function ShopModal({
     return (
       <div className="flex flex-col items-center text-gray-300 text-center">
         <div className="flex">
-          <p>Select a New Attack</p>
+          <p>Select a New {selectedTier < 3 ? "Attack" : "Item"}</p>
         </div>
         <div className="text-center flex flex-col flex-wrap">
           {Array.isArray(randomAttacks) &&
@@ -308,7 +328,11 @@ export default function ShopModal({
                         ? getAttackTooltip(attack)
                         : attack.description}
                     </p>
-                    <p className="mt-auto mb-1">Casts: {attack.casts}</p>
+                    {selectedTier < 3 ? (
+                      <p className="mt-auto">Casts: {attack.casts}</p>
+                    ) : (
+                      <p className="text-3xl">{attack.emoji}</p>
+                    )}
                     <ReactTooltip html={true} />
                     <button
                       type="button"
