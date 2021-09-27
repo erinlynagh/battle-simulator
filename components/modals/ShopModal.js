@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import * as Attacks from "../../library/generation/attackMaker/attacks";
+import * as Items from "../../library/generation/itemMaker/itemsMaker";
 import * as TierOne from "../../library/generation/attackMaker/TierThree";
 import * as TierTwo from "../../library/generation/attackMaker/TierTwo";
 import * as TierThree from "../../library/generation/attackMaker/TierOne";
@@ -31,6 +32,7 @@ export default function ShopModal({
   const TierOneAttacksArray = Object.keys(TierOne);
   const TierTwoAttacksArray = Object.keys(TierTwo);
   const TierThreeAttacksArray = Object.keys(TierThree);
+  const ItemsArray = Object.keys(Items);
   const [showSelectCards, setShowSelectCards] = useState(false);
   const [randomAttacks, setRandomAttacks] = useState([]);
 
@@ -97,11 +99,6 @@ export default function ShopModal({
     return attacks.findIndex(({ name }) => name === attack);
   }
 
-  const bottomDivClassName = "absolute bottom-4";
-  const xDisplacement = 4;
-  const bottomRightClassName = bottomDivClassName + " right-" + xDisplacement;
-  const bottomLeftClassName = bottomDivClassName + " left-" + xDisplacement;
-
   return (
     <Modal
       isOpen={showShopModal}
@@ -151,6 +148,7 @@ export default function ShopModal({
       TierOneAttacksArray,
       TierTwoAttacksArray,
       TierThreeAttacksArray,
+      ItemsArray,
     ];
 
     function updateCost(tier, number) {
@@ -222,12 +220,20 @@ export default function ShopModal({
         <div className="block overflow-auto h-96 lg:w-1/2 border-yellow-200 border-2 mx-auto mb-3">
           {Array.isArray(TierArrays[selectedTier]) &&
             TierArrays[selectedTier].map((attackName, index) => {
-              var attack = Attacks[[attackName]]();
+              if (selectedTier < 3) {
+                var attack = Attacks[[attackName]]();
+              } else if (selectedTier === 3) {
+                var attack = Items[[attackName]]();
+              }
               var className = `bg-gray-900 text-center m-2`;
               return (
                 <div className={className} key={index}>
                   <h4 className="text-red-400 mt-2">{attack.displayName}</h4>
-                  <p>{getAttackTooltip(attack)}</p>
+                  <p>
+                    {selectedTier < 3
+                      ? getAttackTooltip(attack)
+                      : attack.description}
+                  </p>
                   <p className="mt-auto">Casts: {attack.casts}</p>
                 </div>
               );
@@ -251,7 +257,7 @@ export default function ShopModal({
             </button>
           </div>
           <div>
-            <p>Number of Cards:</p>
+            <p>Number of Items:</p>
             <button
               className="bg-blue-700 px-2 py-1 rounded hover:text-blue-700 hover:bg-gray-300"
               onClick={() => decreaseCards()}
@@ -281,6 +287,7 @@ export default function ShopModal({
   }
 
   function SelectCards() {
+    console.log(selectedTier);
     return (
       <div className="flex flex-col items-center text-gray-300 text-center">
         <div className="flex">
@@ -296,7 +303,11 @@ export default function ShopModal({
                     <h4>
                       <b className="text-red-400">{attack.displayName}</b>
                     </h4>
-                    <p>{getAttackTooltip(attack)}</p>
+                    <p>
+                      {selectedTier < 3
+                        ? getAttackTooltip(attack)
+                        : attack.description}
+                    </p>
                     <p className="mt-auto mb-1">Casts: {attack.casts}</p>
                     <ReactTooltip html={true} />
                     <button
