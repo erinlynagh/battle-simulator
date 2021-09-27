@@ -91,7 +91,7 @@ export default function Root() {
     updateCharacter(makeCharacter());
     setEnemies(allEnemies[0]);
     setShowSelectHelper(true);
-    setLost(false);
+    // setLost(false);
     setEnemyAttacks([]);
     setCurrentAttackIndex(0);
     setTargetedEnemyIndex(-1);
@@ -173,6 +173,8 @@ export default function Root() {
 
   const renderEnd =
     characterHasEffect(character, "Stun") || targetedEnemyIndex < 0;
+
+  console.log(lost);
 
   return (
     <>
@@ -314,8 +316,6 @@ export default function Root() {
       allEnemies,
       -1,
       -1,
-      floor,
-      updateFloor,
       ResetRendering,
       setEnemyAttacks,
       handleShopModal,

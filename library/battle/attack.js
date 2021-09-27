@@ -152,6 +152,7 @@ function AttackPlayer(
         setLost(true);
         console.log("clearing data");
         localStorage.clear();
+        return;
       }
     }
   });
@@ -212,6 +213,7 @@ export function AttackPlayerFromStun(
   setEnemyAttacks([]);
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
+  let lost = false;
   updateEnemies(newEnemies);
   sleep(200).then(() => {
     AttackPlayer(
@@ -222,12 +224,18 @@ export function AttackPlayerFromStun(
       reset,
       setLost
     );
+    if (newCharacter.health <= 0) {
+      setLost(true);
+      lost = true;
+      console.log("clearing data");
+      localStorage.clear();
+    }
     updateCharacter(newCharacter);
     updateEnemies(newEnemies);
-    if (newEnemies.length === 0) {
+    if (newEnemies.length === 0 && !lost) {
       handleShopModal();
       nextFloor();
-    } else if (enemyKilled) {
+    } else if (newEnemies.length < enemies.length && !lost) {
       handleShopModal();
       reset();
       updateEnemies(newEnemies);
