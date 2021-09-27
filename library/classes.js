@@ -127,7 +127,7 @@ export class Effect {
 export class Item {
   constructor(name, description, emojiName) {
     this.name = name;
-    this.displayName = name;
+    this.displayName = name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ");
     this.description = description;
     this.emojiName = emojiName;
     this.emoji = emoji.getUnicode(emojiName);

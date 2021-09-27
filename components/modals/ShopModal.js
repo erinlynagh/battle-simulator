@@ -48,7 +48,7 @@ export default function ShopModal({
   // shop state variables
   const [selectedTier, setSelectedTier] = useState(0);
   const [selectedArray, setSelectedArray] = useState(TierOneAttacksArray);
-  const [numberOfCards, setNumberOfCards] = useState(3);
+  const [numberOfObjects, setNumberOfCards] = useState(3);
   const [cost, setCost] = useState(0);
   const [shopButtonClassName, setShopButtonClassName] = useState(
     generateButtonEnabled
@@ -66,9 +66,11 @@ export default function ShopModal({
     setRandomAttacks([]);
     let randAttacks = [];
     console.log(selectedTier);
-    while (randAttacks.length < numberOfCards) {
+    while (randAttacks.length < numberOfObjects) {
       // this broken, we need more cards
       let newAttack = selectedArray[random.int(0, endIndex)];
+      console.log(randAttacks);
+      console.log(newAttack);
       if (getAttackIndex(randAttacks, newAttack) === -1) {
         if (selectedTier < 3) {
           newAttack = Attacks[[newAttack]]();
@@ -178,7 +180,7 @@ export default function ShopModal({
 
     function decreaseTier() {
       var newTier = selectedTier;
-      var newNumberOfCards = numberOfCards;
+      var newNumberOfCards = numberOfObjects;
       if (selectedTier > 0) {
         newTier -= 1;
         setSelectedTier(newTier);
@@ -189,7 +191,7 @@ export default function ShopModal({
     }
     function increaseTier() {
       var newTier = selectedTier;
-      var newNumberOfCards = numberOfCards;
+      var newNumberOfCards = numberOfObjects;
       if (selectedTier < TierArrays.length - 1) {
         newTier += 1;
         setSelectedTier(newTier);
@@ -200,16 +202,16 @@ export default function ShopModal({
     }
 
     function decreaseCards() {
-      var newNumberOfCards = numberOfCards;
-      if (numberOfCards > 3) {
+      var newNumberOfCards = numberOfObjects;
+      if (numberOfObjects > 3) {
         newNumberOfCards -= 1;
-        setNumberOfCards(numberOfCards - 1);
+        setNumberOfCards(numberOfObjects - 1);
       }
       updateCost(selectedTier, newNumberOfCards);
     }
     function increaseCards() {
-      var newNumberOfCards = numberOfCards;
-      if (numberOfCards < TierArrays[selectedTier].length) {
+      var newNumberOfCards = numberOfObjects;
+      if (numberOfObjects < TierArrays[selectedTier].length) {
         newNumberOfCards += 1;
         setNumberOfCards(newNumberOfCards);
       }
@@ -284,7 +286,7 @@ export default function ShopModal({
             >
               &lt;
             </button>
-            <span> {numberOfCards} </span>
+            <span> {numberOfObjects} </span>
             <button
               className="bg-blue-700 px-2 py-1 rounded hover:text-blue-700 hover:bg-gray-300"
               onClick={() => increaseCards()}
@@ -299,7 +301,8 @@ export default function ShopModal({
             onClick={() => getThreeRandomAttacks()}
             disabled={character.coins < cost}
           >
-            Pay ${cost} for {numberOfCards} cards
+            Pay ${cost} to choose from {numberOfObjects}{" "}
+            {selectedTier < 3 ? "Spells" : "Items"}
           </button>
         </div>
       </div>

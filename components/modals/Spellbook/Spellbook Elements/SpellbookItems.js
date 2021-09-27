@@ -45,7 +45,7 @@ export default function ItemsList(
     return (
       <div className="w-full" key={index}>
         <div className={"px-1 py-2 flex flex-col h-full"}>
-          <h4 className="text-red-400 my-2">{item.name}</h4>
+          <h4 className="text-red-400 my-2">{item.displayName}</h4>
           <h4 className="text-red-400 text-7xl">{item.emoji}</h4>
           <p>{item.description}</p>
           {/* <p className="mt-auto mb-1">Casts: {attack.casts}</p> */}

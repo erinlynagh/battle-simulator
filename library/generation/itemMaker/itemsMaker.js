@@ -14,12 +14,12 @@ export function Scissors() {
 
 export function FaultyPlug() {
   const description = "Applies 1 Stun to all enemies";
-  let item = new Item("Faulty Plug", description, "electric_plug");
+  let item = new Item("FaultyPlug", description, "electric_plug");
   return item;
 }
 
 export function ReallyShinyDust() {
   const description = "Applies 1 Reflect to the User";
-  let item = new Item("Really Shiny Dust", description, "sparkles");
+  let item = new Item("ReallyShinyDust", description, "sparkles");
   return item;
 }
