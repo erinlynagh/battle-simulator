@@ -40,7 +40,7 @@ export function makeCharacter(
 
 export function makeBat() {
   const name = "Bat";
-  const health = 7;
+  const health = 4;
   const attacks = [EnemyAttacks.Scratch()];
   const emojiName = "bat";
   return new Character(name, health, health, attacks, emojiName, [], 0, 0);

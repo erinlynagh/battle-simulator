@@ -11,3 +11,9 @@ export function Scissors() {
   let item = new Item("Scissors", description, "scissors");
   return item;
 }
+
+export function SpookyGhost() {
+  const description = "Applies 1 Stun to all enemies";
+  let item = new Item("Spooky Ghost", description, "ghost");
+  return item;
+}

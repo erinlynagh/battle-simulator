@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { StyleSheet, css } from "aphrodite";
 import { flash as animation } from "react-animations";
 
+import * as StateHelpers from "../../library/copyClasses";
+
 const animationDuration = 1.5;
 const animations = StyleSheet.create({
   animate: {
@@ -70,11 +72,6 @@ export default function Root() {
     }
   }
 
-  function updateFloor() {
-    let newFloor = floor + 1;
-    setFloor(newFloor);
-  }
-
   function ResetRendering() {
     // save character, floor, enemies (and potentially allEnemies once it becomes random) to local storage, load on reload
     setShowSpellbookModal(false);
@@ -98,6 +95,25 @@ export default function Root() {
     setEnemyAttacks([]);
     setCurrentAttackIndex(0);
     setTargetedEnemyIndex(-1);
+  }
+
+  function nextFloor() {
+    let newFloor = floor + 1;
+    if (newFloor >= allEnemies.length) {
+      console.log("you win!");
+      reset();
+    } else {
+      console.log("going to floor " + newFloor);
+      var newCharacter = StateHelpers.makeNewCharacter(character);
+      newCharacter.effects = [];
+      newCharacter.coins += floor % 7;
+      newCharacter.mana = newCharacter.maxMana;
+      updateCharacter(newCharacter);
+      setFloor(newFloor);
+      setEnemies(allEnemies[newFloor]);
+      console.log(allEnemies[newFloor]);
+      ResetRendering();
+    }
   }
 
   useEffect(() => {
@@ -219,6 +235,9 @@ export default function Root() {
         handleBattleModal={handleBattleModal}
         enemies={enemies}
         setEnemies={setEnemies}
+        handleShopModal={handleShopModal}
+        reset={ResetRendering}
+        nextFloor={nextFloor}
       />
     </>
   );
@@ -321,7 +340,8 @@ export default function Root() {
       ResetRendering,
       setEnemyAttacks,
       handleShopModal,
-      setLost
+      setLost,
+      nextFloor
     );
   }
 }

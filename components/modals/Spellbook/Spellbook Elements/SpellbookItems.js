@@ -9,7 +9,10 @@ export default function ItemsList(
   enemies,
   setEnemies,
   handleSpellbookModal,
-  setShowSpells
+  setShowSpells,
+  handleShopModal,
+  reset,
+  nextFloor
 ) {
   console.log(handleSpellbookModal);
   console.log(enemies);
@@ -87,7 +90,10 @@ export default function ItemsList(
       character,
       updateCharacter,
       enemies,
-      setEnemies
+      setEnemies,
+      handleShopModal,
+      reset,
+      nextFloor
     );
     setItemIndex(0);
     setShowSpells(true);

@@ -18,6 +18,9 @@ export default function SpellbookModal({
   updateCharacter,
   enemies,
   setEnemies,
+  handleShopModal,
+  reset,
+  nextFloor,
 }) {
   const [showSpells, setShowSpells] = useState(true);
   const [currentItemIndex, setItemIndex] = useState(0);
@@ -58,16 +61,7 @@ export default function SpellbookModal({
         )}
         {(!showSpells && character.items.length) > 0 && (
           <div className="flex mb-2 mx-2 h-3/4 justify-center">
-            {ItemsList(
-              currentItemIndex,
-              setItemIndex,
-              character,
-              updateCharacter,
-              enemies,
-              setEnemies,
-              handleSpellbookModal,
-              setShowSpells
-            )}
+            {ItemsListWrapper()}
           </div>
         )}
 
@@ -89,5 +83,21 @@ export default function SpellbookModal({
     } else {
       setShowSpells(true);
     }
+  }
+
+  function ItemsListWrapper() {
+    return ItemsList(
+      currentItemIndex,
+      setItemIndex,
+      character,
+      updateCharacter,
+      enemies,
+      setEnemies,
+      handleSpellbookModal,
+      setShowSpells,
+      handleShopModal,
+      reset,
+      nextFloor
+    );
   }
 }

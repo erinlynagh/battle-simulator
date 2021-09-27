@@ -1,3 +1,4 @@
+import { killEnemy } from "./attackHelpers";
 import * as StateHelpers from "../copyClasses";
 
 export default function UseItem(
@@ -6,7 +7,10 @@ export default function UseItem(
   character,
   updateCharacter,
   enemies,
-  setEnemies
+  setEnemies,
+  handleShopModal,
+  reset,
+  nextFloor
 ) {
   console.log(item, index, character, updateCharacter);
   let newCharacter = StateHelpers.makeNewCharacter(character);
@@ -17,13 +21,35 @@ export default function UseItem(
       newCharacter.health += 5;
       break;
     case "Scissors":
-      let newEnemies = StateHelpers.makeNewEnemies(enemies);
-      newEnemies.forEach((enemy) => {
-        enemy.health -= 5; //oh god killing enemies doesn't work, the amount of state variables needed for this is... not good
-      });
+      let info = CalculateEnemyDamage(enemies, 5);
+      let newEnemies = info[0];
+      let enemyKilled = info[1];
+      if (newEnemies.length === 0) {
+        nextFloor();
+      } else if (enemyKilled) {
+        handleShopModal();
+        reset();
+      }
       setEnemies(newEnemies);
       break;
   }
 
   updateCharacter(newCharacter);
+}
+
+function CalculateEnemyDamage(enemies, damage) {
+  let newEnemies = StateHelpers.makeNewEnemies(enemies);
+  let flag = false;
+  for (var i = 0; i < newEnemies.length; i++) {
+    let enemy = newEnemies[i];
+    console.log(enemy);
+    enemy.health -= damage;
+    if (enemy.health <= 0) {
+      newEnemies.splice(i, 1);
+      i--;
+      console.log("dies");
+      flag = true;
+    }
+  }
+  return [newEnemies, flag];
 }
