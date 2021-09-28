@@ -60,8 +60,18 @@ export default function SpellbookModal({
           </div>
         )}
         {(!showSpells && character.items.length) > 0 && (
-          <div className="flex mb-2 mx-2 h-3/4 justify-center">
-            {ItemsListWrapper()}
+          <div className="mb-2 mx-2">
+            {ItemsList(
+              character,
+              updateCharacter,
+              enemies,
+              setEnemies,
+              setShowSpells,
+              handleShopModal,
+              reset,
+              nextFloor,
+              handleSpellbookModal
+            )}
           </div>
         )}
 
