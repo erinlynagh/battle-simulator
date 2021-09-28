@@ -165,8 +165,8 @@ export default function Root() {
     " border-l-2 border-r-2 bg-gray-900 border-gray-700z ";
   if (lost) {
     return (
-      <div className="flex w-full h-full justify-center items-center flex-col text-center">
-        <h1 className="flex text-8xl">You Lose</h1>
+      <div className="flex w-full h-full justify-center items-center flex-col">
+        <h1 className="flex text-8xl text-center">You Lose</h1>
         <button
           className="flex rounded px-2 py-1 text-lg bg-gray-700 hover:text-gray-700 hover:bg-gray-300"
           onClick={() => ResetGame()}
