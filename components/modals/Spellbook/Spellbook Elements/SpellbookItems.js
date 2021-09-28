@@ -14,7 +14,7 @@ export default function ItemsList(
   return (
     <div className="flex flex-col items-center text-gray-300 text-center">
       <div className="flex mb-2">
-        <p>Spells</p>
+        <p>Items</p>
       </div>
       <div className="block overflow-auto border-gray-700 border-2 mx-auto mb-3">
         {character.items.map((item, index) => {

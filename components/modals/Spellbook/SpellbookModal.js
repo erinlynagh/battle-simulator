@@ -23,7 +23,6 @@ export default function SpellbookModal({
   nextFloor,
 }) {
   const [showSpells, setShowSpells] = useState(true);
-  const [currentItemIndex, setItemIndex] = useState(0);
 
   return (
     <Modal
@@ -60,19 +59,7 @@ export default function SpellbookModal({
           </div>
         )}
         {(!showSpells && character.items.length) > 0 && (
-          <div className="mb-2 mx-2">
-            {ItemsList(
-              character,
-              updateCharacter,
-              enemies,
-              setEnemies,
-              setShowSpells,
-              handleShopModal,
-              reset,
-              nextFloor,
-              handleSpellbookModal
-            )}
-          </div>
+          <div className="mb-2 mx-2">{ItemsListWrapper()}</div>
         )}
 
         <div className="flex mt-auto justify-evenly  flex-col lg:flex-row-reverse">
@@ -97,17 +84,15 @@ export default function SpellbookModal({
 
   function ItemsListWrapper() {
     return ItemsList(
-      currentItemIndex,
-      setItemIndex,
       character,
       updateCharacter,
       enemies,
       setEnemies,
-      handleSpellbookModal,
       setShowSpells,
       handleShopModal,
       reset,
-      nextFloor
+      nextFloor,
+      handleSpellbookModal
     );
   }
 }
