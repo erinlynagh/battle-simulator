@@ -23,3 +23,9 @@ export function ReallyShinyDust() {
   let item = new Item("ReallyShinyDust", description, "sparkles");
   return item;
 }
+
+export function Battery() {
+  const description = "Increases your mana by 1";
+  let item = new Item("Battery", description, "battery");
+  return item;
+}

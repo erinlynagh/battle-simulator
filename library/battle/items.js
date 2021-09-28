@@ -33,11 +33,11 @@ export default function UseItem(
         damage
       );
       break;
-    case "Faulty Plug":
+    case "FaultyPlug":
       effect = "Stun";
       ApplyEffectToEnemies(enemies, effect, setEnemies);
       break;
-    case "Really Shiny Dust":
+    case "ReallyShinyDust":
       effect = "Reflect";
       character.effects.push(EffectMaker[[effect]](1));
       break;

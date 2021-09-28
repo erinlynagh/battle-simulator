@@ -15,10 +15,10 @@ export default function ItemsList(
   nextFloor
 ) {
   return (
-    <div className="flex flex-col text-gray-300 text-center h-full w-full lg:w-3/4">
+    <div className="flex flex-col text-gray-300 text-center h-full w-full lg:w-1/2 md:w-3/4">
       <p>Items</p>
       <div
-        className="flex items-center border-gray-700 border-2 mx-auto mb-3 h-full w-full bg-gray-900 hover:bg-gray-800 hover:border-green-600"
+        className="flex items-center border-gray-700 border-2 mb-3 h-full w-full bg-gray-900 hover:bg-gray-800 hover:border-green-600"
         onClick={() => UseItemWrapper()} //need to have some kind of confirmations
       >
         {Item(character.items[currentItemIndex], currentItemIndex)}
