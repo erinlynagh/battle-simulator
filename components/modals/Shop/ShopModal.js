@@ -389,10 +389,7 @@ function getRandomAttacks(
 ) {
   let randAttacks = [];
   while (randAttacks.length < numberOfObjects) {
-    // this broken, we need more cards
     let newAttack = selectedArray[random.int(0, endIndex)];
-    console.log(randAttacks);
-    console.log(newAttack);
     if (getAttackIndex(randAttacks, newAttack) === -1) {
       if (selectedTier < 3) {
         newAttack = Attacks[[newAttack]]();

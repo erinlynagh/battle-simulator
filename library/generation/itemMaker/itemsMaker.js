@@ -2,7 +2,7 @@ import { Item } from "../../classes";
 
 export function SparklingHeart() {
   const description = "Increases max health by 5, then increases health by 5";
-  let item = new Item("Healing Heart", description, "sparkling_heart");
+  let item = new Item("SparklingHeart", description, "sparkling_heart");
   return item;
 }
 
