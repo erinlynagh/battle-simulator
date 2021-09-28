@@ -2,7 +2,7 @@ import { Item } from "../../classes";
 
 export function SparklingHeart() {
   const description = "Increases max health by 5, then increases health by 5";
-  let item = new Item("Healing Heart", description, "sparkling_heart");
+  let item = new Item("SparklingHeart", description, "sparkling_heart");
   return item;
 }
 
@@ -21,5 +21,11 @@ export function FaultyPlug() {
 export function ReallyShinyDust() {
   const description = "Applies 1 Reflect to the User";
   let item = new Item("ReallyShinyDust", description, "sparkles");
+  return item;
+}
+
+export function Battery() {
+  const description = "Increases your mana by 1";
+  let item = new Item("Battery", description, "battery");
   return item;
 }

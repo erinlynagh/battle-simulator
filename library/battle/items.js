@@ -18,7 +18,7 @@ export default function UseItem(
   newCharacter.items.splice(index, 1);
   let effect = "";
   switch (item.name) {
-    case "Healing Heart":
+    case "SparklingHeart":
       newCharacter.maxHealth += 5;
       newCharacter.health += 5;
       break;
@@ -33,13 +33,16 @@ export default function UseItem(
         damage
       );
       break;
-    case "Faulty Plug":
+    case "FaultyPlug":
       effect = "Stun";
       ApplyEffectToEnemies(enemies, effect, setEnemies);
       break;
-    case "Really Shiny Dust":
+    case "ReallyShinyDust":
       effect = "Reflect";
       character.effects.push(EffectMaker[[effect]](1));
+      break;
+    case "Battery":
+      newCharacter.mana += 1;
       break;
     default:
       throw new Error("Item not Found");

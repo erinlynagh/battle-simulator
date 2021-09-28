@@ -16,13 +16,13 @@ function calculateAttackDamage(attack, defender, attacker) {
   // TODO: Re-Balance these equations
   let damage = attack.power;
   if (hasEffect(attacker, "Wither")) {
-    damage = 0.75 * damage;
+    damage = (1 / 1.5) * damage;
   }
   if (hasEffect(attacker, "Furious")) {
-    damage = (4 / 3) * damage;
+    damage = 1.5 * damage;
   }
   if (hasEffect(defender, "Vulnerable")) {
-    damage = (4 / 3) * damage;
+    damage = 1.5 * damage;
   }
   damage = Math.floor(damage);
   setAttackMessage(attack, damage);
