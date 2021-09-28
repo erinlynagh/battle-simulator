@@ -41,19 +41,15 @@ export function CastSpell(
   }
   // loads attack data from library
   let attack = character.attacks[attackIndex];
-
-  // create copy of state objects to transform then reassign to state
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
   const enemy = newEnemies[targetIndex];
 
-  // attack the enemy
   AttackHelpers.Attack(newCharacter, attack, enemy, reset);
-  // update the screen
+  newCharacter.mana -= 1;
   newEnemies[targetIndex] = enemy;
   setEnemies(newEnemies);
 
-  // if the enemy dies remove it from the screen
   // TODO: Iterate through all enemies and remove them all?
   if (enemy.health <= 0) {
     AttackHelpers.killEnemy(newEnemies, targetIndex, handleShopModal, reset);
@@ -63,39 +59,12 @@ export function CastSpell(
   if (newEnemies.length === 0) {
     nextFloor(); //update the enemies on the screen
     return;
-  } else if (character.mana === 1) {
-    //end of your turn
-    setEnemyAttacks([]); // reset the attack log
-    sleep(500).then(() => {
-      //this allows the player to see some information, like the effect of the attack that they did
-      AttackPlayerWrapper(); // calculate the enemies attack
-      if (newEnemies.length === 0) {
-        // because of the reflecting attack, enemies can lose on their turn, so we need to cover this
-        nextFloor();
-        return;
-      }
-      updateCharacter(newCharacter); // update the screen
-      setEnemies(newEnemies);
-      return;
-    });
-  } else {
-    updateCharacter(newCharacter); // update the screen
-    setEnemies(newEnemies);
   }
 
-  return; // done
+  updateCharacter(newCharacter); // update the screen
+  setEnemies(newEnemies);
 
-  // wrappers to reduce the disgusting appearance of having to manage so many variables
-  function AttackPlayerWrapper() {
-    AttackPlayer(
-      newCharacter,
-      newEnemies,
-      setEnemyAttacks,
-      handleShopModal,
-      reset,
-      setLost
-    );
-  }
+  return;
 }
 
 function AttackPlayer(

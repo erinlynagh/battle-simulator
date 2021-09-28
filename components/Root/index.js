@@ -29,6 +29,7 @@ export default function Root() {
   const [showSpellbookModal, setShowSpellbookModal] = useState(false);
   const [showShopModal, setShowShopModal] = useState(false);
   const [showBattleModal, setShowBattleModal] = useState(false);
+  const [showInventoryModal, setShowInventoryModal] = useState(false);
   const [alternateModal, setAlternateModal] = useState(0);
   //global game states
   const allEnemies = makeAllEnemies();
@@ -40,7 +41,7 @@ export default function Root() {
   //per-battle game states
   const [enemyAttacks, setEnemyAttacks] = useState([]);
   const [currentAttackIndex, setCurrentAttackIndex] = useState(0);
-  const [targetedEnemyIndex, setTargetedEnemyIndex] = useState(-1);
+  const [targetedEnemyIndex, setTargetedEnemyIndex] = useState(0);
 
   function handleSpellbookModal() {
     if (showSpellbookModal) {
@@ -60,7 +61,20 @@ export default function Root() {
     }
   }
 
-  const HandleModalFunctions = [handleSpellbookModal, handleShopModal];
+  function handleInventoryModal() {
+    if (showInventoryModal) {
+      setShowInventoryModal(false);
+    } else {
+      setAlternateModal(2);
+      setShowInventoryModal(true);
+    }
+  }
+
+  const HandleModalFunctions = [
+    handleSpellbookModal,
+    handleShopModal,
+    handleInventoryModal,
+  ];
   function handleBattleModal() {
     let setPreviousModal = HandleModalFunctions[alternateModal];
     if (showBattleModal) {
@@ -130,7 +144,7 @@ export default function Root() {
     const newEnemies = JSON.parse(newEnemiesString);
     const newFloor = JSON.parse(newFloorString);
     const newCharacter = JSON.parse(newCharacterString);
-    if (newEnemies && newFloor && newCharacter) {
+    if (false && newEnemies && newFloor && newCharacter) {
       console.log("Save Loaded!");
       setEnemies(newEnemies);
       setFloor(newFloor);
@@ -158,8 +172,7 @@ export default function Root() {
     }
   }, [enemies, character]);
 
-  const spellInfoClassName =
-    "flex justify-center flex-row w-full md:w-1/2 lg:w-1/3 ";
+  const spellInfoClassName = "flex justify-center flex-row w-full";
 
   const spellInfoBorders =
     " border-l-2 border-r-2 bg-gray-900 border-gray-700z ";
@@ -176,9 +189,6 @@ export default function Root() {
       </div>
     );
   }
-
-  const renderEnd =
-    characterHasEffect(character, "Stun") || targetedEnemyIndex < 0;
 
   return (
     <>
@@ -198,17 +208,27 @@ export default function Root() {
           character={character}
           showBattleModal={showBattleModal}
         />
-        {targetedEnemyIndex > -1 &&
-          !characterHasEffect(character, "Stun") &&
-          CastingSpellOptions()}
-
-        {renderEnd && (
-          <button
-            className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700 lg:fixed lg:bottom-2 lg:right-3"
-            onClick={() => EndTurnWrapper()}
-          >
-            End Turn
-          </button>
+        <div className="flex flex-row justify-center items-center">
+          {targetedEnemyIndex > -1 &&
+            character.mana > 0 &&
+            !characterHasEffect(character, "Stun") &&
+            CastingSpellOptions()}
+        </div>
+        {!showBattleModal && (
+          <div className="flex flex-row justify-center">
+            <button
+              className="flex px-2 py-2 m-2 rounded bg-green-700 hover:bg-gray-300 hover:text-green-700"
+              onClick={() => handleInventoryModal()}
+            >
+              Inventory
+            </button>
+            <button
+              className="flex px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700"
+              onClick={() => EndTurnWrapper()}
+            >
+              End Turn
+            </button>
+          </div>
         )}
       </div>
 
@@ -227,20 +247,31 @@ export default function Root() {
         alternateModal={alternateModal}
       />
 
+      <Modals.InventoryModal
+        character={character}
+        currentAttackIndex={currentAttackIndex}
+        setCurrentAttackIndex={setCurrentAttackIndex}
+        showInventoryModal={showInventoryModal}
+        handleInventoryModal={handleInventoryModal}
+        showBattleModal={showBattleModal}
+        handleBattleModal={handleBattleModal}
+        updateCharacter={updateCharacter}
+        enemies={enemies}
+        setEnemies={setEnemies}
+        handleShopModal={handleShopModal}
+        reset={ResetRendering}
+        nextFloor={nextFloor}
+      />
+      {/*  */}
+
       <Modals.SpellbookModal
         character={character}
-        updateCharacter={updateCharacter}
         currentAttackIndex={currentAttackIndex}
         setCurrentAttackIndex={setCurrentAttackIndex}
         showAttackModal={showSpellbookModal}
         handleSpellbookModal={handleSpellbookModal}
         showBattleModal={showBattleModal}
         handleBattleModal={handleBattleModal}
-        enemies={enemies}
-        setEnemies={setEnemies}
-        handleShopModal={handleShopModal}
-        reset={ResetRendering}
-        nextFloor={nextFloor}
       />
     </>
   );
@@ -272,7 +303,7 @@ export default function Root() {
       return;
     }
     return (
-      <div className="flex justify-center items-center flex-col mx-2">
+      <div className="flex justify-center items-center flex-col mx-2 ">
         <div
           className={
             spellInfoClassName +
@@ -281,7 +312,7 @@ export default function Root() {
               : " ")
           }
         >
-          {RenderCasts(character, currentAttackIndex)}
+          {character.mana > 0 && RenderCasts(character, currentAttackIndex)}
         </div>
         <div
           className={
@@ -296,11 +327,11 @@ export default function Root() {
               handleSpellbookModal();
             }}
           >
-            Open Spellbook
+            Select Spell
           </button>
-          {currentAttackIndex > -1 && (
+          {currentAttackIndex > -1 && character.mana > 0 && (
             <button
-              className="flex self-center px-2 py-2 m-2 rounded bg-red-700 hover:bg-gray-300 hover:text-red-700"
+              className="flex self-center px-2 py-2 m-2 rounded bg-blue-700 hover:bg-gray-300 hover:text-blue-700"
               onClick={() => CastSpellWrapper()}
             >
               {"Cast " + character.attacks[currentAttackIndex].displayName}

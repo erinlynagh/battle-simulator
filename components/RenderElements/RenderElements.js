@@ -26,6 +26,9 @@ export function RenderMana(mana, maxMana) {
   if (mana === 1) {
     color = "text-blue-300";
   }
+  if (mana === 0) {
+    color = "text-yellow-300";
+  }
   return (
     <h4 className={color}>
       Mana: {mana}/{maxMana}

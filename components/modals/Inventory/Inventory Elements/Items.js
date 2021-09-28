@@ -5,11 +5,10 @@ export default function ItemsList(
   updateCharacter,
   enemies,
   setEnemies,
-  setShowSpells,
   handleShopModal,
   reset,
   nextFloor,
-  handleSpellbookModal
+  handleInventoryModal
 ) {
   return (
     <div className="flex flex-col items-center text-gray-300 text-center">
@@ -53,7 +52,6 @@ export default function ItemsList(
       reset,
       nextFloor
     );
-    setShowSpells(true);
-    handleSpellbookModal();
+    handleInventoryModal();
   }
 }

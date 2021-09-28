@@ -70,11 +70,6 @@ function castSpell(character, attack, reset) {
     character.attacks.splice(currentAttackIndex, 1);
     reset();
   }
-  if (character.mana <= 1) {
-    character.refreshMana();
-  } else {
-    character.mana -= 1;
-  }
 }
 
 export function reduceEnemiesEffectDurations(newEnemies) {
