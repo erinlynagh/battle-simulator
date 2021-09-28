@@ -2,7 +2,6 @@ import { useState } from "react";
 import Modal from "react-modal";
 
 import CardsList from "./Spellbook Elements/SpellbookSpells";
-import ItemsList from "./Spellbook Elements/SpellbookItems";
 
 const emoji = require("emoji-dictionary");
 Modal.setAppElement("#root");
@@ -15,15 +14,7 @@ export default function SpellbookModal({
   handleBattleModal,
   currentAttackIndex,
   setCurrentAttackIndex,
-  updateCharacter,
-  enemies,
-  setEnemies,
-  handleShopModal,
-  reset,
-  nextFloor,
 }) {
-  const [showSpells, setShowSpells] = useState(true);
-
   return (
     <Modal
       isOpen={showAttackModal}
@@ -39,28 +30,14 @@ export default function SpellbookModal({
       }}
     >
       <div className="flex flex-col h-full">
-        {character.items.length > 0 && (
-          <button
-            className="text-green-600 rounded border-green-600 border-2 px-2 py-2 self-center w-full lg:w-1/2 md:w-3/4 mx-4 mb-2 hover:bg-green-600 hover:text-black"
-            onClick={() => HandleShowSpells()}
-          >
-            View {showSpells ? "Items" : "Spells"}
-          </button>
-        )}
-
-        {showSpells && (
-          <div className="mb-2 mx-2">
-            {CardsList(
-              character,
-              currentAttackIndex,
-              setCurrentAttackIndex,
-              handleSpellbookModal
-            )}
-          </div>
-        )}
-        {(!showSpells && character.items.length) > 0 && (
-          <div className="mb-2 mx-2">{ItemsListWrapper()}</div>
-        )}
+        <div className="mb-2 mx-2">
+          {CardsList(
+            character,
+            currentAttackIndex,
+            setCurrentAttackIndex,
+            handleSpellbookModal
+          )}
+        </div>
 
         <div className="flex mt-auto justify-evenly  flex-col lg:flex-row-reverse">
           <button
@@ -73,26 +50,4 @@ export default function SpellbookModal({
       </div>
     </Modal>
   );
-
-  function HandleShowSpells() {
-    if (showSpells) {
-      setShowSpells(false);
-    } else {
-      setShowSpells(true);
-    }
-  }
-
-  function ItemsListWrapper() {
-    return ItemsList(
-      character,
-      updateCharacter,
-      enemies,
-      setEnemies,
-      setShowSpells,
-      handleShopModal,
-      reset,
-      nextFloor,
-      handleSpellbookModal
-    );
-  }
 }

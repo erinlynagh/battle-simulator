@@ -12,8 +12,6 @@ export default function UseItem(
   reset,
   nextFloor
 ) {
-  console.log(item);
-  console;
   let newCharacter = StateHelpers.makeNewCharacter(character);
   newCharacter.items.splice(index, 1);
   let effect = "";
