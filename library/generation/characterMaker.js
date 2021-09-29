@@ -4,43 +4,31 @@ import * as Items from "./itemMaker/itemsMaker";
 import * as Accessories from "./accessoryMaker/accessorMaker";
 import * as EnemyAttacks from "./enemyAttackMaker";
 
-const defaultName = "Faust";
-const startingHealth = 20;
-const defaultEmoji = "wizard";
-const defaultEffect = [];
-const defaultMana = 2;
-const defaultAttacks = [
-  Attacks.Fireball(),
-  Attacks.Stupefy(),
-  Attacks.Wither(),
-];
-const defaultItems = [Items.SparklingHeart(), Items.Scissors()];
-const defaultAccessories = [];
-const defaultCoins = 10;
-
 export function makeCharacter(
-  name = defaultName,
-  health = startingHealth,
-  maxHealth = startingHealth,
-  emojiName = defaultEmoji,
-  effects = defaultEffect,
-  mana = defaultMana,
-  maxMana = defaultMana,
-  items = defaultItems,
-  accessories = defaultAccessories
+  name = "Faust",
+  health = 20,
+  maxHealth = 20,
+  emojiName = "wizard",
+  effects = [],
+  mana = 2,
+  maxMana = 2,
+  attacks = [Attacks.Fireball(), Attacks.Stupefy(), Attacks.Wither()],
+  items = [Items.SparklingHeart(), Items.Scissors()],
+  accessories = [],
+  coins = 10
 ) {
   return new Character(
     name,
     health,
     maxHealth,
-    defaultAttacks,
+    attacks,
     emojiName,
     effects,
     mana,
     maxMana,
     420,
     false,
-    defaultCoins,
+    coins,
     items,
     accessories
   );
