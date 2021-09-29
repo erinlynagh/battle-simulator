@@ -1,6 +1,7 @@
 import { Character, Attack, Item } from "./classes";
+
 export function makeNewCharacter(character) {
-  return new Character(
+  let newCharacter = new Character(
     character.name,
     character.health,
     character.maxHealth,
@@ -12,8 +13,10 @@ export function makeNewCharacter(character) {
     character.id,
     false,
     character.coins,
-    character.items
+    character.items,
+    character.accessories
   );
+  return newCharacter;
 }
 
 export function makeNewEnemies(enemies) {

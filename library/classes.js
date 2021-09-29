@@ -77,7 +77,8 @@ export class Character {
     id = uuidv4(),
     animate = "None",
     coins = 10,
-    items
+    items,
+    accessories
   ) {
     this.id = id;
     this.name = name;
@@ -93,6 +94,7 @@ export class Character {
     this.coins = coins;
     this.animate = animate;
     this.items = items;
+    this.accessories = accessories;
   }
 
   getEffectDuration(effect) {
@@ -125,6 +127,16 @@ export class Effect {
 }
 
 export class Item {
+  constructor(name, description, emojiName) {
+    this.name = name;
+    this.displayName = name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ");
+    this.description = description;
+    this.emojiName = emojiName;
+    this.emoji = emoji.getUnicode(emojiName);
+  }
+}
+
+export class Accessory {
   constructor(name, description, emojiName) {
     this.name = name;
     this.displayName = name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ");

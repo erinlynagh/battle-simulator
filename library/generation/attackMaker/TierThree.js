@@ -3,7 +3,7 @@ import * as Effects from "../effectMaker";
 
 export function Fireball() {
   const name = "Fireball";
-  const damage = 1;
+  const damage = 7;
   const effect = Effects.None;
   const casts = 5;
   return newAttack(name, damage, effect, casts);

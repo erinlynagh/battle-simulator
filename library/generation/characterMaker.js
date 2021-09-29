@@ -1,6 +1,7 @@
 import { Character } from "../classes";
 import * as Attacks from "./attackMaker/attacks";
 import * as Items from "./itemMaker/itemsMaker";
+import * as Accessories from "./accessoryMaker/accessorMaker";
 import * as EnemyAttacks from "./enemyAttackMaker";
 
 const defaultName = "Faust";
@@ -14,6 +15,7 @@ const defaultAttacks = [
   Attacks.Wither(),
 ];
 const defaultItems = [Items.SparklingHeart(), Items.Scissors()];
+const defaultAccessories = [Accessories.NazarAmulet(), Accessories.Biohazard()];
 
 export function makeCharacter(
   name = defaultName,
@@ -23,7 +25,8 @@ export function makeCharacter(
   effects = defaultEffect,
   mana = defaultMana,
   maxMana = defaultMana,
-  items = defaultItems
+  items = defaultItems,
+  accessories = defaultAccessories
 ) {
   return new Character(
     name,
@@ -37,7 +40,8 @@ export function makeCharacter(
     420,
     false,
     10,
-    items
+    items,
+    accessories
   );
 }
 

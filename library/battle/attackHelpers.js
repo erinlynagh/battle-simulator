@@ -96,8 +96,7 @@ function getAttackIndex(character, attack) {
   return character.attacks.findIndex(({ name }) => name === attack);
 }
 
-export function killEnemy(enemies, enemyIndex, handleShopModal, reset) {
+export function killEnemy(enemies, enemyIndex, handleShopModal) {
   enemies.splice(enemyIndex, 1);
   handleShopModal();
-  reset();
 }

@@ -2,6 +2,7 @@ import * as AttackHelpers from "./attackHelpers";
 import * as StateHelpers from "../copyClasses";
 import { characterHasEffect as hasEffect } from "../classes";
 import Heap from "heap";
+import next from "next";
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -26,17 +27,7 @@ export function CastSpell(
   nextFloor
 ) {
   if (attackIndex === -1 || targetIndex === -1) {
-    AttackPlayerFromStun(
-      character,
-      enemies,
-      setEnemyAttacks,
-      updateCharacter,
-      setEnemies,
-      allEnemies,
-      reset,
-      handleShopModal,
-      setLost
-    );
+    AttackPlayerImmediatelyWrapper();
     return;
   }
   // loads attack data from library
@@ -65,6 +56,20 @@ export function CastSpell(
   setEnemies(newEnemies);
 
   return;
+
+  function AttackPlayerImmediatelyWrapper() {
+    AttackPlayerImmediately(
+      character,
+      enemies,
+      setEnemyAttacks,
+      updateCharacter,
+      setEnemies,
+      reset,
+      handleShopModal,
+      setLost,
+      nextFloor
+    );
+  }
 }
 
 function AttackPlayer(
@@ -166,7 +171,7 @@ function AttackPlayer(
   }
 }
 
-export function AttackPlayerFromStun(
+export function AttackPlayerImmediately(
   character,
   enemies,
   setEnemyAttacks,
@@ -174,8 +179,10 @@ export function AttackPlayerFromStun(
   updateEnemies,
   reset,
   handleShopModal,
-  setLost
+  setLost,
+  nextFloor
 ) {
+  console.log(nextFloor);
   setEnemyAttacks([]);
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
@@ -190,15 +197,14 @@ export function AttackPlayerFromStun(
       reset,
       setLost
     );
+    console.log(newEnemies);
+    if (newEnemies.length === 0 && !lost) {
+      console.log("hello");
+      nextFloor();
+      return;
+    }
+
     updateCharacter(newCharacter);
     updateEnemies(newEnemies);
-    if (newEnemies.length === 0 && !lost) {
-      handleShopModal();
-      nextFloor();
-    } else if (newEnemies.length < enemies.length && !lost) {
-      handleShopModal();
-      reset();
-      updateEnemies(newEnemies);
-    }
   });
 }

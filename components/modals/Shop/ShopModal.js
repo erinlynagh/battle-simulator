@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import * as ShopHelpers from "./ShopHelpers";
 import * as Attacks from "../../../library/generation/attackMaker/attacks";
 import * as Items from "../../../library/generation/itemMaker/itemsMaker";
+import * as Accessories from "../../../library/generation/accessoryMaker/accessorMaker";
 import * as TierOne from "../../../library/generation/attackMaker/TierThree";
 import * as TierTwo from "../../../library/generation/attackMaker/TierTwo";
 import * as TierThree from "../../../library/generation/attackMaker/TierOne";
@@ -32,6 +33,7 @@ export default function ShopModal({
   const TierOneAttacksArray = Object.keys(TierOne);
   const TierTwoAttacksArray = Object.keys(TierTwo);
   const TierThreeAttacksArray = Object.keys(TierThree);
+  const AccessoriesArray = Object.keys(Accessories);
   const ItemsArray = Object.keys(Items);
   const [showSelectObjects, setShowSelectObjects] = useState(false);
   const [randomObjects, setRandomObjects] = useState([]);
@@ -40,6 +42,7 @@ export default function ShopModal({
     TierTwoAttacksArray,
     TierThreeAttacksArray,
     ItemsArray,
+    AccessoriesArray,
   ];
 
   function handleClick() {
@@ -143,6 +146,10 @@ export default function ShopModal({
       return selectedTier < 3;
     }
 
+    function isSelectingAccessory() {
+      return selectedTier === 4;
+    }
+
     function OptionButtonClassName(id) {
       if (id === 0 && isSelectingSpell()) {
         return " bg-blue-600 border-gray-600";
@@ -223,7 +230,7 @@ export default function ShopModal({
             <div className="flex flex-row w-full justify-center items-center mt-2">
               {ShopHelpers.SpellTierButtons(selectedTier, setTier, [
                 "Items",
-                // "Clothing",
+                "Accessories",
                 // "Companions",
               ])}
             </div>
@@ -245,7 +252,6 @@ export default function ShopModal({
   }
 
   function SelectCards() {
-    console.log(selectedTier);
     return (
       <div className="flex flex-col items-center text-gray-300 text-center">
         <div className="flex">
@@ -375,8 +381,10 @@ function AddObjectToCharacter(
     } else {
       newCharacter.attacks.push(attack);
     }
-  } else {
+  } else if (selectedTier === 3) {
     newCharacter.items.push(attack);
+  } else if (selectedTier === 4) {
+    newCharacter.accessories.push(attack);
   }
   updateCharacter(newCharacter);
 }

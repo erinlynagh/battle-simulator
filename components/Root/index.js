@@ -21,6 +21,7 @@ import makeAllEnemies from "../../library/generation/makeAllEnemies";
 import { CastSpell } from "../../library/battle/attack";
 import { RenderCasts } from "../RenderElements/RenderElements";
 import { characterHasEffect } from "../../library/classes";
+import ApplyAccessories from "../../library/generation/accessoryMaker/applyAccessories";
 
 export default function Root() {
   //one-time states
@@ -112,6 +113,7 @@ export default function Root() {
   }
 
   function nextFloor() {
+    console.log("going to next floor");
     let newFloor = floor + 1;
     if (newFloor >= allEnemies.length) {
       console.log("you win!");
@@ -171,6 +173,10 @@ export default function Root() {
       localStorage.setItem("enemies", JSON.stringify(enemies));
     }
   }, [enemies, character]);
+
+  useEffect(() => {
+    ApplyAccessories(character, updateCharacter);
+  }, [character]);
 
   const spellInfoClassName = "flex justify-center flex-row w-full";
 
@@ -354,7 +360,8 @@ export default function Root() {
       ResetRendering,
       setEnemyAttacks,
       handleShopModal,
-      setLost
+      setLost,
+      nextFloor
     );
   }
 

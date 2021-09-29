@@ -1,6 +1,7 @@
 import Modal from "react-modal";
 
 import ItemsList from "./Inventory Elements/Items";
+import AccessoriesList from "./Inventory Elements/Accessories";
 
 const emoji = require("emoji-dictionary");
 Modal.setAppElement("#root");
@@ -37,8 +38,8 @@ export default function SpellbookModal({
           {character.items.length > 0 && (
             <div className="mb-2 mx-2">{ItemsListWrapper()}</div>
           )}
-          {character.items.length > 0 && (
-            <div className="mb-2 mx-2">{ItemsListWrapper()}</div>
+          {character.accessories.length > 0 && (
+            <div className="mb-2 mx-2">{AccessoriesList(character)}</div>
           )}
         </div>
 
