@@ -187,23 +187,22 @@ export function AttackPlayerImmediately(
   let newCharacter = StateHelpers.makeNewCharacter(character);
   let lost = false;
   updateEnemies(newEnemies);
-  sleep(200).then(() => {
-    AttackPlayer(
-      newCharacter,
-      newEnemies,
-      setEnemyAttacks,
-      handleShopModal,
-      reset,
-      setLost
-    );
-    console.log(newEnemies);
-    if (newEnemies.length === 0 && !lost) {
-      console.log("hello");
-      nextFloor();
-      return;
-    }
 
-    updateCharacter(newCharacter);
-    updateEnemies(newEnemies);
-  });
+  AttackPlayer(
+    newCharacter,
+    newEnemies,
+    setEnemyAttacks,
+    handleShopModal,
+    reset,
+    setLost
+  );
+  console.log(newEnemies);
+  if (newEnemies.length === 0 && !lost) {
+    console.log("hello");
+    nextFloor();
+    return;
+  }
+
+  updateCharacter(newCharacter);
+  updateEnemies(newEnemies);
 }

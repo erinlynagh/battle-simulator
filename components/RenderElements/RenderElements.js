@@ -56,6 +56,16 @@ export function RenderEffects(enemy) {
     if (effect.name === "None") {
       return;
     }
+    if (effect.name === "Doctored") {
+      return (
+        <React.Fragment key={effectIndex}>
+          <p className="text-center" data-tip={getEffectToolTip(effect)}>
+            {`${effect.name}: ${effect.duration}`}
+          </p>
+          <ReactTooltip html={true} />
+        </React.Fragment>
+      );
+    }
     return (
       <React.Fragment key={effectIndex}>
         <p className="text-center" data-tip={getEffectToolTip(effect)}>

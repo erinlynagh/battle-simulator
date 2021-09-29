@@ -1,6 +1,7 @@
 import { makeNewCharacter } from "../../copyClasses";
 import * as Effects from "../effectMaker";
 import * as Attacks from "../attackMaker/attacks";
+import { characterHasEffect } from "../../classes";
 
 export default function ApplyAccessories(character, updateCharacter) {
   let newCharacter = makeNewCharacter(character);
@@ -34,8 +35,9 @@ function ApplyAccessory(accessory, character) {
       });
       break;
     case "PortableDoctor":
-      let healingAmount = 2;
-      character.effects.push(Effects.Heal(healingAmount));
+      let healingAmount = 4;
+      if (!characterHasEffect(character, "Doctored"))
+        character.effects.push(Effects.Doctored(healingAmount));
       break;
     default:
       break;

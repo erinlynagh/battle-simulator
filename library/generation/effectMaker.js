@@ -53,6 +53,10 @@ export function Heal(duration) {
   return new Effect("Heal", duration, `User ${description} for BLANK turns`);
 }
 
+export function Doctored(duration) {
+  return new Effect("Doctored", duration, "heals BLANK health");
+}
+
 export function Midas(duration) {
   const description = `grants user ${duration} gold`;
   return new Effect("Midas", duration, description);

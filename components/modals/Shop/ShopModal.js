@@ -32,11 +32,22 @@ export default function ShopModal({
   handleBattleModal,
 }) {
   const numberOfObjects = 3;
-  const TierOneAttacksArray = Object.keys(TierOne);
-  const TierTwoAttacksArray = Object.keys(TierTwo);
-  const TierThreeAttacksArray = Object.keys(TierThree);
-  const AccessoriesArray = Object.keys(Accessories);
-  const ItemsArray = Object.keys(Items);
+  const TierOneAttacksArray = ToObjectArray(Object.keys(TierOne), Attacks);
+  const TierTwoAttacksArray = ToObjectArray(Object.keys(TierTwo), Attacks);
+  const TierThreeAttacksArray = ToObjectArray(Object.keys(TierThree), Attacks);
+  let AccessoriesArray = ToObjectArray(Object.keys(Accessories), Accessories);
+
+  console.log(character.accessories);
+  console.log(character.accessories.some((x) => x.name === "Investment"));
+  console.log(character.accessories.some((x) => x.name === "GARBAGE"));
+  AccessoriesArray = AccessoriesArray.filter(({ name }) => {
+    console.log(checkIfCharHasAccessory(character, name));
+    return checkIfCharHasAccessory(character, name);
+  });
+
+  console.log(AccessoriesArray);
+
+  const ItemsArray = ToObjectArray(Object.keys(Items), Items);
   const [showSelectObjects, setShowSelectObjects] = useState(false);
   const [randomObjects, setRandomObjects] = useState([]);
   const TierArrays = [
@@ -159,14 +170,11 @@ export default function ShopModal({
         return " bg-black text-blue-600 hover:bg-blue-600 hover:text-gray-300";
       }
     }
-    console.log(character);
-    console.log(
-      character.accessories.findIndex(({ name }) => name === "Investment")
-    );
+
     return (
       <div className="text-center text-gray-300">
         <h1 className={"text-2xl"}>
-          Win a new {isSelectingSpell() ? "Spell" : "Item"}
+          Win a new {isSelectingSpell() ? "Spell" : "Trinket"}
         </h1>
         <h2>
           You have <span className="text-yellow-400">${character.coins}</span>{" "}
@@ -175,35 +183,29 @@ export default function ShopModal({
         <h4 className="text-xs">You could win:</h4>
         <div className="block overflow-auto h-96 lg:w-1/2 border-yellow-200 border-2 mx-auto mb-3">
           {Array.isArray(TierArrays[selectedTier]) &&
-            TierArrays[selectedTier].map((attackName, index) => {
+            TierArrays[selectedTier].map((object, index) => {
               if (selectedTier < 3) {
-                var attack = Attacks[[attackName]]();
                 if (
                   character.accessories.findIndex(
                     ({ name }) => name === "Investment"
                   ) > -1
                 ) {
-                  console.log("investing");
-                  attack.casts += 1;
+                  object.casts += 1;
                 }
-              } else if (selectedTier === 3) {
-                var attack = Items[[attackName]]();
-              } else if (selectedTier === 4) {
-                var attack = Accessories[[attackName]]();
               }
               var className = `bg-gray-900 text-center m-2`;
               return (
                 <div className={className} key={index}>
-                  <h4 className="text-red-400 mt-2">{attack.displayName}</h4>
+                  <h4 className="text-red-400 mt-2">{object.displayName}</h4>
                   <p>
                     {selectedTier < 3
-                      ? getAttackTooltip(attack)
-                      : attack.description}
+                      ? getAttackTooltip(object)
+                      : object.description}
                   </p>
                   {selectedTier < 3 ? (
-                    <p className="mt-auto">Casts: {attack.casts}</p>
+                    <p className="mt-auto">Casts: {object.casts}</p>
                   ) : (
-                    <p className="text-3xl">{attack.emoji}</p>
+                    <p className="text-3xl">{object.emoji}</p>
                   )}
                 </div>
               );
@@ -389,6 +391,10 @@ export default function ShopModal({
   }
 }
 
+function checkIfCharHasAccessory(character, name) {
+  return !character.accessories.some((x) => x.name === name);
+}
+
 function AddObjectToCharacter(
   character,
   cost,
@@ -405,7 +411,6 @@ function AddObjectToCharacter(
         character.accessories.findIndex(({ name }) => name === "Investment") >
         -1
       ) {
-        console.log("investing");
         attack.casts += 1;
       }
       newCharacter.attacks[attackIndex].casts += attack.casts;
@@ -427,17 +432,18 @@ function getRandomAttacks(
   selectedTier
 ) {
   let randAttacks = [];
-  while (randAttacks.length < numberOfObjects) {
+  let placeHolderNumber =
+    numberOfObjects < selectedArray.length
+      ? numberOfObjects
+      : selectedArray.length;
+  while (randAttacks.length < placeHolderNumber) {
     let newAttack = selectedArray[random.int(0, endIndex)];
     if (getAttackIndex(randAttacks, newAttack) === -1) {
       if (selectedTier < 3) {
-        newAttack = Attacks[[newAttack]]();
         randAttacks.push(makeNewAttack(newAttack));
       } else if (selectedTier === 3) {
-        newAttack = Items[[newAttack]]();
         randAttacks.push(makeNewItem(newAttack));
       } else if (selectedTier === 4) {
-        newAttack = Accessories[[newAttack]]();
         randAttacks.push(MakeNewAccessory(newAttack));
       }
     }
@@ -450,5 +456,13 @@ function getCharacterAttackIndex(character, attack) {
 }
 
 function getAttackIndex(attacks, attack) {
-  return attacks.findIndex(({ name }) => name === attack);
+  return attacks.findIndex(({ name }) => name === attack.name);
+}
+
+function ToObjectArray(array, library) {
+  let newArray = [];
+  for (var i = 0; i < array.length; i++) {
+    newArray.push(library[[array[i]]]());
+  }
+  return newArray;
 }

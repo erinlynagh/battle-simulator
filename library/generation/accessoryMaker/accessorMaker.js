@@ -23,7 +23,7 @@ export function Investment() {
 }
 
 export function PortableDoctor() {
-  const description = "Heal 2 health at the end of the turn";
+  const description = "Heal 4 health at the end of every other turn";
   let accessory = new Accessory(
     "PortableDoctor",
     description,
