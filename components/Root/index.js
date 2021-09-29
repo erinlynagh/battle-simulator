@@ -116,7 +116,7 @@ export default function Root() {
     let newFloor = floor + 1;
     if (newFloor >= allEnemies.length) {
       console.log("you win!");
-      reset();
+      ResetRendering();
     } else {
       var newCharacter = StateHelpers.makeNewCharacter(character);
       newCharacter.effects = [];
