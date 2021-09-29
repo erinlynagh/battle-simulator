@@ -30,6 +30,7 @@ export default function ShopModal({
   showBattleModal,
   handleBattleModal,
 }) {
+  const numberOfObjects = 3;
   const TierOneAttacksArray = Object.keys(TierOne);
   const TierTwoAttacksArray = Object.keys(TierTwo);
   const TierThreeAttacksArray = Object.keys(TierThree);
@@ -54,7 +55,6 @@ export default function ShopModal({
   const [selectedTier, setSelectedTier] = useState(0);
   const [selectedObjectArray, setSelectedObjectArray] =
     useState(TierOneAttacksArray);
-  const [numberOfObjects, setNumberOfObjects] = useState(3);
   const [cost, setCost] = useState(0);
   const [shopButtonClassName, setShopButtonClassName] = useState(
     ShopHelpers.generateButtonEnabled
@@ -86,7 +86,6 @@ export default function ShopModal({
     setShowSelectObjects(false);
     setSelectedTier(0);
     setSelectedObjectArray(TierOneAttacksArray);
-    setNumberOfObjects(3);
     setCost(0);
     setShopButtonClassName(ShopHelpers.generateButtonEnabled);
   }
@@ -175,8 +174,11 @@ export default function ShopModal({
             TierArrays[selectedTier].map((attackName, index) => {
               if (selectedTier < 3) {
                 var attack = Attacks[[attackName]]();
+                console.log(attack);
               } else if (selectedTier === 3) {
                 var attack = Items[[attackName]]();
+              } else if (selectedTier === 4) {
+                var attack = Accessories[[attackName]]();
               }
               var className = `bg-gray-900 text-center m-2`;
               return (
@@ -353,13 +355,15 @@ export default function ShopModal({
   function ValidateNumberOfCards(newTier, newNumberOfObjects) {
     if (newNumberOfObjects > TierArrays[newTier].length) {
       newNumberOfObjects = TierArrays[newTier].length;
-      setNumberOfCards(newNumberOfObjects);
     }
     return newNumberOfObjects;
   }
 
   function updateCost(tier, number) {
     var newCost = (tier + 1) * number - 3;
+    if (tier > 2) {
+      newCost *= tier / 1.5;
+    }
     setCost(newCost);
     HandleGenerateButtonClass(newCost);
   }

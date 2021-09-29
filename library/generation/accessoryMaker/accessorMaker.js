@@ -11,3 +11,13 @@ export function Biohazard() {
   let accessory = new Accessory("Biohazard", description, "biohazard");
   return accessory;
 }
+
+export function Investment() {
+  const description = "Increase the casts for all spells by 1";
+  let accessory = new Accessory(
+    "Investment",
+    description,
+    "chart_with_upwards_trend"
+  );
+  return accessory;
+}
