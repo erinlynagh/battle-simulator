@@ -362,7 +362,7 @@ export default function ShopModal({
   function updateCost(tier, number) {
     var newCost = (tier + 1) * number - 3;
     if (tier > 2) {
-      newCost *= tier / 1.5;
+      newCost = tier * 4;
     }
     setCost(newCost);
     HandleGenerateButtonClass(newCost);
