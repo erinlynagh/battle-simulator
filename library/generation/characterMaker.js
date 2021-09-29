@@ -15,7 +15,7 @@ const defaultAttacks = [
   Attacks.Wither(),
 ];
 const defaultItems = [Items.SparklingHeart(), Items.Scissors()];
-const defaultAccessories = [Accessories.NazarAmulet(), Accessories.Biohazard()];
+const defaultAccessories = [];
 
 export function makeCharacter(
   name = defaultName,
