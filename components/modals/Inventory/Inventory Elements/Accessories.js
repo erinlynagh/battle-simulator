@@ -2,7 +2,7 @@ export default function AccessoriesList(character) {
   return (
     <div className="flex flex-col items-center text-gray-300 text-center">
       <div className="flex mb-2">
-        <p>Items</p>
+        <p>Accessories</p>
       </div>
       <div className="block overflow-auto border-gray-700 border-2 mx-auto mb-3">
         {character.accessories.map((accessory, index) => {

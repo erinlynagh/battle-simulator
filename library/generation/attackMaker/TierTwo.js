@@ -27,7 +27,7 @@ export function Hex() {
 export function Enrage() {
   const name = "Enrage";
   const damage = 7;
-  const effect = Effects.Furious(2);
+  const effect = Effects.Furious(3);
   const casts = 2;
   return newAttack(name, damage, effect, casts);
 }

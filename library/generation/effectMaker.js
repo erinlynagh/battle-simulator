@@ -45,7 +45,7 @@ export function Furious(duration) {
 }
 
 export function Reflect(duration) {
-  const description = "incoming damage is dealt back to attacker";
+  const description = "attacks are dealt back to attacker";
   return new Effect("Reflect", duration, `User ${description} for BLANK turns`);
 }
 

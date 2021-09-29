@@ -2,7 +2,6 @@ import * as AttackHelpers from "./attackHelpers";
 import * as StateHelpers from "../copyClasses";
 import { characterHasEffect as hasEffect } from "../classes";
 import Heap from "heap";
-import next from "next";
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
