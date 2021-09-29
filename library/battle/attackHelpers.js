@@ -90,9 +90,10 @@ export function reduceCharacterEffectDurations(character) {
       character.effects.splice(effectIndex, 1);
       return;
     }
-    if (effect.duration > 1) {
+    if (effect.duration > 0) {
       character.effects[effectIndex].duration -= 1;
-    } else {
+    }
+    if (character.effects[effectIndex].duration === 0) {
       character.effects.splice(effectIndex, 1);
     }
   });

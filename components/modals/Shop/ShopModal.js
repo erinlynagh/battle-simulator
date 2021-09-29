@@ -37,12 +37,8 @@ export default function ShopModal({
   const TierThreeAttacksArray = ToObjectArray(Object.keys(TierThree), Attacks);
   let AccessoriesArray = ToObjectArray(Object.keys(Accessories), Accessories);
 
-  console.log(character.accessories);
-  console.log(character.accessories.some((x) => x.name === "Investment"));
-  console.log(character.accessories.some((x) => x.name === "GARBAGE"));
   AccessoriesArray = AccessoriesArray.filter(({ name }) => {
-    console.log(checkIfCharHasAccessory(character, name));
-    return checkIfCharHasAccessory(character, name);
+    return !character.accessories.some((x) => x.name === name); //remove items that the player has from the pool
   });
 
   console.log(AccessoriesArray);
@@ -389,10 +385,6 @@ export default function ShopModal({
     setCost(newCost);
     HandleGenerateButtonClass(newCost);
   }
-}
-
-function checkIfCharHasAccessory(character, name) {
-  return !character.accessories.some((x) => x.name === name);
 }
 
 function AddObjectToCharacter(
