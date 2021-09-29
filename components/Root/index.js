@@ -39,6 +39,7 @@ export default function Root() {
   const [enemies, setEnemies] = useState(allEnemies[floor]);
   const [showSelectHelper, setShowSelectHelper] = useState(true);
   const [lost, setLost] = useState(false);
+  const [won, setWon] = useState(false);
   //per-battle game states
   const [enemyAttacks, setEnemyAttacks] = useState([]);
   const [currentAttackIndex, setCurrentAttackIndex] = useState(0);
@@ -116,6 +117,7 @@ export default function Root() {
     let newFloor = floor + 1;
     if (newFloor >= allEnemies.length) {
       console.log("you win!");
+      setWon(true);
       ResetRendering();
     } else {
       var newCharacter = StateHelpers.makeNewCharacter(character);
@@ -187,6 +189,24 @@ export default function Root() {
         <h1 className="flex text-8xl text-center">You Lose</h1>
         <button
           className="flex rounded px-2 py-1 text-lg bg-gray-700 hover:text-gray-700 hover:bg-gray-300"
+          onClick={() => ResetGame()}
+        >
+          Retry?
+        </button>
+      </div>
+    );
+  }
+
+  if (won) {
+    return (
+      <div className="flex justify-center align-items-center flex-col h-full">
+        <h1 className="text-3xl text-center">You Win!</h1>
+        <RenderElements.RenderCharacter
+          character={character}
+          showBattleModal={showBattleModal}
+        />
+        <button
+          className="rounded px-2 py-1 text-lg mt-3 bg-green-700 hover:text-green-700 hover:bg-gray-300 lg:w-1/2 self-center"
           onClick={() => ResetGame()}
         >
           Retry?

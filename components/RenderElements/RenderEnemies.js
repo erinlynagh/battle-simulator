@@ -72,7 +72,7 @@ export default function RenderEnemies({
   return (
     <div id="enemies" className="align-self-center text-center">
       <div className="flex flex-row justify-around">
-        {Array.isArray(enemies) ? (
+        {Array.isArray(enemies) &&
           enemies.map((enemy, index) => {
             return (
               <RenderEnemy
@@ -83,15 +83,7 @@ export default function RenderEnemies({
                 setTargetedEnemyIndex={setTargetedEnemyIndex}
               />
             );
-          })
-        ) : (
-          <div>
-            <h1>You Win!</h1>
-            <button className="btn" onClick={() => window.location.reload()}>
-              Reload
-            </button>
-          </div>
-        )}
+          })}
       </div>
     </div>
   );
