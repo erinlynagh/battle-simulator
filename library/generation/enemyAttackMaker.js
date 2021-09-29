@@ -9,7 +9,7 @@ export function Gouge() {
   return attack;
 }
 export function OgreSlam() {
-  let attack = new EnemyAttack("Orge Slam", 4, Effects.Stun(1), 0.15, 1);
+  let attack = new EnemyAttack("Ogre Slam", 4, Effects.Stun(1), 0.15, 1);
   return attack;
 }
 export function HowlingBite() {
