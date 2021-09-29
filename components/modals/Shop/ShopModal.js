@@ -159,7 +159,10 @@ export default function ShopModal({
         return " bg-black text-blue-600 hover:bg-blue-600 hover:text-gray-300";
       }
     }
-
+    console.log(character);
+    console.log(
+      character.accessories.findIndex(({ name }) => name === "Investment")
+    );
     return (
       <div className="text-center text-gray-300">
         <h1 className={"text-2xl"}>
@@ -175,6 +178,14 @@ export default function ShopModal({
             TierArrays[selectedTier].map((attackName, index) => {
               if (selectedTier < 3) {
                 var attack = Attacks[[attackName]]();
+                if (
+                  character.accessories.findIndex(
+                    ({ name }) => name === "Investment"
+                  ) > -1
+                ) {
+                  console.log("investing");
+                  attack.casts += 1;
+                }
               } else if (selectedTier === 3) {
                 var attack = Items[[attackName]]();
               } else if (selectedTier === 4) {
@@ -262,6 +273,15 @@ export default function ShopModal({
         <div className="text-center flex flex-col flex-wrap">
           {Array.isArray(randomObjects) &&
             randomObjects.map((attack, index) => {
+              if (
+                character.accessories.findIndex(
+                  ({ name }) => name === "Investment"
+                ) > -1 &&
+                !attack.invested
+              ) {
+                attack.invested = true;
+                attack.casts += 1;
+              }
               var className = `bg-gray-900 m-1 grid-row-1 col-${index} hover:bg-gray-800`;
               return (
                 <div className={className} key={index}>
@@ -381,6 +401,13 @@ function AddObjectToCharacter(
   if (selectedTier < 3) {
     let attackIndex = getCharacterAttackIndex(character, attack);
     if (attackIndex > -1) {
+      if (
+        character.accessories.findIndex(({ name }) => name === "Investment") >
+        -1
+      ) {
+        console.log("investing");
+        attack.casts += 1;
+      }
       newCharacter.attacks[attackIndex].casts += attack.casts;
     } else {
       newCharacter.attacks.push(attack);

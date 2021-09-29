@@ -13,7 +13,7 @@ export function Biohazard() {
 }
 
 export function Investment() {
-  const description = "Increase the casts for all spells by 1";
+  const description = "Spells in shops have 1 extra cast";
   let accessory = new Accessory(
     "Investment",
     description,

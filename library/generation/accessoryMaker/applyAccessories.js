@@ -37,15 +37,6 @@ function ApplyAccessory(accessory, character) {
       let healingAmount = 2;
       character.effects.push(Effects.Heal(healingAmount));
       break;
-    case "Investment":
-      console.log("investing");
-      character.attacks.forEach((attack, index) => {
-        let newAttack = copyDefaultAttack(attack);
-        newAttack.casts = attack.casts;
-        newAttack.casts += 1;
-        character.attacks[index] = newAttack;
-      });
-      break;
     default:
       break;
   }

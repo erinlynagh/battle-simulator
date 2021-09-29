@@ -146,7 +146,7 @@ export default function Root() {
     const newEnemies = JSON.parse(newEnemiesString);
     const newFloor = JSON.parse(newFloorString);
     const newCharacter = JSON.parse(newCharacterString);
-    if (newEnemies && newFloor && newCharacter) {
+    if (false && (newEnemies || newCharacter || newFloor)) {
       console.log("Save Loaded!");
       setEnemies(newEnemies);
       setFloor(newFloor);
