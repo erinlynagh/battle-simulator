@@ -108,6 +108,7 @@ export default function Root() {
     setEnemies(allEnemies[0]);
     setShowSelectHelper(true);
     setLost(false);
+    setWon(false);
     setEnemyAttacks([]);
     setCurrentAttackIndex(0);
     setTargetedEnemyIndex(-1);
