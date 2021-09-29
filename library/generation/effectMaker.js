@@ -28,8 +28,7 @@ export function Vulnerable(duration) {
 }
 
 export function Curse(duration) {
-  const description = "takes BLANK damage";
-  return new Effect("Curse", duration, `Target ${description} this turn`);
+  return new Effect("Curse", duration, `Applies BLANK curse`);
 }
 
 export function Doomed(duration) {

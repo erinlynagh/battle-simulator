@@ -1,4 +1,4 @@
-import { Character, Attack, Item } from "./classes";
+import { Character, Attack, Item, Accessory } from "./classes";
 
 export function makeNewCharacter(character) {
   let newCharacter = new Character(
@@ -33,6 +33,13 @@ export function makeNewAttack(attack) {
 
 export function makeNewItem(item) {
   return new Item(item.name, item.description, item.emojiName);
+}
+export function MakeNewAccessory(accessory) {
+  return new Accessory(
+    accessory.name,
+    accessory.description,
+    accessory.emojiName
+  );
 }
 
 export function spoofAttack(enemy) {

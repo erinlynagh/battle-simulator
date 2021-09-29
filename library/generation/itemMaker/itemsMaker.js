@@ -29,3 +29,9 @@ export function Battery() {
   let item = new Item("Battery", description, "battery");
   return item;
 }
+
+export function Apple() {
+  const description = "Heal 10 health";
+  let item = new Item("Apple", description, "apple");
+  return item;
+}

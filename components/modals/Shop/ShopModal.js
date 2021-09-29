@@ -11,6 +11,7 @@ import {
   makeNewCharacter,
   makeNewAttack,
   makeNewItem,
+  MakeNewAccessory,
 } from "../../../library/copyClasses";
 import { getAttackTooltip } from "../../../library/classes";
 import dynamic from "next/dynamic";
@@ -174,7 +175,6 @@ export default function ShopModal({
             TierArrays[selectedTier].map((attackName, index) => {
               if (selectedTier < 3) {
                 var attack = Attacks[[attackName]]();
-                console.log(attack);
               } else if (selectedTier === 3) {
                 var attack = Items[[attackName]]();
               } else if (selectedTier === 4) {
@@ -406,9 +406,12 @@ function getRandomAttacks(
       if (selectedTier < 3) {
         newAttack = Attacks[[newAttack]]();
         randAttacks.push(makeNewAttack(newAttack));
-      } else {
+      } else if (selectedTier === 3) {
         newAttack = Items[[newAttack]]();
         randAttacks.push(makeNewItem(newAttack));
+      } else if (selectedTier === 4) {
+        newAttack = Accessories[[newAttack]]();
+        randAttacks.push(MakeNewAccessory(newAttack));
       }
     }
   }

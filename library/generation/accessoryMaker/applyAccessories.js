@@ -1,4 +1,5 @@
 import { makeNewCharacter } from "../../copyClasses";
+import * as Effects from "../effectMaker";
 import * as Attacks from "../attackMaker/attacks";
 
 export default function ApplyAccessories(character, updateCharacter) {
@@ -30,6 +31,19 @@ function ApplyAccessory(accessory, character) {
           newAttack.effect.duration += 1;
           character.attacks[index] = newAttack;
         }
+      });
+      break;
+    case "PortableDoctor":
+      let healingAmount = 2;
+      character.effects.push(Effects.Heal(healingAmount));
+      break;
+    case "Investment":
+      console.log("investing");
+      character.attacks.forEach((attack, index) => {
+        let newAttack = copyDefaultAttack(attack);
+        newAttack.casts = attack.casts;
+        newAttack.casts += 1;
+        character.attacks[index] = newAttack;
       });
       break;
     default:

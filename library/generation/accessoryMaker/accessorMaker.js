@@ -21,3 +21,13 @@ export function Investment() {
   );
   return accessory;
 }
+
+export function PortableDoctor() {
+  const description = "Heal 2 health at the end of the turn";
+  let accessory = new Accessory(
+    "PortableDoctor",
+    description,
+    "woman_health_worker"
+  );
+  return accessory;
+}

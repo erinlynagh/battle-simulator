@@ -16,6 +16,7 @@ const defaultAttacks = [
 ];
 const defaultItems = [Items.SparklingHeart(), Items.Scissors()];
 const defaultAccessories = [];
+const defaultCoins = 999;
 
 export function makeCharacter(
   name = defaultName,
@@ -39,7 +40,7 @@ export function makeCharacter(
     maxMana,
     420,
     false,
-    10,
+    defaultCoins,
     items,
     accessories
   );

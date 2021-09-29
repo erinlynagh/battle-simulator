@@ -42,6 +42,14 @@ export default function UseItem(
     case "Battery":
       newCharacter.mana += 1;
       break;
+    case "Apple":
+      let healingAmount = 10;
+      if (newCharacter.health + healingAmount >= newCharacter.maxHealth) {
+        newCharacter.health = newCharacter.maxHealth;
+      } else {
+        newCharacter.health += healingAmount;
+      }
+      break;
     default:
       throw new Error("Item not Found");
   }
