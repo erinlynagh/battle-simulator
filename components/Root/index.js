@@ -113,7 +113,6 @@ export default function Root() {
   }
 
   function nextFloor() {
-    console.log("going to next floor");
     let newFloor = floor + 1;
     if (newFloor >= allEnemies.length) {
       console.log("you win!");

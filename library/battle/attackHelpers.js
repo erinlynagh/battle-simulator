@@ -93,7 +93,7 @@ export function reduceCharacterEffectDurations(character) {
     if (effect.duration > 0) {
       character.effects[effectIndex].duration -= 1;
     }
-    if (character.effects[effectIndex].duration === 0) {
+    if (character.effects[effectIndex].duration <= 0) {
       character.effects.splice(effectIndex, 1);
     }
   });

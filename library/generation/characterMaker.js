@@ -21,7 +21,7 @@ const defaultCoins = 10;
 export function makeCharacter(
   name = defaultName,
   health = startingHealth,
-  maxHealth = 20,
+  maxHealth = startingHealth,
   emojiName = defaultEmoji,
   effects = defaultEffect,
   mana = defaultMana,

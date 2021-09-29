@@ -41,8 +41,6 @@ export default function ShopModal({
     return !character.accessories.some((x) => x.name === name); //remove items that the player has from the pool
   });
 
-  console.log(AccessoriesArray);
-
   const ItemsArray = ToObjectArray(Object.keys(Items), Items);
   const [showSelectObjects, setShowSelectObjects] = useState(false);
   const [randomObjects, setRandomObjects] = useState([]);

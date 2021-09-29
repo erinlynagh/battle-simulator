@@ -181,7 +181,6 @@ export function AttackPlayerImmediately(
   setLost,
   nextFloor
 ) {
-  console.log(nextFloor);
   setEnemyAttacks([]);
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
