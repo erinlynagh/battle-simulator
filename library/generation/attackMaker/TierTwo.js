@@ -16,18 +16,18 @@ export function MagicMissile() {
   return newAttack(name, damage, effect, casts);
 }
 
-export function Hex() {
-  const name = "Hex";
-  const damage = 0;
-  const effect = Effects.Curse(5);
-  const casts = 3;
-  return newAttack(name, damage, effect, casts);
-}
-
 export function Enrage() {
   const name = "Enrage";
   const damage = 7;
   const effect = Effects.Furious(3);
   const casts = 2;
+  return newAttack(name, damage, effect, casts);
+}
+
+export function Rejuvenate() {
+  const name = "Rejuvenate";
+  const damage = 0;
+  const effect = Effects.Heal(1);
+  const casts = 1;
   return newAttack(name, damage, effect, casts);
 }

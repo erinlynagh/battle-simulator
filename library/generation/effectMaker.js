@@ -62,6 +62,11 @@ export function Midas(duration) {
   return new Effect("Midas", duration, description);
 }
 
+export function Ouroboros() {
+  const description = "on death, transfer curse to a random enemy";
+  return new Effect("Ouroboros", 99, description);
+}
+
 export function AppliesToAttacker(effect) {
   if (
     effect.name === "Furious" ||

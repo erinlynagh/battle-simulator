@@ -89,8 +89,6 @@ function AttackPlayer(
   character.refreshMana();
 
   enemies.forEach(function (enemy, enemyIndex) {
-    var attacked = false;
-
     if (hasEffect(enemy, "Curse")) {
       applyCurseDamage(enemy, enemyIndex);
       if (hasEffect(enemy, "Doomed")) {
@@ -98,6 +96,16 @@ function AttackPlayer(
         applyDoomedDamage(enemy, enemyIndex, multiplier);
       }
     }
+  });
+
+  enemies.forEach(function (enemy, enemyIndex) {
+    if (enemy.health <= 0) {
+      AttackHelpers.killEnemy(enemies, enemyIndex, handleShopModal, reset);
+    }
+  });
+
+  enemies.forEach(function (enemy, enemyIndex) {
+    var attacked = false;
 
     if (enemy.health <= 0 || hasEffect(enemy, "Stun")) {
       enemy.animate = "shake";
@@ -132,7 +140,6 @@ function AttackPlayer(
     enemy.health -= curseDamage;
     if (enemy.health <= 0) {
       spoofAttack.attackMessage = `${enemy.name} dies from their curse!`;
-      AttackHelpers.killEnemy(enemies, enemyIndex, handleShopModal, reset);
     } else {
       spoofAttack.attackMessage = `${enemy.name} takes ${curseDamage} from their curse!`;
       enemyAttacks.push(spoofAttack);
@@ -145,7 +152,6 @@ function AttackPlayer(
     enemy.health -= curseDamage;
     if (enemy.health <= 0) {
       spoofAttack.attackMessage = `${enemy.name} was doomed!`;
-      AttackHelpers.killEnemy(enemies, enemyIndex, handleShopModal, reset);
     } else {
       spoofAttack.attackMessage = `${enemy.name} is doomed to take ${curseDamage}!`;
       enemyAttacks.push(spoofAttack);
@@ -195,9 +201,7 @@ export function AttackPlayerImmediately(
     reset,
     setLost
   );
-  console.log(newEnemies);
   if (newEnemies.length === 0 && !lost) {
-    console.log("hello");
     nextFloor();
     return;
   }

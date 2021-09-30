@@ -1,4 +1,4 @@
-import UseItem from "../../../../library/battle/items";
+import UseItem from "../../../../library/generation/itemMaker/UseItem";
 
 export default function ItemsList(
   character,

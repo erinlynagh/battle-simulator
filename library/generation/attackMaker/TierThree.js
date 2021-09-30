@@ -25,10 +25,18 @@ export function Wither() {
   return newAttack(name, damage, effect, casts);
 }
 
-export function Rejuvenate() {
-  const name = "Rejuvenate";
+export function Hex() {
+  const name = "Hex";
   const damage = 0;
-  const effect = Effects.Heal(1);
-  const casts = 1;
+  const effect = Effects.Curse(7);
+  const casts = 5;
+  return newAttack(name, damage, effect, casts);
+}
+
+export function CursedWand() {
+  const name = "CursedWand";
+  const damage = 5;
+  const effect = Effects.Curse(2);
+  const casts = 3;
   return newAttack(name, damage, effect, casts);
 }

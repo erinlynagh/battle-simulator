@@ -1,7 +1,18 @@
 import { Effect } from "../classes";
+import * as Effects from "../generation/effectMaker";
 import { AppliesToAttacker } from "../generation/effectMaker";
 import { characterHasEffect as hasEffect } from "../classes";
+import random from "random";
 import { setAttackMessage } from "../classes";
+
+function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(random.float() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+}
 
 // character attacks adversary with attack
 export function Attack(attacker, attack, defender, reset = false) {
@@ -108,6 +119,28 @@ function getAttackIndex(character, attack) {
 }
 
 export function killEnemy(enemies, enemyIndex, handleShopModal) {
+  let randomEnemies = enemies.slice();
+  let enemy = enemies[enemyIndex];
+  let curseDamage =
+    enemy.effects[enemy.effects.findIndex((x) => x.name === "Curse")].duration;
+  let flag = false;
+  shuffleArray(randomEnemies);
+  if (hasEffect(enemy, "Ouroboros")) {
+    randomEnemies.forEach((randEnemy) => {
+      if (randEnemy.health > 0) {
+        flag = true;
+        if (hasEffect(randEnemy, "Curse")) {
+          randEnemy.effects[
+            randEnemy.effects.findIndex((x) => x.name === "Curse")
+          ].duration += curseDamage;
+        } else {
+          randEnemy.effects.push(
+            new Effect("Curse", curseDamage, Effects[["Curse"]]().description)
+          );
+        }
+      }
+    });
+  }
   enemies.splice(enemyIndex, 1);
   handleShopModal();
 }

@@ -1,5 +1,16 @@
-import * as StateHelpers from "../copyClasses";
-import * as EffectMaker from "../generation/effectMaker";
+import * as StateHelpers from "../../copyClasses";
+import * as EffectMaker from "../effectMaker";
+import random from "random";
+import { characterHasEffect as hasEffect } from "../../classes";
+
+function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(random.float() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+}
 
 export default function UseItem(
   item,
@@ -50,6 +61,27 @@ export default function UseItem(
         newCharacter.health += healingAmount;
       }
       break;
+    case "ExpeditedAnathema":
+      let randomEnemies = enemies.slice();
+      let newEnemies = StateHelpers.makeNewEnemies(enemies);
+      let flag = false;
+      shuffleArray(randomEnemies);
+      console.log(enemies);
+      randomEnemies.forEach((enemy) => {
+        if (hasEffect(enemy, "Curse") && !flag) {
+          let AfflictedEnemy = newEnemies.find((x) => x.id === enemy.id);
+          console.log(
+            AfflictedEnemy.effects.findIndex(({ name }) => name === "Curse")
+          );
+          AfflictedEnemy.effects[
+            AfflictedEnemy.effects.findIndex((x) => x.name === "Curse")
+          ].duration *= 2;
+          console.log(AfflictedEnemy);
+          flag = true;
+        }
+        setEnemies(newEnemies);
+      });
+      break;
     default:
       throw new Error("Item not Found");
   }
@@ -95,6 +127,9 @@ function CalculateEnemyDamage(enemies, damage) {
     let enemy = newEnemies[i];
     enemy.health -= damage;
     if (enemy.health <= 0) {
+      if (hasEffect(enemy, "Ouroboros")) {
+        console.log("The circle continues");
+      }
       newEnemies.splice(i, 1);
       i--;
       flag = true;

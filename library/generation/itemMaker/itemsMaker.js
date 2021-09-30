@@ -35,3 +35,9 @@ export function Apple() {
   let item = new Item("Apple", description, "apple");
   return item;
 }
+
+export function ExpeditedAnathema() {
+  const description = "Double a random (cursed) enemies curse";
+  let item = new Item("ExpeditedAnathema", description, "package");
+  return item;
+}
