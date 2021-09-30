@@ -44,7 +44,7 @@ export function Furious(duration) {
 }
 
 export function IncreaseMana(duration) {
-  return new Effect("IncreaseMana", duration, `Increases mana by BLANK`);
+  return new Effect("IncreaseMana", duration, `Increases mana by 1`);
 }
 
 export function Reflect(duration) {

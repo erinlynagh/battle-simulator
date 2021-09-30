@@ -78,8 +78,7 @@ export class Character {
     animate = "None",
     coins = 10,
     items,
-    accessories,
-    screen = "attack"
+    accessories
   ) {
     this.id = id;
     this.name = name;
@@ -96,7 +95,6 @@ export class Character {
     this.animate = animate;
     this.items = items;
     this.accessories = accessories;
-    this.screen = screen;
   }
 
   getEffectDuration(effect) {
@@ -112,6 +110,7 @@ export class Character {
 }
 
 export function getEffectToolTip(effect) {
+  console.log(effect);
   if (effect.duration === 1) {
     return effect.description
       .replace("BLANK", effect.duration)

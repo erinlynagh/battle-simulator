@@ -33,7 +33,6 @@ export function CastSpell(
   let attack = character.attacks[attackIndex];
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
-  newCharacter.screen = "attack";
   const enemy = newEnemies[targetIndex];
 
   AttackHelpers.Attack(newCharacter, attack, enemy, reset);
@@ -208,7 +207,6 @@ export function AttackPlayerImmediately(
     return;
   }
 
-  newCharacter.screen = "attack";
   updateCharacter(newCharacter);
   updateEnemies(newEnemies);
 }

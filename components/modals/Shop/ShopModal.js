@@ -413,7 +413,6 @@ function AddObjectToCharacter(
   } else if (selectedTier === 4) {
     newCharacter.accessories.push(attack);
   }
-  newCharacter.screen = "shop";
   updateCharacter(newCharacter);
 }
 

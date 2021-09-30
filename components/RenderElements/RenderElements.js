@@ -66,6 +66,16 @@ export function RenderEffects(enemy) {
         </React.Fragment>
       );
     }
+    if (effect.name === "IncreaseMana") {
+      return (
+        <React.Fragment key={effectIndex}>
+          <p className="text-center" data-tip={getEffectToolTip(effect)}>
+            {`${effect.displayName} by 1`}
+          </p>
+          <ReactTooltip html={true} />
+        </React.Fragment>
+      );
+    }
     return (
       <React.Fragment key={effectIndex}>
         <p className="text-center" data-tip={getEffectToolTip(effect)}>

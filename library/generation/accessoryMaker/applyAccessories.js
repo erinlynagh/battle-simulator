@@ -2,7 +2,6 @@ import { makeNewCharacter } from "../../copyClasses";
 import * as Effects from "../effectMaker";
 import * as Attacks from "../attackMaker/attacks";
 import { characterHasEffect } from "../../classes";
-import { applyAffect } from "../../battle/attackHelpers";
 
 function getEffectIndex(character, effect) {
   return character.effects.findIndex(({ name }) => name === effect);
@@ -10,7 +9,7 @@ function getEffectIndex(character, effect) {
 
 export default function ApplyAccessories(character) {
   let newCharacter = makeNewCharacter(character);
-  if (!newCharacter.accessories || !character.screen === "attack") {
+  if (!newCharacter.accessories) {
     return character;
   }
   newCharacter.accessories.forEach((accessory) => {
@@ -49,7 +48,12 @@ function ApplyAccessory(accessory, character) {
       break;
     case "Coffee":
       console.log("Coffee");
-      applyAffect(character, Effects.IncreaseMana(1));
+      const effectIndex = getEffectIndex(character, "IncreaseMana");
+      if (effectIndex === -1) {
+        character.effects.push(Effects.IncreaseMana());
+      } else {
+        character.effects[effectIndex].duration = 2;
+      }
       break;
     default:
       break;

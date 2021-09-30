@@ -177,8 +177,6 @@ export default function Root() {
   }, [enemies, character]);
 
   useEffect(() => {
-    console.log("Applying Accessories");
-    console.log("Character");
     ApplyAccessories(character);
   }, [character]);
 
@@ -217,8 +215,6 @@ export default function Root() {
       </div>
     );
   }
-
-  console.log(character);
 
   return (
     <>

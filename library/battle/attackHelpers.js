@@ -87,6 +87,7 @@ export function reduceEnemiesEffectDurations(newEnemies) {
 }
 
 export function reduceCharacterEffectDurations(character) {
+  console.log(character);
   character.effects.forEach(function (effect, effectIndex) {
     if (effect.name === "Doctored") {
       if (character.health + effect.duration >= character.maxHealth) {

@@ -81,7 +81,6 @@ export default function UseItem(
     default:
       throw new Error("Item not Found");
   }
-  newCharacter.screen = "inventory";
   updateCharacter(newCharacter);
 }
 
