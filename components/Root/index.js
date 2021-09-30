@@ -236,6 +236,7 @@ export default function Root() {
         />
         <div className="flex flex-row justify-center items-center">
           {targetedEnemyIndex > -1 &&
+            character.attacks.length > 0 &&
             character.mana > 0 &&
             !characterHasEffect(character, "Stun") &&
             CastingSpellOptions()}
