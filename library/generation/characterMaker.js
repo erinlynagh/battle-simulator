@@ -12,7 +12,7 @@ export function makeCharacter(
   effects = [],
   mana = 2,
   maxMana = 2,
-  attacks = [Attacks.Fireball(), Attacks.Stupefy(), Attacks.Wither(), a],
+  attacks = [Attacks.Fireball(), Attacks.Stupefy(), Attacks.Wither()],
   items = [Items.SparklingHeart(), Items.Scissors()],
   accessories = [],
   coins = 10
