@@ -44,7 +44,7 @@ export function Furious(duration) {
 }
 
 export function Coffee(duration) {
-  return new Effect("Coffee", duration, `Increases mana by 1`);
+  return new Effect("Coffee", duration, `Increase mana by 1`);
 }
 
 export function Reflect(duration) {
