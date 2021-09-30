@@ -66,17 +66,13 @@ export default function UseItem(
       let newEnemies = StateHelpers.makeNewEnemies(enemies);
       let flag = false;
       shuffleArray(randomEnemies);
-      console.log(enemies);
       randomEnemies.forEach((enemy) => {
         if (hasEffect(enemy, "Curse") && !flag) {
           let AfflictedEnemy = newEnemies.find((x) => x.id === enemy.id);
-          console.log(
-            AfflictedEnemy.effects.findIndex(({ name }) => name === "Curse")
-          );
+
           AfflictedEnemy.effects[
             AfflictedEnemy.effects.findIndex((x) => x.name === "Curse")
           ].duration *= 2;
-          console.log(AfflictedEnemy);
           flag = true;
         }
         setEnemies(newEnemies);
@@ -85,7 +81,7 @@ export default function UseItem(
     default:
       throw new Error("Item not Found");
   }
-
+  newCharacter.screen = "inventory";
   updateCharacter(newCharacter);
 }
 

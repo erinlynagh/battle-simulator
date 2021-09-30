@@ -33,6 +33,7 @@ export function CastSpell(
   let attack = character.attacks[attackIndex];
   let newEnemies = StateHelpers.makeNewEnemies(enemies);
   let newCharacter = StateHelpers.makeNewCharacter(character);
+  newCharacter.screen = "attack";
   const enemy = newEnemies[targetIndex];
 
   AttackHelpers.Attack(newCharacter, attack, enemy, reset);
@@ -85,8 +86,8 @@ function AttackPlayer(
     reflecting = true;
   }
 
-  AttackHelpers.reduceCharacterEffectDurations(character);
   character.refreshMana();
+  AttackHelpers.reduceCharacterEffectDurations(character); //increases mana twice
 
   enemies.forEach(function (enemy, enemyIndex) {
     if (hasEffect(enemy, "Curse")) {
@@ -95,12 +96,6 @@ function AttackPlayer(
         var multiplier = enemy.getEffectDuration("Doomed");
         applyDoomedDamage(enemy, enemyIndex, multiplier);
       }
-    }
-  });
-
-  enemies.forEach(function (enemy, enemyIndex) {
-    if (enemy.health <= 0) {
-      AttackHelpers.killEnemy(enemies, enemyIndex, handleShopModal, reset);
     }
   });
 
@@ -131,6 +126,13 @@ function AttackPlayer(
       }
     }
   });
+
+  enemies.forEach(function (enemy, enemyIndex) {
+    if (enemy.health <= 0) {
+      AttackHelpers.killEnemy(enemies, enemyIndex, handleShopModal, reset);
+    }
+  });
+
   setEnemyAttacks(enemyAttacks);
   AttackHelpers.reduceEnemiesEffectDurations(enemies);
 
@@ -206,6 +208,7 @@ export function AttackPlayerImmediately(
     return;
   }
 
+  newCharacter.screen = "attack";
   updateCharacter(newCharacter);
   updateEnemies(newEnemies);
 }

@@ -148,7 +148,7 @@ export default function Root() {
     const newEnemies = JSON.parse(newEnemiesString);
     const newFloor = JSON.parse(newFloorString);
     const newCharacter = JSON.parse(newCharacterString);
-    if (newEnemies || newCharacter || newFloor) {
+    if (false && (newEnemies || newCharacter || newFloor)) {
       console.log("Save Loaded!");
       setEnemies(newEnemies);
       setFloor(newFloor);
@@ -177,7 +177,9 @@ export default function Root() {
   }, [enemies, character]);
 
   useEffect(() => {
-    ApplyAccessories(character, updateCharacter);
+    console.log("Applying Accessories");
+    console.log("Character");
+    ApplyAccessories(character);
   }, [character]);
 
   const spellInfoClassName = "flex justify-center flex-row w-full";
@@ -215,6 +217,8 @@ export default function Root() {
       </div>
     );
   }
+
+  console.log(character);
 
   return (
     <>

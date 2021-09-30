@@ -16,6 +16,7 @@ import {
 import { getAttackTooltip } from "../../../library/classes";
 import dynamic from "next/dynamic";
 import random from "random";
+import ApplyAccessories from "../../../library/generation/accessoryMaker/applyAccessories";
 const emoji = require("emoji-dictionary");
 const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
@@ -412,6 +413,7 @@ function AddObjectToCharacter(
   } else if (selectedTier === 4) {
     newCharacter.accessories.push(attack);
   }
+  newCharacter.screen = "shop";
   updateCharacter(newCharacter);
 }
 

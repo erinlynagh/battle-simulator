@@ -43,6 +43,10 @@ export function Furious(duration) {
   return new Effect("Furious", duration, `User ${description} for BLANK turns`);
 }
 
+export function IncreaseMana(duration) {
+  return new Effect("IncreaseMana", duration, `Increases mana by BLANK`);
+}
+
 export function Reflect(duration) {
   const description = "attacks are dealt back to attacker";
   return new Effect("Reflect", duration, `User ${description} for BLANK turns`);
@@ -72,6 +76,7 @@ export function AppliesToAttacker(effect) {
     effect.name === "Furious" ||
     effect.name === "Reflect" ||
     effect.name === "Midas" ||
+    effect.name === "IncreaseMana" ||
     effect.name === "Heal"
   ) {
     return true;

@@ -35,7 +35,7 @@ export function setAttackMessage(attack, damage = attack.power) {
     string = `Deals ${damage} damage. `;
   }
   if (attack.effect.name !== "None") {
-    string += `It applies a ${attack.effect.name}`;
+    string += `It applies a ${attack.effect.displayName}`;
   }
   attack.attackMessage = string;
 }
@@ -78,7 +78,8 @@ export class Character {
     animate = "None",
     coins = 10,
     items,
-    accessories
+    accessories,
+    screen = "attack"
   ) {
     this.id = id;
     this.name = name;
@@ -95,6 +96,7 @@ export class Character {
     this.animate = animate;
     this.items = items;
     this.accessories = accessories;
+    this.screen = screen;
   }
 
   getEffectDuration(effect) {
@@ -121,6 +123,7 @@ export function getEffectToolTip(effect) {
 export class Effect {
   constructor(name, duration, description) {
     this.name = name;
+    this.displayName = name.match(/[A-Z][a-z]+|[0-9]+/g).join(" ");
     this.duration = duration;
     this.description = description;
   }

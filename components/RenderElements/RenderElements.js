@@ -60,7 +60,7 @@ export function RenderEffects(enemy) {
       return (
         <React.Fragment key={effectIndex}>
           <p className="text-center" data-tip={getEffectToolTip(effect)}>
-            {`${effect.name}: ${effect.duration}`}
+            {`${effect.displayName}: ${effect.duration}`}
           </p>
           <ReactTooltip html={true} />
         </React.Fragment>
@@ -69,7 +69,7 @@ export function RenderEffects(enemy) {
     return (
       <React.Fragment key={effectIndex}>
         <p className="text-center" data-tip={getEffectToolTip(effect)}>
-          {`${effect.name}: ${effect.duration} turns`}
+          {`${effect.displayName}: ${effect.duration} turns`}
         </p>
         <ReactTooltip html={true} />
       </React.Fragment>

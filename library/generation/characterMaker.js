@@ -15,7 +15,7 @@ export function makeCharacter(
   attacks = [Attacks.Fireball(), Attacks.Stupefy(), Attacks.Wither()],
   items = [Items.SparklingHeart(), Items.Scissors()],
   accessories = [],
-  coins = 10
+  coins = 999
 ) {
   return new Character(
     name,

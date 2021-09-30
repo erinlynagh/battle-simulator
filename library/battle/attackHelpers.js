@@ -48,7 +48,7 @@ function applyAttackEffect(effect, defender, attacker) {
   applyAffect(recipient, effect);
 }
 
-function applyAffect(character, effect) {
+export function applyAffect(character, effect) {
   if (effect.name === "Heal") {
     if (character.health + 5 <= character.maxHealth) {
       character.health += 5;
@@ -58,10 +58,7 @@ function applyAffect(character, effect) {
     return;
   }
   if (effect.name === "Midas") {
-    console.log("increasing coins by " + effect.duration);
-    console.log(character);
     character.coins += effect.duration;
-    console.log(character);
     return;
   }
   const effectIndex = getEffectIndex(character, effect.name);
@@ -92,14 +89,15 @@ export function reduceEnemiesEffectDurations(newEnemies) {
 export function reduceCharacterEffectDurations(character) {
   character.effects.forEach(function (effect, effectIndex) {
     if (effect.name === "Doctored") {
-      console.log("Healing");
       if (character.health + effect.duration >= character.maxHealth) {
         character.health = character.maxHealth;
       } else {
         character.health += effect.duration;
       }
-      character.effects.splice(effectIndex, 1);
-      return;
+      character.effects[effectIndex].duration = 1;
+    }
+    if (effect.name === "IncreaseMana") {
+      character.mana += 1;
     }
     if (effect.duration > 0) {
       character.effects[effectIndex].duration -= 1;
@@ -119,13 +117,20 @@ function getAttackIndex(character, attack) {
 }
 
 export function killEnemy(enemies, enemyIndex, handleShopModal) {
-  let randomEnemies = enemies.slice();
+  ApplyOuroboros(enemies, enemyIndex);
+  enemies.splice(enemyIndex, 1);
+  handleShopModal();
+}
+
+function ApplyOuroboros(enemies, enemyIndex) {
   let enemy = enemies[enemyIndex];
-  let curseDamage =
-    enemy.effects[enemy.effects.findIndex((x) => x.name === "Curse")].duration;
-  let flag = false;
-  shuffleArray(randomEnemies);
-  if (hasEffect(enemy, "Ouroboros")) {
+  if (enemy && hasEffect(enemy, "Ouroboros") && hasEffect(enemy, "Curse")) {
+    let randomEnemies = enemies.slice();
+    let curseDamage =
+      enemy.effects[enemy.effects.findIndex((x) => x.name === "Curse")]
+        .duration;
+    let flag = false;
+    shuffleArray(randomEnemies);
     randomEnemies.forEach((randEnemy) => {
       if (randEnemy.health > 0) {
         flag = true;
@@ -141,6 +146,4 @@ export function killEnemy(enemies, enemyIndex, handleShopModal) {
       }
     });
   }
-  enemies.splice(enemyIndex, 1);
-  handleShopModal();
 }

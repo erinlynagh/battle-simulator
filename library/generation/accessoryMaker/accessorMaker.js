@@ -23,11 +23,17 @@ export function Investment() {
 }
 
 export function PortableDoctor() {
-  const description = "Heal 4 health at the end of every other turn";
+  const description = "Heal 2 health at the end of every turn";
   let accessory = new Accessory(
     "PortableDoctor",
     description,
     "woman_health_worker"
   );
+  return accessory;
+}
+
+export function Coffee() {
+  const description = "Increases mana by 1 after each turn";
+  let accessory = new Accessory("Coffee", description, "coffee");
   return accessory;
 }
