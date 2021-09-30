@@ -60,17 +60,17 @@ export function RenderEffects(enemy) {
       return (
         <React.Fragment key={effectIndex}>
           <p className="text-center" data-tip={getEffectToolTip(effect)}>
-            {`${effect.displayName}: ${effect.duration}`}
+            {effect.description}
           </p>
           <ReactTooltip html={true} />
         </React.Fragment>
       );
     }
-    if (effect.name === "IncreaseMana") {
+    if (effect.name === "Coffee") {
       return (
         <React.Fragment key={effectIndex}>
           <p className="text-center" data-tip={getEffectToolTip(effect)}>
-            {`${effect.displayName} by 1`}
+            {effect.description}
           </p>
           <ReactTooltip html={true} />
         </React.Fragment>

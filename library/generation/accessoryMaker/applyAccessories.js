@@ -18,7 +18,7 @@ export default function ApplyAccessories(character) {
 }
 
 function ApplyAccessory(accessory, character) {
-  // you cannot modify the object, only it's properties b/c it's a shallow copy
+  let effectIndex = 0;
   switch (accessory.name) {
     case "NazarAmulet":
       character.attacks.forEach((attack, index) => {
@@ -39,18 +39,17 @@ function ApplyAccessory(accessory, character) {
       });
       break;
     case "PortableDoctor":
-      let healingAmount = 4;
-      if (!characterHasEffect(character, "Doctored")) {
-        character.effects.push(Effects.Doctored(healingAmount));
+      effectIndex = getEffectIndex(character, "Doctored");
+      if (effectIndex === -1) {
+        character.effects.push(Effects.Doctored());
       } else {
-        character.effects[getEffectIndex(character, "Doctored")].duration += 1;
+        character.effects[effectIndex].duration = 2;
       }
       break;
     case "Coffee":
-      console.log("Coffee");
-      const effectIndex = getEffectIndex(character, "IncreaseMana");
+      effectIndex = getEffectIndex(character, "Coffee");
       if (effectIndex === -1) {
-        character.effects.push(Effects.IncreaseMana());
+        character.effects.push(Effects.Coffee());
       } else {
         character.effects[effectIndex].duration = 2;
       }

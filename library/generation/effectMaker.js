@@ -43,8 +43,8 @@ export function Furious(duration) {
   return new Effect("Furious", duration, `User ${description} for BLANK turns`);
 }
 
-export function IncreaseMana(duration) {
-  return new Effect("IncreaseMana", duration, `Increases mana by 1`);
+export function Coffee(duration) {
+  return new Effect("Coffee", duration, `Increases mana by 1`);
 }
 
 export function Reflect(duration) {
@@ -58,7 +58,7 @@ export function Heal(duration) {
 }
 
 export function Doctored(duration) {
-  return new Effect("Doctored", duration, "heals BLANK health");
+  return new Effect("Doctored", duration, "Heal 2 health");
 }
 
 export function Midas(duration) {
@@ -76,7 +76,7 @@ export function AppliesToAttacker(effect) {
     effect.name === "Furious" ||
     effect.name === "Reflect" ||
     effect.name === "Midas" ||
-    effect.name === "IncreaseMana" ||
+    effect.name === "Coffee" ||
     effect.name === "Heal"
   ) {
     return true;

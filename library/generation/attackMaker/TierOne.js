@@ -45,7 +45,7 @@ export function CircularCurse() {
 // export function ReapSpirit() {
 //   const name = "ReapSpirit";
 //   const damage = 10;
-//   const effect = Effects.IncreaseMana(1);
+//   const effect = Effects.Coffee(1);
 //   const casts = 1;
 //   return newAttack(name, damage, effect, casts);
 // }

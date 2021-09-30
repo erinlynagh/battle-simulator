@@ -93,11 +93,10 @@ export function reduceCharacterEffectDurations(character) {
       if (character.health + effect.duration >= character.maxHealth) {
         character.health = character.maxHealth;
       } else {
-        character.health += effect.duration;
+        character.health += 2;
       }
-      character.effects[effectIndex].duration = 1;
     }
-    if (effect.name === "IncreaseMana") {
+    if (effect.name === "Coffee") {
       character.mana += 1;
     }
     if (effect.duration > 0) {
