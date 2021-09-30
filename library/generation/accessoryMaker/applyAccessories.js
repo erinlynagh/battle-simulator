@@ -38,7 +38,9 @@ function ApplyAccessory(accessory, character) {
       });
       break;
     case "PortableDoctor":
-      ApplyEffectToCharacter(character, "Doctored");
+      if (character.attacks.length > 0) {
+        ApplyEffectToCharacter(character, "Doctored");
+      }
       break;
     case "Coffee":
       ApplyEffectToCharacter(character, "Coffee");
