@@ -10,16 +10,10 @@ export function makeCharacter(
   maxHealth = 20,
   emojiName = "wizard",
   effects = [],
-  mana = 9,
-  maxMana = 9,
-  attacks = [
-    Attacks.Fireball(),
-    Attacks.Stupefy(),
-    Attacks.Wither(),
-    Attacks.Hex(),
-    Attacks.CircularCurse(),
-  ],
-  items = [Items.SparklingHeart(), Items.Scissors(), Items.ExpeditedAnathema()],
+  mana = 2,
+  maxMana = 2,
+  attacks = [Attacks.Fireball(), Attacks.Stupefy(), Attacks.Wither(), a],
+  items = [Items.SparklingHeart(), Items.Scissors()],
   accessories = [],
   coins = 10
 ) {
@@ -42,7 +36,7 @@ export function makeCharacter(
 
 export function makeBat() {
   const name = "Bat";
-  const health = 4;
+  const health = 7;
   const attacks = [EnemyAttacks.Scratch()];
   const emojiName = "bat";
   return new Character(name, health, health, attacks, emojiName, [], 0, 0);
