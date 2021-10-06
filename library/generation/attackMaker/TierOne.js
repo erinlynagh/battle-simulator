@@ -33,14 +33,6 @@ export function Chrysopoeia() {
   return newAttack(name, damage, effect, casts);
 }
 
-export function CircularCurse() {
-  const name = "CircularCurse";
-  const damage = 3;
-  const effect = Effects.Ouroboros();
-  const casts = 2;
-  return newAttack(name, damage, effect, casts);
-}
-
 // Right now the engine doesn't allow for editing the character and killing an enemy in the same spell... :(
 // export function ReapSpirit() {
 //   const name = "ReapSpirit";

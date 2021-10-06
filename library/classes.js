@@ -78,7 +78,8 @@ export class Character {
     animate = "None",
     coins = 10,
     items,
-    accessories
+    accessories,
+    companions
   ) {
     this.id = id;
     this.name = name;
@@ -95,6 +96,7 @@ export class Character {
     this.animate = animate;
     this.items = items;
     this.accessories = accessories;
+    this.companions = companions;
   }
 
   getEffectDuration(effect) {
@@ -106,6 +108,27 @@ export class Character {
 
   refreshMana() {
     this.mana = this.maxMana;
+  }
+}
+
+export class Companion {
+  constructor(
+    name,
+    health,
+    maxHealth,
+    attacks,
+    emojiName,
+    effects = [],
+    id = uuidv4()
+  ) {
+    this.id = id;
+    this.name = name;
+    this.health = health;
+    this.maxHealth = maxHealth;
+    this.effects = effects;
+    this.attacks = attacks;
+    this.emojiName = emojiName;
+    this.emoji = emoji.getUnicode(emojiName);
   }
 }
 

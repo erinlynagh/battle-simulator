@@ -215,7 +215,7 @@ export default function ShopModal({
               }
               onClick={() => setTier(0)}
             >
-              Attacks
+              Spells
             </div>
             <div
               className={

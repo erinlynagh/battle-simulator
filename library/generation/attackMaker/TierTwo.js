@@ -31,3 +31,11 @@ export function Rejuvenate() {
   const casts = 1;
   return newAttack(name, damage, effect, casts);
 }
+
+export function CircularCurse() {
+  const name = "CircularCurse";
+  const damage = 3;
+  const effect = Effects.Ouroboros();
+  const casts = 2;
+  return newAttack(name, damage, effect, casts);
+}

@@ -14,7 +14,8 @@ export function makeNewCharacter(character) {
     false,
     character.coins,
     character.items,
-    character.accessories
+    character.accessories,
+    character.companions
   );
   return newCharacter;
 }

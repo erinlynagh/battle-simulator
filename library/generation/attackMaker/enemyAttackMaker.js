@@ -1,5 +1,5 @@
-import { EnemyAttack } from "../classes";
-import * as Effects from "./effectMaker";
+import { EnemyAttack } from "../../classes";
+import * as Effects from "../effectMaker";
 export function Scratch() {
   let attack = new EnemyAttack("Scratch", 2, Effects.None, 1, -1);
   return attack;

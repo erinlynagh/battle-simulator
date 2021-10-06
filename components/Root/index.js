@@ -148,7 +148,7 @@ export default function Root() {
     const newEnemies = JSON.parse(newEnemiesString);
     const newFloor = JSON.parse(newFloorString);
     const newCharacter = JSON.parse(newCharacterString);
-    if (newEnemies || newCharacter || newFloor) {
+    if (false && (newEnemies || newCharacter || newFloor)) {
       console.log("Save Loaded!");
       setEnemies(newEnemies);
       setFloor(newFloor);
@@ -215,7 +215,16 @@ export default function Root() {
       </div>
     );
   }
-
+  let firstHalf = "";
+  let secondHalf = "";
+  if (character.companions.length > 1) {
+    const companionHalfIndex = Math.ceil(character.companions.length / 2);
+    firstHalf = character.companions.slice(0, companionHalfIndex);
+    secondHalf = character.companions.slice(-companionHalfIndex);
+    console.log(firstHalf, secondHalf);
+  } else {
+    firstHalf = character.companions;
+  }
   return (
     <>
       <div className="flex flex-col py-3 xs:h-auto sm:h-full">
@@ -230,10 +239,32 @@ export default function Root() {
           enemyAttacks={enemyAttacks}
           enemies={enemies}
         />
-        <RenderElements.RenderCharacter
-          character={character}
-          showBattleModal={showBattleModal}
-        />
+        <div className="flex flex-row justify-evenly">
+          {character.companions.length > 1 &&
+            secondHalf.map((companion, index) => {
+              return (
+                <RenderElements.RenderCompanion
+                  index={index}
+                  key={index}
+                  companion={companion}
+                />
+              );
+            })}
+          <RenderElements.RenderCharacter
+            character={character}
+            showBattleModal={showBattleModal}
+          />
+          {character.companions.length > 0 &&
+            firstHalf.map((companion, index) => {
+              return (
+                <RenderElements.RenderCompanion
+                  index={index}
+                  key={index}
+                  companion={companion}
+                />
+              );
+            })}
+        </div>
         <div className="flex flex-row justify-center items-center">
           {targetedEnemyIndex > -1 &&
             character.attacks.length > 0 &&

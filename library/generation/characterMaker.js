@@ -2,7 +2,8 @@ import { Character } from "../classes";
 import * as Attacks from "./attackMaker/attacks";
 import * as Items from "./itemMaker/itemsMaker";
 import * as Accessories from "./accessoryMaker/accessorMaker";
-import * as EnemyAttacks from "./enemyAttackMaker";
+import * as Companions from "./companionMaker/companionMaker";
+import * as EnemyAttacks from "../generation/attackMaker/enemyAttackMaker";
 
 export function makeCharacter(
   name = "Faust",
@@ -15,7 +16,8 @@ export function makeCharacter(
   attacks = [Attacks.Fireball(), Attacks.Stupefy(), Attacks.Wither()],
   items = [Items.SparklingHeart(), Items.Scissors()],
   accessories = [],
-  coins = 10
+  coins = 10,
+  companions = [Companions.Squid(), Companions.Squid(), Companions.Squid()]
 ) {
   return new Character(
     name,
@@ -30,7 +32,8 @@ export function makeCharacter(
     false,
     coins,
     items,
-    accessories
+    accessories,
+    companions
   );
 }
 
